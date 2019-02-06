@@ -1,0 +1,48 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Taverne du JV - Accueil{% endblock %}
+
+{% block body %}
+
+    <div class="container white pb-3">
+        <div class="row">
+            <div class="col-8">
+                <h2 class="card-header orange accent-3 text-white mt-3 mb-3 h3 font-weight-light"><i class="fas fa-angle-down"></i> Derniers articles</h2>
+
+                {# Article #} 
+                {% for article in articles %}
+                <div class="row">
+                    {# Image de l'article #}
+                    <div class="col-4 my-auto">
+                        <img src="{{ article.coverimage }}" class="img-fluid rounded" alt="Image de {{ article.title }}">
+                    </div>
+                    {# Contenu de l'article #}
+                    <div class="col-8 pl-4"> 
+                        <h3 class="h5 font-weight-normal">
+                            <span class="{{ article.category.style }} mr-2 ">{{ article.category.title }}</span>
+                            <a href="#">{{ article.title }}</a>
+                        </h3>
+                        <p class="mb-2 text-justify">{{ article.introduction | raw }}</p>
+                        <small class="card-text float-left text-muted clearfix">36 commentaires</small>
+                        <small class="card-text float-right text-muted clearfix">
+                            {% for subcategory in article.subcategories %}                               
+                                <span class="{{ subcategory.style }}">{{ subcategory.title }}</span> 
+                            {% endfor %}           
+                        </small>
+                    </div>
+                </div>
+
+                <hr>
+                {% endfor %}
+            </div>
+
+            <div class="col-4">
+                {% include 'partials/last_tests.html.twig' %}
+                {% include 'partials/last_previews.html.twig' %}
+                {% include 'partials/forums.html.twig' %}
+            </div>
+
+        </div> 
+    </div>
+
+{% endblock %}

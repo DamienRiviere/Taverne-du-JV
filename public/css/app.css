@@ -1,0 +1,30 @@
+body {
+    margin: 0 auto;
+    background-image: url('https://images2.alphacoders.com/927/thumb-1920-927337.png');
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-position: center;
+}
+
+p {
+    font-size: 0.9em;
+}
+
+.logo-switch {
+    font-size: 1.5em; 
+    color: rgb(231, 0, 18);
+}
+
+.logo-playstation {
+    font-size: 1.5em;
+    color: rgb(17, 126, 192);
+}
+
+.logo-xbox {
+    font-size: 1.5em;
+    color: rgb(16, 124, 16);
+}
+
+.logo-pc {
+    font-size: 1.5em;
+}
