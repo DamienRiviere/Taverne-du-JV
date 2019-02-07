@@ -57,7 +57,6 @@ class AppFixtures extends Fixture
                     ->setCoverImage($coverImage)
                     ->setCategory($randomCategory = $category[array_rand($category)])
                     ->addSubCategory($randomSubCategory = $subCategory[array_rand($subCategory)])
-                    ->setCreatedAt(new \DateTime())
                     ->setIntroduction($introduction);
 
             $manager->persist($article);

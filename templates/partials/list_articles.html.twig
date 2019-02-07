@@ -1,0 +1,27 @@
+{# Article #} 
+{% for article in articles %}
+
+{% set category = article.category %}
+<div class="row">
+    {# Image de l'article #}
+    <div class="col-4 my-auto">
+        <img src="{{ article.coverimage }}" class="img-fluid rounded" alt="Image de {{ article.title }}">
+    </div>
+    {# Contenu de l'article #}
+    <div class="col-8 pl-4"> 
+        <h3 class="h5 font-weight-normal">
+            <span class="{{ category.style }} mr-2 ">{{ category.title }}</span>
+            <a href="{{ path('article_show', {'slug': article.slug}) }}">{{ article.title }}</a>
+        </h3>
+        <p class="mb-2 text-justify">{{ article.introduction | raw }}</p>
+        <small class="card-text float-left text-muted clearfix">36 commentaires</small>
+        <small class="card-text float-right text-muted clearfix">
+            {% for subcategory in article.subcategories %}                               
+                <span class="{{ subcategory.style }}">{{ subcategory.title }}</span> 
+            {% endfor %}           
+        </small>
+    </div>
+</div>
+
+<hr>
+{% endfor %}

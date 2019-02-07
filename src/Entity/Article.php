@@ -6,6 +6,7 @@ use Cocur\Slugify\Slugify;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\ArticleRepository")
@@ -22,11 +23,21 @@ class Article
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\Length(
+     *          min=10, 
+     *          max=255, 
+     *          minMessage="Votre titre est trop court !",
+     *          maxMessage="Votre titre est trop long !"
+     * )
      */
     private $title;
 
     /**
      * @ORM\Column(type="text")
+     * @Assert\Length(
+     *          min=10,
+     *          minMessage="Le contenu de l'article est trop court !"
+     * )
      */
     private $content;
 
@@ -42,6 +53,7 @@ class Article
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\Url()
      */
     private $coverImage;
 
@@ -52,7 +64,11 @@ class Article
     private $category;
 
     /**
-     * @ORM\ManyToMany(targetEntity="App\Entity\SubCategory", mappedBy="article", cascade={"persist"})
+     * @ORM\ManyToMany(targetEntity="SubCategory")
+     * @ORM\JoinTable(name="sub_category_article",
+     *      joinColumns={@ORM\JoinColumn(name="article_id", referencedColumnName="id")},
+     *      inverseJoinColumns={@ORM\JoinColumn(name="sub_category_id", referencedColumnName="id")}
+     *      )
      */
     private $subCategories;
 
@@ -63,6 +79,12 @@ class Article
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\Length(
+     *          min=10, 
+     *          max=255, 
+     *          minMessage="Votre introduction est trop courte !",
+     *          maxMessage="Votre introduction est trop longue !"
+     * )
      */
     private $introduction;
 
@@ -79,6 +101,25 @@ class Article
         if(empty($this->slug)) {
             $slugify = new Slugify();
             $this->slug = $slugify->slugify($this->title);
+        }
+    }
+
+    /**
+     * Permet d'initialiser la date de création de l'article
+     * ou la de mofication de l'article s'il y a déjà une de création
+     *
+     * @ORM\PrePersist
+     * @ORM\PreUpdate
+     * 
+     * @return void
+     */
+    public function initializeDate()
+    {
+        if(empty($this->createdAt)) {
+            $this->createdAt = new \Datetime();
+        } 
+        else if(!empty($this->createdAt)) {
+            $this->modifiedAt = new \Datetime();
         }
     }
 

@@ -1,0 +1,56 @@
+{% extends 'base.html.twig' %}
+
+{% block title%}Création d'un article - Taverne du JV{% endblock %}
+
+{% form_theme form 'bootstrap_4_layout.html.twig' %}
+
+{% block body %}
+
+    <div class="container white py-3">
+
+        <div class="card">
+
+            <h2 class="card-header orange accent-3 text-white h3 font-weight-light"><i class="fas fa-angle-down"></i> Création d'un article</h2>
+
+            <!-- Formulaire de création d'un article -->
+            <div class="card-body">
+
+                {{ form_start(form) }}
+
+                <div class="row">
+                    <div class="col">
+                        <div class="alert blue-grey lighten-5">
+                            <h2>Informations générales</h2>
+                            {{ form_row(form.title) }}
+
+                            {{ form_row(form.introduction) }}
+
+                            {{ form_row(form.coverImage) }}
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="alert blue-grey lighten-5">
+                            <h2>Type de l'article</h2>
+                            {{ form_row(form.category) }}
+
+                            {{ form_row(form.subCategories) }}
+                        </div>
+                    </div>
+                </div>
+
+                <div class="alert blue-grey lighten-5">
+                    <h2>Contenu de l'article</h2>
+                    {{ form_row(form.content) }}
+                </div>
+    
+                <button type="submit" class="btn btn-success btn-block mb-3">Enregistrer l'article</button>
+
+                {{ form_end(form)}}
+
+            </div>
+
+        </div>
+
+    </div>
+
+{% endblock %}
