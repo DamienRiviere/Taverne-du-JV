@@ -43,16 +43,27 @@
             </ul>
 
             <ul class="navbar-nav ml-auto nav-flex-icons">
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink-333" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        <i class="fas fa-user"></i>
-                    </a>
-                    <div class="dropdown-menu dropdown-menu-right dropdown-default" aria-labelledby="navbarDropdownMenuLink-333">
-                        <a class="dropdown-item" href="#">Action</a>
-                        <a class="dropdown-item" href="#">Another action</a>
-                        <a class="dropdown-item" href="#">Something else here</a>
-                    </div>
-                </li>
+                {% if app.user %}
+                    <li class="nav-item dropdown">
+                        <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" id="accountDropdownLink">
+                            <img src="{{ app.user.picture }}" class="avatar avatar-micro" alt="Avatar de {{ app.user.username }}">
+                            {{ app.user.username }}
+                        </a>
+
+                        <div class="dropdown-menu" aria-labelledby="accountDropdownLink">
+                            <a href="{{ path('account_index') }}" class="dropdown-item">Mon compte</a>
+                            <div class="dropdown-divider"></div>
+                            <a href="{{ path('account_logout') }}" class="dropdown-item">Déconnexion</a>
+                        </div>
+                    </li>
+                {% else %}
+                    <li class="nav-item">
+                        <a href="{{ path('account_register') }}" class="nav-link" href="#">Inscription</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{{ path('account_login') }}" class="nav-link" href="#">Connexion</a>
+                    </li>
+                {% endif %}      
             </ul>
         </div>
 

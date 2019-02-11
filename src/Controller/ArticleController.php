@@ -28,8 +28,9 @@ class ArticleController extends AbstractController
      * @return Response
      */
     public function create(Request $request, EntityManagerInterface $manager) {
-
         $article = new Article();
+
+        $user = $this->getUser();
 
         $form = $this->createForm(ArticleType::class, $article);
 
@@ -37,8 +38,15 @@ class ArticleController extends AbstractController
 
         if($form->isSubmitted() && $form->isValid())
         {
+            $article->setAuthor($user);
+
             $manager->persist($article);
             $manager->flush();
+
+            $this->addFlash(
+                'green lighten-1',
+                "L'article <strong>{$article->getTitle()}</strong> a bien été enregistrée !"
+            );
 
             return $this->redirectToRoute('article_show', ['slug' => $article->getSlug()]);
         }

@@ -64,7 +64,7 @@ class Article
     private $category;
 
     /**
-     * @ORM\ManyToMany(targetEntity="SubCategory")
+     * @ORM\ManyToMany(targetEntity="SubCategory", cascade={"persist"})
      * @ORM\JoinTable(name="sub_category_article",
      *      joinColumns={@ORM\JoinColumn(name="article_id", referencedColumnName="id")},
      *      inverseJoinColumns={@ORM\JoinColumn(name="sub_category_id", referencedColumnName="id")}
@@ -87,6 +87,12 @@ class Article
      * )
      */
     private $introduction;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="articles", cascade={"persist"})
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $author;
 
     /**
      * Permet d'intialiser le slug
@@ -253,6 +259,18 @@ class Article
     public function setIntroduction(string $introduction): self
     {
         $this->introduction = $introduction;
+
+        return $this;
+    }
+
+    public function getAuthor(): ?User
+    {
+        return $this->author;
+    }
+
+    public function setAuthor(?User $author): self
+    {
+        $this->author = $author;
 
         return $this;
     }

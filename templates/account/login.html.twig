@@ -1,0 +1,44 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Connexion à la Taverne du JV{% endblock %}
+
+{% block body %}
+
+<div class="container white py-3">
+
+    <div class="row">
+        <div class="col-md-3">&nbsp;</div>
+        <div class="col-md-6">
+            <div class="blue-grey lighten-5 py-3 px-3 rounded">
+                <h2>Connectez vous !</h2>
+                <form action="{{ path('account_login') }}" method="post">
+                    <div class="form-group">
+                        <label for="email">Email</label>
+                        <input type="text" name="_username" id="email" class="form-control" placeholder="Adresse email ..." required value="{{ username }}">
+                    </div>
+                    <div class="form-group">
+                        <label for="password">Mot de passe</label>
+                        <input type="password" name="_password" id="password" class="form-control" placeholder="Mot de passe ..." required>
+                    </div>
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-success">Connexion</button>
+                    </div>
+                </form>
+
+                {% if hasError %}
+                    <div class="alert alert-danger">
+                        <i class="fas fa-exclamation-triangle"></i>
+                        Une erreur est survenue, le nom d'utilisateur ou alors le mot de passe est invalide !
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+
+        {% include 'partials/alert.html.twig' %}
+
+    </div>
+    
+</div>
+
+
+{% endblock %}

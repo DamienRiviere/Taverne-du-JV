@@ -5,6 +5,9 @@
 {% block body %}
 
     <div class="container white pb-3">
+
+        {% include 'partials/alert.html.twig' %}
+
         <div class="row">
         
             <div class="col-8">
@@ -14,8 +17,7 @@
                     {% for subcategory in article.subcategories %}
                         <span class="{{ subcategory.style }}">{{ subcategory.title }}</span>
                     {% endfor %}
-                    {{ article.title }}
-                    
+                    {{ article.title }}  
                 </h2>
 
                 <img src="{{ article.coverimage }}" alt="Image de {{ article.title }}" class="img-fluid">
@@ -23,6 +25,33 @@
                 <p class="font-weight-bold mt-3"><strong>{{ article.introduction }}</strong></p>
 
                 <p>{{ article.content | raw }}</p>
+
+                <br>
+
+                <div class="row">
+                    {% set author = article.author %}
+                    <div class="col-1">
+                        <img src="{{ author.picture }}" class="avatar avatar-medium" alt="Avatar de {{ author.username }}">
+                    </div>
+                    <div class="col ml-2">
+                        <h5 class="mb-0">
+                            Article écrit par 
+                            <a href="{{ path('user_show', {'slug': author.slug}) }}"><strong>{{ author.username }}</strong></a>
+                            {% if article.modifiedAt %}
+                                <small class="text-muted">modifié le {{ article.modifiedAt | date('d/m/Y') }} à {{ article.modifiedAt | date('H:i') }}</small>
+                            {% else %}
+                                <small class="text-muted">le {{ article.createdAt | date('d/m/Y') }} à {{ article.createdAt | date('H:i') }}</small>
+                            {% endif %}    
+                        </h5>
+                        <span class="badge badge-primary">{{ author.articles | length }} articles</span>
+                    </div>
+                </div>
+
+                <hr>
+
+                <h2 class="h3">Espace des commentaires :</h2>
+
+                {% include 'article/comment.html.twig' %}
                 
             </div>
 
@@ -33,6 +62,7 @@
             </div>
 
         </div>
+
     </div>
 
 {% endblock %}

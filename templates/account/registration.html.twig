@@ -1,0 +1,28 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Inscription à la Taverne du JV{% endblock %}
+
+{% block body %}
+
+<div class="container white py-3">
+
+    <div class="row">
+        <div class="col-md-3">&nbsp;</div>
+        <div class="col-md-6">
+            <div class="blue-grey lighten-5 py-3 px-3 rounded">
+                <h2>Inscrivez vous à la Taverne du JV !</h2>
+
+                {{ form_start(form) }}
+
+                {{ form_widget(form) }}
+
+                <button type="submit" class="btn btn-success">Confirmer l'inscription</button>
+
+                {{ form_end(form) }}
+            </div>
+        </div>
+    </div>
+    
+</div>
+
+{% endblock %}

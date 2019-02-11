@@ -28,11 +28,6 @@ class SubCategory
      */
     private $style;
 
-    /**
-     * @ORM\ManyToMany(targetEntity="App\Entity\Article", inversedBy="subCategories")
-     */
-    private $article;
-
     public function __construct()
     {
         $this->article = new ArrayCollection();
