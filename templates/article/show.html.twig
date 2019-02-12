@@ -1,3 +1,5 @@
+{# Page d'affichage d'un article et de ses commentaires #}
+
 {% extends 'base.html.twig' %}
 
 {% block title %}{{ article.title }} - Taverne du JV{% endblock %}
@@ -44,6 +46,7 @@
                             {% endif %}    
                         </h5>
                         <span class="badge badge-primary">{{ author.articles | length }} articles</span>
+                        <span class="badge orange accent-3">{{ author.commentArticle | length }} messages</span>
                     </div>
                 </div>
 

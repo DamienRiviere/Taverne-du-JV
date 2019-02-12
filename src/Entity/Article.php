@@ -95,6 +95,11 @@ class Article
     private $author;
 
     /**
+     * @ORM\OneToMany(targetEntity="App\Entity\CommentArticle", mappedBy="article", orphanRemoval=true, cascade={"persist"})
+     */
+    private $commentArticle;
+
+    /**
      * Permet d'intialiser le slug
      *
      * @ORM\PrePersist
@@ -112,7 +117,7 @@ class Article
 
     /**
      * Permet d'initialiser la date de création de l'article
-     * ou la de mofication de l'article s'il y a déjà une de création
+     * ou de la date de modification de l'article s'il y a déjà une date de création
      *
      * @ORM\PrePersist
      * @ORM\PreUpdate
@@ -132,6 +137,7 @@ class Article
     public function __construct()
     {
         $this->subCategories = new ArrayCollection();
+        $this->commentArticle = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -271,6 +277,37 @@ class Article
     public function setAuthor(?User $author): self
     {
         $this->author = $author;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|CommentArticle[]
+     */
+    public function getCommentArticle(): Collection
+    {
+        return $this->commentArticle;
+    }
+
+    public function addCommentArticle(CommentArticle $commentArticle): self
+    {
+        if (!$this->commentArticle->contains($commentArticle)) {
+            $this->commentArticle[] = $commentArticle;
+            $commentArticle->setArticle($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCommentArticle(CommentArticle $commentArticle): self
+    {
+        if ($this->commentArticle->contains($commentArticle)) {
+            $this->commentArticle->removeElement($commentArticle);
+            // set the owning side to null (unless already changed)
+            if ($commentArticle->getArticle() === $this) {
+                $commentArticle->setArticle(null);
+            }
+        }
 
         return $this;
     }

@@ -80,6 +80,16 @@ class User implements UserInterface
     private $articles;
 
     /**
+     * @ORM\ManyToMany(targetEntity="App\Entity\Role", mappedBy="users")
+     */
+    private $userRoles;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\CommentArticle", mappedBy="user", orphanRemoval=true)
+     */
+    private $commentArticle;
+
+    /**
      * Permet d'intialiser le slug de l'utilisateur
      *
      * @ORM\PrePersist
@@ -113,6 +123,8 @@ class User implements UserInterface
     public function __construct()
     {
         $this->articles = new ArrayCollection();
+        $this->userRoles = new ArrayCollection();
+        $this->commentArticle = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -235,9 +247,23 @@ class User implements UserInterface
         return $this;
     }
 
+    /**
+     * Permet de récupérer les rôles d'un utilisateur
+     *
+     * @return $roles
+     */
     public function getRoles()
     {
-        return ['ROLE_USER'];
+        /* Récupération des rôles dans le array collection avec map()
+           et transformation en tableau PHP avec toArray() */
+        $roles = $this->userRoles->map(function($role){
+            return $role->getTitle();
+        })->toArray();
+
+        // Ajout du rôle utilisateur dans l'array
+        $roles[] = 'ROLE_USER';
+
+        return $roles;
     }
 
     public function getPassword()
@@ -248,4 +274,63 @@ class User implements UserInterface
     public function getSalt() {}
 
     public function eraseCredentials() {}
+
+    /**
+     * @return Collection|Role[]
+     */
+    public function getUserRoles(): Collection
+    {
+        return $this->userRoles;
+    }
+
+    public function addUserRole(Role $userRole): self
+    {
+        if (!$this->userRoles->contains($userRole)) {
+            $this->userRoles[] = $userRole;
+            $userRole->addUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeUserRole(Role $userRole): self
+    {
+        if ($this->userRoles->contains($userRole)) {
+            $this->userRoles->removeElement($userRole);
+            $userRole->removeUser($this);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|CommentArticle[]
+     */
+    public function getCommentArticle(): Collection
+    {
+        return $this->commentArticle;
+    }
+
+    public function addCommentArticle(CommentArticle $commentArticle): self
+    {
+        if (!$this->commentArticle->contains($commentArticle)) {
+            $this->commentArticle[] = $commentArticle;
+            $commentArticle->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCommentArticle(CommentArticle $commentArticle): self
+    {
+        if ($this->commentArticle->contains($commentArticle)) {
+            $this->commentArticle->removeElement($commentArticle);
+            // set the owning side to null (unless already changed)
+            if ($commentArticle->getUser() === $this) {
+                $commentArticle->setUser(null);
+            }
+        }
+
+        return $this;
+    }
 }

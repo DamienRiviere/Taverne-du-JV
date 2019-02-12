@@ -1,9 +1,7 @@
 {% for label, messages in app.flashes %}
-    <div class="container pt-3">
-        <div class="alert {{ label }} mb-0">
-            {% for message in messages %}
-                <h6 class="text-white mb-0"><i class="fas fa-check"></i> {{ message | raw }}</h6>
-            {% endfor %}
-        </div>
-    </div>
+<div class="alert {{ label }} mb-0">
+    {% for message in messages %}
+        <h6 class="text-white mb-0"><i class="fas fa-check"></i> {{ message | raw }}</h6>
+    {% endfor %}
+</div>
 {% endfor %}

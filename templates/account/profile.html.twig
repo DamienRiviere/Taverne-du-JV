@@ -1,3 +1,5 @@
+{# Page de modification de profil d'un utilisateur #}
+
 {% extends 'base.html.twig' %}
 
 {% block title %}Modification du profil utilisateur{% endblock %}
@@ -21,9 +23,9 @@
                 {{ form_end(form) }}
             </div>
         </div>
-
-        {% include 'partials/alert.html.twig' %}
-
+        <div class="container mt-3">
+             {% include 'partials/alert.html.twig' %}
+        </div>
     </div>
     
 </div>

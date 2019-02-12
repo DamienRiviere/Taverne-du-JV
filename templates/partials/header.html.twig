@@ -46,12 +46,19 @@
                 {% if app.user %}
                     <li class="nav-item dropdown">
                         <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" id="accountDropdownLink">
-                            <img src="{{ app.user.picture }}" class="avatar avatar-micro" alt="Avatar de {{ app.user.username }}">
+                            {% if app.user.picture == null %}
+                                <img src="http://image.jeuxvideo.com/avatar-md/default.jpg" alt="Image de profil par défaut" class="avatar avatar-mini"> 
+                            {% else %}
+                                <img src="{{ app.user.picture }}" class="avatar avatar-mini" alt="Avatar de {{ app.user.username }}">
+                            {% endif %}        
                             {{ app.user.username }}
                         </a>
-
+                        
                         <div class="dropdown-menu" aria-labelledby="accountDropdownLink">
                             <a href="{{ path('account_index') }}" class="dropdown-item">Mon compte</a>
+                            {% if app.user.getRoles[0] == "ROLE_AUTHOR" or app.user.getRoles[0] == "ROLE_ADMIN" %}
+                                <a href="{{ path('article_create') }}" class="dropdown-item">Créer un article</a>
+                            {%  endif %}
                             <div class="dropdown-divider"></div>
                             <a href="{{ path('account_logout') }}" class="dropdown-item">Déconnexion</a>
                         </div>

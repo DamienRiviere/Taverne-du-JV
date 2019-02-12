@@ -1,44 +1,26 @@
-<div class="card my-3">
+{# Formulaire pour commenter un article et affichage des commentaires #}
 
-    <div class="card-header orange accent-3 text-white font-weight-light py-2">
-        <div class="row">
-            <img src="http://image.jeuxvideo.com/avatar-md/default.jpg" alt="Image de Damien RIVIERE" class="img-profil rounded ml-2"> 
-            <div class="col">
-                <h6 class="mb-0">Damien RIVIERE</h6>
-                <small class="text-white">le 24/05/2019 à 10h21</small>
-            </div>
-        </div> 
+{% if app.user %}
+    <div class="alert blue-grey lighten-5">
+        {{ form_start(form) }}
+
+        {{ form_widget(form) }}
+
+        <div class="text-center">
+            <button type="submit" class="btn btn-primary">Envoyer le commentaire</button>
+        </div>
+        
+        {{ form_end(form) }}
     </div>
-
-    <div class="card-body">
-        <p class="mb-0">
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin efficitur, enim eget accumsan sollicitudin, dui sem molestie odio, vel placerat massa nibh ac enim. Nam quam diam, eleifend in dictum eu, molestie ac nibh. Vestibulum a auctor eros. In eu posuere odio. Cras non dapibus nisi. Vivamus nec enim diam. Duis porta mauris efficitur leo condimentum laoreet. Nullam sem elit, facilisis a mi ac, vestibulum luctus massa. Morbi vel ultricies neque, ac luctus nibh.
-
-Curabitur facilisis sagittis risus, ut aliquam purus porta euismod. Donec malesuada dignissim urna venenatis volutpat. Cras tincidunt, ligula ac ultricies sollicitudin, neque ex venenatis ipsum, ut porttitor nisi magna pulvinar felis. Nunc euismod mauris et leo hendrerit finibus. Vivamus mauris turpis, congue ullamcorper nisi nec, lacinia varius magna. Cras pretium tempor tortor nec sodales. Duis molestie augue non ligula molestie sodales. Nullam congue pulvinar erat, non aliquam lorem blandit vel.
-        </p>
+{% else %}
+    <div class="alert alert-warning">
+        <h5 class="mb-0"><a href="{{ path('account_login') }}">Connectez-vous</a> pour pouvoir écrire un commentaire !</h5>
     </div>
+{% endif %}
 
-</div>
+{# Affichage des commentaires #}
+{% for comment in article.commentArticle | reverse %}
 
-<div class="card my-3">
-
-    <div class="card-header orange accent-3 text-white font-weight-light py-2">
-        <div class="row">
-            <img src="http://image.jeuxvideo.com/avatar-md/default.jpg" alt="Image de Damien RIVIERE" class="img-profil rounded ml-2"> 
-            <div class="col">
-                <h6 class="mb-0">Damien RIVIERE</h6>
-                <small class="text-white">le 24/05/2019 à 10h21</small>
-            </div>
-        </div> 
-    </div>
-
-    <div class="card-body">
-        <p class="mb-0">
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin efficitur, enim eget accumsan sollicitudin, dui sem molestie odio, vel placerat massa nibh ac enim. Nam quam diam, eleifend in dictum eu, molestie ac nibh. Vestibulum a auctor eros. In eu posuere odio. Cras non dapibus nisi. Vivamus nec enim diam. Duis porta mauris efficitur leo condimentum laoreet. Nullam sem elit, facilisis a mi ac, vestibulum luctus massa. Morbi vel ultricies neque, ac luctus nibh.
-
-Curabitur facilisis sagittis risus, ut aliquam purus porta euismod. Donec malesuada dignissim urna venenatis volutpat. Cras tincidunt, ligula ac ultricies sollicitudin, neque ex venenatis ipsum, ut porttitor nisi magna pulvinar felis. Nunc euismod mauris et leo hendrerit finibus. Vivamus mauris turpis, congue ullamcorper nisi nec, lacinia varius magna. Cras pretium tempor tortor nec sodales. Duis molestie augue non ligula molestie sodales. Nullam congue pulvinar erat, non aliquam lorem blandit vel.
-        </p>
-        <small class="text-muted float-right">Modifié le 15/11/2019 à 14:07</small>
-    </div>
-
-</div>
+    {% include 'partials/comment_article.html.twig' %}
+    
+{% endfor %}

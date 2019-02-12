@@ -1,3 +1,5 @@
+{# Page de profil des utilisateurs #}
+
 {% extends 'base.html.twig' %}
 
 {% block title %}Profil de {{ user.username }}{% endblock %}
@@ -13,7 +15,23 @@
                     <img src="{{ user.picture }}" class="avatar mb-3" alt="Avatar de {{ user.username }}">
                 {% endif %}  
                 <br>
-                <span class="badge badge-danger">ADMINISTRATEUR</span>
+                {%  if user.getRoles()[0] == 'ROLE_ADMIN' %}
+                    <span class="badge badge-danger">
+                        ADMINISTRATEUR
+                     </span>
+                {% elseif user.getRoles()[0] == 'ROLE_AUTHOR' %}
+                    <span class="badge badge-success">
+                        AUTEUR
+                    </span>
+                {% elseif user.getRoles()[0] == 'ROLE_MODERATOR' %}
+                    <span class="badge badge-warning">
+                        MODERATEUR
+                    </span>
+                {% elseif user.getRoles()[0] == 'ROLE_USER' %}
+                    <span class="badge badge-primary">
+                        MEMBRE
+                    </span>
+                {%  endif %}
             </div>
             <div class="col-9">
                 <h2 class="mb-0">{{ user.username }}</h2>
@@ -24,13 +42,16 @@
                         <a href="{{ path('account_password') }}" class="btn btn-primary">Modifier mon mot de passe</a>
                     </div>
                 {% endif %}
+                {% include 'partials/alert.html.twig' %}
             </div>
         </div>    
 
         <div class="alert blue-grey lighten-5">
             {% if user.description == null %}
                 <h2>Description :</h2>
-                <p>Pas de description</p>
+                <div class="alert alert-warning text-center">
+                    <h5 class="mb-0">Pas de description</h5>
+                </div>
             {% else %}
                 <h2>Description :</h2>
                 {{ user.description | raw }}
@@ -42,28 +63,52 @@
                 <div class="alert blue-grey lighten-5">
                     <h2>Derniers articles :</h2>
                     {% if user.articles is empty %}
-                        <div class="alert orange accent-3 text-center">
-                            <h5 class="mb-0 text-white">Aucun article</h5>
+                        <div class="alert alert-warning text-center">
+                            <h5 class="mb-0">Aucun article</h5>
                         </div>
                     {% else %}
-                        {% for article in user.articles |slice(0, 5) %}
+                        {% for article in user.articles | slice(0, 5) %}
                         <p>
                             <span class="{{ article.category.style }}">{{ article.category.title }}</span> |
                             {% for subcategory in article.subcategories %}
                                 <span class="{{ subcategory.style }}">{{ subcategory.title }}</span>
                             {% endfor %}
                             <a href="{{ path('article_show', {'slug': article.slug}) }}">{{ article.title }}</a> 
+                            <small class="text-muted">le {{ article.createdAt | date('d/m/Y') }} à {{ article.createdAt | date('H:i') }}</small>
                         </p>
                         {% endfor %}
                     {% endif %}
                 </div>
             </div>
             <div class="col-6">
-                <div class="alert blue-grey lighten-5">
-                    <h2>Derniers commentaires :</h2>
-                    <div class="alert orange accent-3 text-center">
-                        <h5 class="mb-0 text-white">Aucun commentaire</h5>
+                <div class="row">
+
+                    <div class="card bg-primary text-white text-center mr-3">
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-4">
+                                    <i class="far fa-newspaper fa-4x"></i>
+                                </div>
+                                <div class="col-8">
+                                    <h4>{{ user.articles  | length }} articles</h4>
+                                </div>
+                            </div>
+                        </div>
                     </div>
+
+                    <div class="card orange accent-3 text-white text-center">
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-4">
+                                    <i class="fas fa-comments fa-4x"></i>
+                                </div>
+                                <div class="col-8">
+                                    <h4>{{ user.commentArticle  | length }} messages</h4>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
                 </div>
             </div>
         </div>
