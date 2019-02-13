@@ -5,9 +5,12 @@ namespace App\DataFixtures;
 use Faker\Factory;
 use App\Entity\Role;
 use App\Entity\User;
+use App\Entity\Forum;
+use App\Entity\Topic;
 use App\Entity\Article;
 use App\Entity\Category;
 use App\Entity\SubCategory;
+use App\Entity\CommentTopic;
 use App\Entity\CommentArticle;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\Persistence\ObjectManager;
@@ -152,7 +155,250 @@ class AppFixtures extends Fixture
             }
 
             $manager->persist($article);
-        }   
+        } 
+        
+        // Création des forums Nintendo
+        $switch = new Forum();
+        $switch->setTitle('Switch')
+               ->setPlatformTitle('Nintendo')
+               ->setPlatformLogo('fab fa-nintendo-switch')
+               ->setPlatformStyle('danger-color-dark')
+               ->setPlatformType('Hybride');
+
+        $manager->persist($switch);
+
+        $wiiU = new Forum();
+        $wiiU->setTitle('Wii U')
+             ->setPlatformTitle('Nintendo')
+             ->setPlatformLogo('fab fa-nintendo-switch')
+             ->setPlatformStyle('danger-color-dark')
+             ->setPlatformType('Console de salon');
+
+        $manager->persist($wiiU);
+        
+        $wii = new Forum();
+        $wii->setTitle('Wii')
+             ->setPlatformTitle('Nintendo')
+             ->setPlatformLogo('fab fa-nintendo-switch')
+             ->setPlatformStyle('danger-color-dark')
+             ->setPlatformType('Console de salon');
+
+        $manager->persist($wii);
+        
+        $gamecube = new Forum();
+        $gamecube->setTitle('Gamecube')
+                 ->setPlatformTitle('Nintendo')
+                 ->setPlatformLogo('fab fa-nintendo-switch')
+                 ->setPlatformStyle('danger-color-dark')
+                 ->setPlatformType('Console de salon');
+
+        $manager->persist($gamecube);
+        
+        $nintendo64 = new Forum();
+        $nintendo64->setTitle('Nintendo 64')
+                   ->setPlatformTitle('Nintendo')
+                   ->setPlatformLogo('fab fa-nintendo-switch')
+                   ->setPlatformStyle('danger-color-dark')
+                   ->setPlatformType('Console de salon');
+
+        $manager->persist($nintendo64);
+
+        $snes = new Forum();
+        $snes->setTitle('Super NES')
+             ->setPlatformTitle('Nintendo')
+             ->setPlatformLogo('fab fa-nintendo-switch')
+             ->setPlatformStyle('danger-color-dark')
+             ->setPlatformType('Console de salon');
+    
+        $manager->persist($snes);
+        
+        $nes = new Forum();
+        $nes->setTitle('NES')
+            ->setPlatformTitle('Nintendo')
+            ->setPlatformLogo('fab fa-nintendo-switch')
+            ->setPlatformStyle('danger-color-dark')
+            ->setPlatformType('Console de salon');
+
+        $manager->persist($nes);
+
+        $n3ds = new Forum();
+        $n3ds->setTitle('3DS')
+             ->setPlatformTitle('Nintendo')
+             ->setPlatformLogo('fab fa-nintendo-switch')
+             ->setPlatformStyle('danger-color-dark')
+             ->setPlatformType('Console portable');
+
+        $manager->persist($n3ds);
+
+        $ds = new Forum();
+        $ds->setTitle('DS')
+           ->setPlatformTitle('Nintendo')
+           ->setPlatformLogo('fab fa-nintendo-switch')
+           ->setPlatformStyle('danger-color-dark')
+           ->setPlatformType('Console portable');
+
+        $manager->persist($ds);
+
+        $gba = new Forum();
+        $gba->setTitle('Gameboy Advance')
+            ->setPlatformTitle('Nintendo')
+            ->setPlatformLogo('fab fa-nintendo-switch')
+            ->setPlatformStyle('danger-color-dark')
+            ->setPlatformType('Console portable');
+
+        $manager->persist($gba);
+
+        $gbc = new Forum();
+        $gbc->setTitle('Gameboy Color')
+            ->setPlatformTitle('Nintendo')
+            ->setPlatformLogo('fab fa-nintendo-switch')
+            ->setPlatformStyle('danger-color-dark')
+            ->setPlatformType('Console portable');
+
+        $manager->persist($gbc);
+
+        $gb = new Forum();
+        $gb->setTitle('Gameboy')
+           ->setPlatformTitle('Nintendo')
+           ->setPlatformLogo('fab fa-nintendo-switch')
+           ->setPlatformStyle('danger-color-dark')
+           ->setPlatformType('Console portable');
+
+        $manager->persist($gb);
+
+        // Création des forums Playstation
+        $ps4 = new Forum();
+        $ps4->setTitle('Playstation 4')
+            ->setPlatformTitle('Playstation')
+            ->setPlatformLogo('fab fa-playstation')
+            ->setPlatformStyle('primary-color-dark')
+            ->setPlatformType('Console de salon');
+
+        $manager->persist($ps4);
+
+        $ps3 = new Forum();
+        $ps3->setTitle('Playstation 3')
+            ->setPlatformTitle('Playstation')
+            ->setPlatformLogo('fab fa-playstation')
+            ->setPlatformStyle('primary-color-dark')
+            ->setPlatformType('Console de salon');
+
+        $manager->persist($ps3);
+
+        $ps2 = new Forum();
+        $ps2->setTitle('Playstation 2')
+            ->setPlatformTitle('Playstation')
+            ->setPlatformLogo('fab fa-playstation')
+            ->setPlatformStyle('primary-color-dark')
+            ->setPlatformType('Console de salon');
+
+        $manager->persist($ps2);
+
+        $ps1 = new Forum();
+        $ps1->setTitle('Playstation 1')
+            ->setPlatformTitle('Playstation')
+            ->setPlatformLogo('fab fa-playstation')
+            ->setPlatformStyle('primary-color-dark')
+            ->setPlatformType('Console de salon');
+
+        $manager->persist($ps1);
+
+        $psVita = new Forum();
+        $psVita->setTitle('PS Vita')
+               ->setPlatformTitle('Playstation')
+               ->setPlatformLogo('fab fa-playstation')
+               ->setPlatformStyle('primary-color-dark')
+               ->setPlatformType('Console portable');
+
+        $manager->persist($psVita);
+
+        $psp = new Forum();
+        $psp->setTitle('PSP')
+            ->setPlatformTitle('Playstation')
+            ->setPlatformLogo('fab fa-playstation')
+            ->setPlatformStyle('primary-color-dark')
+            ->setPlatformType('Console portable');
+
+        $manager->persist($psp);
+
+        // Création des forums Xbox
+        $xboxOne = new Forum();
+        $xboxOne->setTitle('Xbox One')
+                ->setPlatformTitle('Xbox')
+                ->setPlatformLogo('fab fa-xbox')
+                ->setPlatformStyle('success-color-dark')
+                ->setPlatformType('Console de salon');
+
+        $manager->persist($xboxOne);
+
+        $xbox360 = new Forum();
+        $xbox360->setTitle('Xbox 360')
+                ->setPlatformTitle('Xbox')
+                ->setPlatformLogo('fab fa-xbox')
+                ->setPlatformStyle('success-color-dark')
+                ->setPlatformType('Console de salon');
+
+        $manager->persist($xbox360);
+
+        $xbox = new Forum();
+        $xbox->setTitle('Xbox')
+             ->setPlatformTitle('Xbox')
+             ->setPlatformLogo('fab fa-xbox')
+             ->setPlatformStyle('success-color-dark')
+             ->setPlatformType('Console de salon');
+
+        $manager->persist($xbox);
+
+        // Création des forums PC
+        $pcJeux = new Forum();
+        $pcJeux->setTitle('Jeux')
+               ->setPlatformTitle('PC')
+               ->setPlatformLogo('fas fa-desktop')
+               ->setPlatformStyle('bg-dark')
+               ->setPlatformType('PC');
+
+        $manager->persist($pcJeux);
+
+        $pcHardware = new Forum();
+        $pcHardware->setTitle('Hardware')
+                   ->setPlatformTitle('PC')
+                   ->setPlatformLogo('fas fa-desktop')
+                   ->setPlatformStyle('bg-dark')
+                   ->setPlatformType('PC');
+
+        $manager->persist($pcHardware);
+
+        $forum = [$switch, $wiiU, $wii, $gamecube, $nintendo64, $snes, $nes, $n3ds, $ds, $gba, $gbc, $gb, $ps4, $ps3, $ps2, $ps1, $psVita, $psp, $xboxOne, $xbox360, $xbox, $pcJeux, $pcHardware];
+
+        // Création des topics
+        for($i = 1; $i <= 30; $i++)
+        {
+            $topic = new Topic();
+
+            $title = $faker->sentence(5);
+            $message = '<p>' . join('</p><p>', $faker->paragraphs(1)) . '</p>';
+
+            $topic->setTitle($title)
+                  ->setMessage($message)
+                  ->setForum($switch)
+                  ->setUser($damien);
+
+            $manager->persist($topic);
+
+            // Création des commentaires du topic
+            for($c = 1; $c <= 30; $c++)
+            {
+                $comment = new CommentTopic();
+                
+                $content = '<p>' . join('</p><p>', $faker->paragraphs(1)) . '</p>';
+
+                $comment->setContent($content)
+                        ->setTopic($topic)
+                        ->setUser($damien);
+
+                $manager->persist($comment);
+            }
+        }
     
         $manager->flush();
     }

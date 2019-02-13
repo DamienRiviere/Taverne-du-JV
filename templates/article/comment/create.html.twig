@@ -1,5 +1,4 @@
 {# Formulaire pour commenter un article et affichage des commentaires #}
-
 {% if app.user %}
     <div class="alert blue-grey lighten-5">
         {{ form_start(form) }}
@@ -21,6 +20,6 @@
 {# Affichage des commentaires #}
 {% for comment in article.commentArticle | reverse %}
 
-    {% include 'partials/comment_article.html.twig' %}
+    {% include 'partials/comment_article/comment.html.twig' %}
     
 {% endfor %}

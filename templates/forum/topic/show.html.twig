@@ -1,0 +1,97 @@
+{# Page d'affichage d'un topic #}
+
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ topic.title }} - Forum {{ topic.forum.title }}{% endblock %}
+
+{% block body %}
+
+    <div class="container py-3 white">
+
+        {% set forum = topic.forum %}
+        <a class="btn btn-primary text-light mb-3" href="{{ path('forum_show', {'slug': forum.slug}) }}">Retour sur le forum</a>
+
+        <h3 class="card-header text-white {{ forum.platformStyle }}"><i class="{{ forum.platformLogo }}"></i> {{ topic.title }}</h3>
+
+        {# Affichage du commentaire de l'auteur d'un topic #}
+        <div class="card my-3">
+
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-2 text-center border-right">
+                        {% if topic.user.picture is empty %}
+                            <img src="http://image.jeuxvideo.com/avatar-md/default.jpg" alt="Image de profil par défaut" class="avatar"> 
+                        {% else %}
+                            <img src="{{ topic.user.picture }}" alt="Avatar de {{  topic.user.username }}" class="avatar">
+                        {% endif %}
+
+                        <div class="col">
+                            {%  if topic.user.getRoles()[0] == 'ROLE_ADMIN' %}
+                            <span class="badge badge-danger mt-3">
+                                ADMINISTRATEUR
+                            </span>
+                            {% elseif topic.user.getRoles()[0] == 'ROLE_AUTHOR' %}
+                                <span class="badge badge-success mt-3">
+                                    AUTEUR
+                                </span>
+                            {% elseif topic.user.getRoles()[0] == 'ROLE_MODERATOR' %}
+                                <span class="badge badge-warning mt-3">
+                                    MODERATEUR
+                                </span>
+                            {% elseif topic.user.getRoles()[0] == 'ROLE_USER' %}
+                                <span class="badge badge-primary mt-3">
+                                    MEMBRE
+                                </span>
+                            {% endif %}
+
+                            <span class="badge orange accent-3">{{ topic.user.commentTopics | length }} commentaires</span>
+                            <small class="text-muted">Inscrit le {{ topic.user.createdAt | date('d/m/Y') }}</small>
+                        </div>
+                        
+                    </div>
+                    <div class="col">
+                        <div class="col">
+                            <div class="row">
+                                <h6 class="mb-0">
+                                    <a href="{{ path('user_show', {'slug': topic.user.slug}) }}" class="font-weight-bold">{{ topic.user.username }}</a>
+                                    <small class="">le {{ topic.createdAt | date('d/m/Y') }} à {{ topic.createdAt | date('H:i') }}</small>
+                                </h6>         
+                            </div> 
+                        </div>
+                        <div class="col pt-2 pb-2 pl-0">
+                            <p class="mb-0">{{ topic.message | raw }}</p>
+                        </div>
+                    </div>  
+                </div>
+            </div>
+
+        </div>
+
+        {# Affichage d'un commentaire d'un topic #}
+        {% for comment in topic.commentTopic %}
+            {% include 'partials/comment_topic/comment.html.twig' %}
+        {% endfor %}
+
+        {% include 'partials/alert.html.twig' %}
+
+        {% if app.user %}
+        <div class="alert blue-grey lighten-5 mt-3">
+            {{ form_start(form) }}
+
+            {{ form_widget(form) }}
+
+            <div class="text-center">
+                <button type="submit" class="btn btn-primary">Envoyer le message</button>
+            </div>
+            
+            {{ form_end(form) }}
+        </div>
+        {% else %}
+            <div class="alert alert-warning">
+                <h5 class="mb-0"><a href="{{ path('account_login') }}">Connectez-vous</a> pour pouvoir écrire un commentaire !</h5>
+            </div>
+        {% endif %}
+
+    </div>
+
+{% endblock %}

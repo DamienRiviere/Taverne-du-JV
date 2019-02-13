@@ -12,7 +12,7 @@
             <div class="col-8">
                 <h2 class="card-header orange accent-3 text-white mt-3 mb-3 h3 font-weight-light"><i class="fas fa-angle-down"></i> Votre commentaire</h2>
 
-                {% include 'partials/comment_article.html.twig' %}
+                {% include 'partials/comment_article/comment.html.twig' %}
 
                 <div class="alert blue-grey lighten-5">
                     {{ form_start(form) }}
@@ -28,9 +28,9 @@
             </div>
 
             <div class="col-4">
-                {% include 'partials/last_tests.html.twig' %}
-                {% include 'partials/last_previews.html.twig' %}
-                {% include 'partials/forums.html.twig' %}
+                {% include 'partials/col_right/last_tests.html.twig' %}
+                {% include 'partials/col_right/last_previews.html.twig' %}
+                {% include 'partials/col_right/forums.html.twig' %}
             </div>
 
         </div>

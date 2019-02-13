@@ -1,0 +1,35 @@
+{# Page d'édition d'un commentaire de topic #}
+
+{% extends 'base.html.twig' %}
+
+{% block title %}Édition du commentaire de {{ comment.user.username }}{% endblock %}
+
+{% block body %}
+
+    <div class="container white pt-3 pb-3">
+    
+        <h2 class="card-header orange accent-3 text-white h3 font-weight-light"><i class="fas fa-angle-down"></i> Votre commentaire</h2>
+
+        {% include 'partials/comment_topic/comment.html.twig' %}
+
+        {% if app.user %}
+        <div class="alert blue-grey lighten-5 mt-3">
+            {{ form_start(form) }}
+
+            {{ form_widget(form) }}
+
+            <div class="text-center">
+                <button type="submit" class="btn btn-primary">Modifier le message</button>
+            </div>
+            
+            {{ form_end(form) }}
+        </div>
+        {% else %}
+            <div class="alert alert-warning">
+                <h5 class="mb-0"><a href="{{ path('account_login') }}">Connectez-vous</a> pour pouvoir écrire un commentaire !</h5>
+            </div>
+        {% endif %}
+
+    </div>
+
+{% endblock %}

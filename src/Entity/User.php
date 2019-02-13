@@ -90,6 +90,16 @@ class User implements UserInterface
     private $commentArticle;
 
     /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Topic", mappedBy="user")
+     */
+    private $topics;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\CommentTopic", mappedBy="user")
+     */
+    private $commentTopics;
+
+    /**
      * Permet d'intialiser le slug de l'utilisateur
      *
      * @ORM\PrePersist
@@ -125,6 +135,8 @@ class User implements UserInterface
         $this->articles = new ArrayCollection();
         $this->userRoles = new ArrayCollection();
         $this->commentArticle = new ArrayCollection();
+        $this->topics = new ArrayCollection();
+        $this->commentTopics = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -328,6 +340,68 @@ class User implements UserInterface
             // set the owning side to null (unless already changed)
             if ($commentArticle->getUser() === $this) {
                 $commentArticle->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Topic[]
+     */
+    public function getTopics(): Collection
+    {
+        return $this->topics;
+    }
+
+    public function addTopic(Topic $topic): self
+    {
+        if (!$this->topics->contains($topic)) {
+            $this->topics[] = $topic;
+            $topic->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeTopic(Topic $topic): self
+    {
+        if ($this->topics->contains($topic)) {
+            $this->topics->removeElement($topic);
+            // set the owning side to null (unless already changed)
+            if ($topic->getUser() === $this) {
+                $topic->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|CommentTopic[]
+     */
+    public function getCommentTopics(): Collection
+    {
+        return $this->commentTopics;
+    }
+
+    public function addCommentTopic(CommentTopic $commentTopic): self
+    {
+        if (!$this->commentTopics->contains($commentTopic)) {
+            $this->commentTopics[] = $commentTopic;
+            $commentTopic->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCommentTopic(CommentTopic $commentTopic): self
+    {
+        if ($this->commentTopics->contains($commentTopic)) {
+            $this->commentTopics->removeElement($commentTopic);
+            // set the owning side to null (unless already changed)
+            if ($commentTopic->getUser() === $this) {
+                $commentTopic->setUser(null);
             }
         }
 

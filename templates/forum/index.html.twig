@@ -1,0 +1,131 @@
+{# Page de tous les forums du site #}
+
+{% extends 'base.html.twig' %}
+
+{% block title %}Forum - La Taverne du JV{% endblock %}
+
+{% block body %}
+
+ <div class="container white py-3">
+
+    <h2 class="h3 font-weight-light">Tous les forums</h2>
+
+    <!-- Forum Nintendo -->
+    <div class="card mt-3 mb-3">
+
+        <h5 class="card-header danger-color-dark text-white"><i class="fab fa-nintendo-switch"></i> FORUM NINTENDO</h5>
+
+        <div class="card-body pt-1 pb-1">
+
+            <!-- Console Hybride -->
+            <h5 class="text-dark mt-3">Hybride :</h5>
+            <div class="dropdown-divider"></div>
+
+            <p class="card-text card-text d-flex flex-lg-row flex-md-row flex-sm-column flex-column mb-2">     
+                {% for hybride in nintendoHybrides %}
+                    <a class="nav-link" href="{{ path('forum_show', {'slug': hybride.slug}) }}">{{ hybride.title }}</a>   
+                {% endfor %}   
+            </p>
+                        
+            <!-- Console de salon -->
+            <h5 class="text-dark mt-3">Console de salon :</h5>
+            <div class="dropdown-divider"></div>
+
+            <p class="card-text card-text d-flex flex-lg-row flex-md-row flex-sm-column flex-column mb-2">  
+                {% for salon in nintendoSalons %}
+                    <a class="nav-link" href="{{ path('forum_show', {'slug': salon.slug}) }}">{{ salon.title }}</a>
+                {% endfor %}      
+            </p>
+
+            <!-- Console portable -->
+            <h5 class="text-dark mt-3">Console portable :</h5>
+            <div class="dropdown-divider"></div>
+
+            <p class="card-text card-text d-flex flex-lg-row flex-md-row flex-sm-column flex-column mb-2">
+                {% for portable in nintendoPortables %}
+                    <a class="nav-link" href="{{ path('forum_show', {'slug': portable.slug}) }}">{{ portable.title }}</a>
+                {% endfor %}
+            </p>
+  
+        </div>
+
+    </div>
+
+    <div class="dropdown-divider"></div>
+
+    <!-- Forum Playstation -->
+    <div class="card mt-3 mb-3">
+
+        <h5 class="card-header primary-color-dark text-white"><i class="fab fa-playstation"></i> FORUM PLAYSTATION</h5>
+
+        <div class="card-body pt-1 pb-1">
+                        
+            <!-- Console de salon -->
+            <h5 class="text-dark mt-3">Console de salon :</h5>
+            <div class="dropdown-divider"></div>
+
+            <div class="card-text d-flex flex-lg-row flex-md-row flex-sm-column flex-column mb-2">
+                {% for salon in playstationSalons %}
+                    <a class="nav-link" href="{{ path('forum_show', {'slug': salon.slug}) }}">{{ salon.title }}</a>
+                {% endfor %}
+            </div>
+
+            <!-- Console portable -->
+            <h5 class="text-dark mt-3">Console portable :</h5>
+            <div class="dropdown-divider"></div>
+
+            <p class="card-text d-flex flex-lg-row flex-md-row flex-sm-column flex-column mb-2">
+                {% for portable in playstationPortables %}
+                    <a class="nav-link" href="{{ path('forum_show', {'slug': portable.slug}) }}">{{ portable.title }}</a>   
+                {% endfor %}
+            </p>
+  
+        </div>
+
+    </div>
+
+    <div class="dropdown-divider"></div>
+
+    <!-- Forum Xbox -->
+    <div class="card mt-3 mb-3">
+
+        <h5 class="card-header success-color-dark text-white"><i class="fab fa-xbox"></i> FORUM XBOX</h5>
+
+        <div class="card-body pt-1 pb-1">
+                        
+            <!-- Console de salon -->
+            <h5 class="text-dark mt-3">Console de salon :</h5>
+            <div class="dropdown-divider"></div>
+
+            <p class="card-text card-text d-flex flex-lg-row flex-md-row flex-sm-column flex-column mb-2">
+                {% for salon in xboxSalons %}
+                    <a class="nav-link" href="{{ path('forum_show', {'slug': salon.slug}) }}">{{ salon.title }}</a>
+                {% endfor %}
+            </p>
+  
+        </div>
+
+    </div>
+
+    <div class="dropdown-divider"></div>
+
+    <!-- Forum PC -->
+    <div class="card mt-3 mb-3">
+
+        <h5 class="card-header bg-dark text-white"><i class="fas fa-desktop"></i> FORUM PC</h5>
+
+        <div class="card-body pt-1 pb-1">
+
+            <p class="card-text card-text d-flex flex-lg-row flex-md-row flex-sm-column flex-column mb-2"> 
+                {% for pc in pcForums %}   
+                    <a class="nav-link" href="{{ path('forum_show', {'slug': pc.slug}) }}">{{ pc.title }}</a> 
+                {% endfor %}  
+            </p>
+  
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}
