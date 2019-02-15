@@ -1,0 +1,74 @@
+{% extends 'admin/base.html.twig' %}
+
+{% block title %}Gestion des utilisateurs{% endblock %}
+
+{% block body %}
+
+<div class="container-fluid">
+    <h2 class="my-4">Gestion des utilisateurs</h2>
+
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Pseudo</th>
+                <th>Email</th>
+                <th>Picture</th>
+                <th>Slug</th>
+                <th>Rôle</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            {% for user in users | reverse %}
+            <tr>
+                <td><strong>{{ user.id }}</strong></td>
+                <td><strong>{{ user.username }}</strong></td>
+                <td><strong>{{ user.email }}</strong></td>
+                <td>
+                    <img src="{{ user.picture }}" alt="Avatar de {{ user.username }}" class="avatar avatar-micro mr-2">
+                </td>
+                <td>{{ user.slug }}</td>
+                <td>
+                    {%  if user.getRoles()[0] == 'ROLE_ADMIN' %}
+                        <h6>
+                            <span class="badge badge-danger">
+                                ADMINISTRATEUR
+                            </span>
+                        </h6>
+                    {% elseif user.getRoles()[0] == 'ROLE_AUTHOR' %}
+                        <h6>
+                            <span class="badge badge-success">
+                                AUTEUR
+                            </span>
+                        </h6>
+                    {% elseif user.getRoles()[0] == 'ROLE_MODERATOR' %}
+                        <h6>
+                            <span class="badge badge-warning">
+                                MODERATEUR
+                            </span>
+                        </h6>
+                    {% elseif user.getRoles()[0] == 'ROLE_USER' %}
+                        <h6>
+                            <span class="badge badge-primary">
+                                MEMBRE
+                            </span>
+                        </h6>
+                    {%  endif %}
+                </td>
+                <td>
+                    <a href="{{ path('admin_users_show', {'id': user.id}) }}" class="btn btn-md btn-primary" title="Détails de l'utilisateur">
+                        <i class="fas fa-user-tag"></i>
+                    </a>
+                    <a href="{{ path('admin_users_delete', {'id': user.id}) }}" class="btn btn-md btn-danger" title="Supprimer l'utilisateur">
+                        <i class="fas fa-trash"></i>
+                    </a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+{% endblock %}

@@ -1,0 +1,46 @@
+{% extends 'admin/base.html.twig' %}
+
+{% block title %}Modification du commentaire de {{ comment.user.username }}{% endblock %}
+
+{% block body %}
+
+    <div class="container-fluid">
+            <h2 class="my-4">
+                <a href="{{ path('admin_articles_comments', {'id': comment.article.id}) }}" class="mr-2" title="Retour à la liste des articles">
+                    <i class="fas fa-arrow-circle-left"></i>
+                </a>
+                Modification du commentaire de {{ comment.user.username }}
+            </h2>
+
+            <div class="row">
+            
+                <div class="col">
+
+                    <div class="alert blue-grey lighten-5">
+                        <h2>{{ comment.article.title }}</h2>
+
+                        {% include 'partials/comment_article/comment.html.twig' %}
+
+                        {{ form_start(form) }}
+
+                        {{ form_widget(form) }}
+
+                        <button type="submit" class="btn btn-success btn-block mb-3">Modifier le commentaire</button>
+
+                        {{ form_end(form) }}
+                    </div>
+
+                </div>
+
+                {% set user = comment.user %}
+                <div class="col">
+                    
+                    {% include 'admin/partials/author.html.twig' %}
+                
+                </div>
+            
+            </div>
+            
+    </div>
+
+{% endblock %}

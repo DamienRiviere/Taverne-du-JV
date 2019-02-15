@@ -1,0 +1,62 @@
+{% extends 'admin/base.html.twig' %}
+
+{% block title %}Administration des articles{% endblock %}
+
+{% block body %}
+
+<div class="container-fluid">
+    <h2 class="my-4">Gestion des articles</h2>
+
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Titre</th>
+                <th>Auteur</th>
+                <th>Catégorie</th>
+                <th>Commentaire</th>
+                <th>Date de création</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            {% for article in articles | reverse %}
+            {% set author = article.author %}
+            {% set category = article.category %}
+            <tr>
+                <td><strong>{{ article.id }}</strong></td>
+                <td><strong>{{ article.title }}</strong></td>
+                <td>
+                    <img src="{{ author.picture }}" alt="Avatar de {{ author.username }}" class="avatar avatar-micro mr-2">
+                    <strong>{{author.username }}</strong>
+                </td>
+                <td>
+                    <h6>
+                        <span class="{{ category.style }}">{{ category.title }}</span>
+                    </h6>
+                </td>
+                <td>
+                    <h6>
+                        <span class="badge orange accent-3">{{ article.commentArticle | length }} commentaires</span>
+                    </h6>
+                </td>
+                <td>{{ article.createdAt | date('d/m/Y') }} à {{ article.createdAt | date('H:i') }}</td>
+                <td>
+                    <a href="{{ path('admin_articles_edit', {'id': article.id}) }}" class="btn btn-md btn-primary" title="Modifier l'article">
+                        <i class="fas fa-edit"></i>
+                    </a>
+                    <a href="{{ path('admin_articles_comments', {'id': article.id}) }}" class="btn btn-md orange accent-3" title="Voir les commentaires">
+                        <i class="fas fa-comments text-white"></i>
+                    </a>
+                    <a href="{{ path('admin_articles_delete', {'id': article.id}) }}" class="btn btn-md btn-danger" title="Supprimer l'article">
+                        <i class="fas fa-trash"></i>
+                    </a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+{% endblock %}

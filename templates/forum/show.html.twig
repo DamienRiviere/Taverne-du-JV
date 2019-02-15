@@ -2,18 +2,23 @@
 
 {% extends 'base.html.twig' %}
 
-{% block title %}Forum {{ forum.title }} - La Taverne du JV{% endblock %}
+{% block title %}Forum {{ forum.title }}{% endblock %}
 
 {% block body %}
 
-<div class="container white py-3">
-
-    <a class="btn btn-primary mt-3 text-light" href="{{ path('forum') }}">Retour sur la liste des forums</a>
+<div class="container white py-3 shadow-lg">
 
     <div class="card mt-4 mb-4">
 
         <!-- Titre du forum -->
-        <h3 class="card-header text-white {{ forum.platformStyle }}"><i class="{{ forum.platformLogo }}"></i> Forum {{ forum.title }}</h3>
+        <h3 class="card-header text-white {{ forum.platformStyle }}">
+            <a href="{{ path('forum') }}" class="text-white" title="Retour à la liste des forums">
+                <i class="fas fa-arrow-circle-left"></i>
+            </a>
+            |
+            <i class="{{ forum.platformLogo }}"></i> 
+            Forum {{ forum.title }}
+        </h3>
 
         <div class="card-header">
             <div class="row">

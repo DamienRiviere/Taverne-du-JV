@@ -1,0 +1,66 @@
+{% extends 'admin/base.html.twig' %}
+
+{% block title %}Modification de l'article numéro {{ article.id }}{% endblock %}
+
+{% block body %}
+
+<div class="container-fluid">
+    <h2 class="my-4">
+        <a href="{{ path('admin_articles_index') }}" class="mr-2" title="Retour à la liste des articles">
+            <i class="fas fa-arrow-circle-left"></i>
+        </a>
+        Modification de l'article {{ article.title }}
+    </h2>
+
+    <div class="mb-3">
+        {% include 'partials/alert.html.twig' %}
+    </div>
+
+    <!-- Formulaire de création d'un article -->
+    <div class="row">
+        <div class="col-8">  
+
+            {{ form_start(form) }}
+            <div class="row">
+                <div class="col">
+                    <div class="alert blue-grey lighten-5">
+                        <h2>Informations générales</h2>
+                        {{ form_row(form.title) }}
+
+                        {{ form_row(form.introduction) }}
+
+                        {{ form_row(form.coverImage) }}
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="alert blue-grey lighten-5">
+                        <h2>Type de l'article</h2>
+                        {{ form_row(form.category) }}
+
+                        {{ form_row(form.subCategories) }}
+                    </div>
+                </div>
+            </div>
+
+            <div class="alert blue-grey lighten-5">
+                <h2>Contenu de l'article</h2>
+                {{ form_row(form.content) }}
+            </div>
+        
+            <button type="submit" class="btn btn-success btn-block mb-3">Modifier l'article</button>
+
+            {{ form_end(form)}}
+        </div>
+
+        {# Auteur de l'article #}
+        {% set user = article.author %}
+        <div class="col-4">
+            {% include 'admin/partials/author.html.twig' %}
+        </div>
+            
+    </div>
+    
+</div>
+    
+
+{% endblock %}

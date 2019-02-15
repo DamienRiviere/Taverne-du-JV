@@ -62,7 +62,8 @@ class AccountController extends AbstractController
         if($form->isSubmitted() && $form->isValid())
         {
             $hash = $encoder->encodePassword($user, $user->getHash());
-            $user->setHash($hash);
+            $user->setHash($hash)
+                 ->setPicture('http://image.jeuxvideo.com/avatar-md/default.jpg');
 
             $manager->persist($user);
             $manager->flush();

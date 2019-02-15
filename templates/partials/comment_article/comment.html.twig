@@ -3,11 +3,7 @@
     {% set user = comment.user %}
     <div class="card-header orange accent-3 text-white font-weight-light py-2">
         <div class="row">
-            {% if user.picture is empty %}
-                <img src="http://image.jeuxvideo.com/avatar-md/default.jpg" alt="Image de profil par défaut" class="img-profil rounded ml-2"> 
-            {% else %}
-                <img src="{{ user.picture }}" alt="Image de {{ user.username }}" class="img-profil rounded ml-2"> 
-            {% endif %}
+            <img src="{{ user.picture }}" alt="Image de {{ user.username }}" class="img-profil rounded ml-2"> 
             <div class="col">
                 <h6 class="mb-0"><a href="{{ path('user_show', {'slug': user.slug}) }}" class="text-white font-weight-bold">{{ user.username }}</a></h6>
                 <small class="text-white">le {{ comment.createdAt | date('d/m/Y') }} à {{ comment.createdAt | date('H:i') }}</small>

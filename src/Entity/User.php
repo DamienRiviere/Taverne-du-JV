@@ -80,7 +80,11 @@ class User implements UserInterface
     private $articles;
 
     /**
-     * @ORM\ManyToMany(targetEntity="App\Entity\Role", mappedBy="users")
+     * @ORM\ManyToMany(targetEntity="App\Entity\Role", cascade={"persist"})
+     * @ORM\JoinTable(name="role_user",
+     *      joinColumns={@ORM\JoinColumn(name="user_id", referencedColumnName="id")},
+     *      inverseJoinColumns={@ORM\JoinColumn(name="role_id", referencedColumnName="id")}
+     *      )
      */
     private $userRoles;
 
@@ -90,12 +94,12 @@ class User implements UserInterface
     private $commentArticle;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Topic", mappedBy="user")
+     * @ORM\OneToMany(targetEntity="App\Entity\Topic", mappedBy="user", orphanRemoval=true)
      */
     private $topics;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\CommentTopic", mappedBy="user")
+     * @ORM\OneToMany(targetEntity="App\Entity\CommentTopic", mappedBy="user", orphanRemoval=true)
      */
     private $commentTopics;
 

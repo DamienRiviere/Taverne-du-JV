@@ -84,7 +84,7 @@ class ArticleController extends AbstractController
 
             $this->addFlash(
                 'green lighten-1',
-                "L'article <strong>{$article->getTitle()}</strong> a bien été enregistrée !"
+                "L'article <strong>{$article->getTitle()}</strong> a bien été modifié !"
             );
 
             return $this->redirectToRoute('article_show', ['slug' => $article->getSlug()]);

@@ -1,0 +1,37 @@
+{% extends 'admin/base.html.twig' %}
+
+{% block title %}Détails de {{ user.username }}{% endblock %}
+
+{% block body %}
+
+    <div class="container">
+        <h2 class="my-4">
+            <a href="{{ path('admin_users_index') }}" class="mr-2" title="Retour à la liste des articles">
+                <i class="fas fa-arrow-circle-left"></i>
+            </a>
+            Détails de {{ user.username }}
+        </h2>
+
+        <div class="row">
+            <div class="col-8">
+                {% include 'admin/partials/author.html.twig' %}
+            </div>
+            <div class="col-4">
+                <div class="alert blue-grey lighten-5">
+                    <h2>Attribution d'un rôle</h2>
+                    
+                    {{ form_start(form) }}
+
+                    {{ form_widget(form) }}
+
+                    <button type="submit" class="btn btn-success">Changer de rôle</button>
+
+                    {{ form_end(form) }}
+                </div>
+
+                {% include 'partials/alert.html.twig' %}
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

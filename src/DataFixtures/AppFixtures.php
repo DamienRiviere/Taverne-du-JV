@@ -63,7 +63,8 @@ class AppFixtures extends Fixture
         $moderateur->setUsername('Moderateur')
                    ->setEmail('moderateur@d-riviere.fr')
                    ->setHash($this->encoder->encodePassword($moderateur, 'password'))
-                   ->addUserRole($moderatorRole);
+                   ->addUserRole($moderatorRole)
+                   ->setPicture('http://image.jeuxvideo.com/avatar-md/default.jpg');
 
         $manager->persist($moderateur);
 
@@ -72,7 +73,8 @@ class AppFixtures extends Fixture
         $auteur->setUsername('Auteur')
                ->setEmail('auteur@d-riviere.fr')
                ->setHash($this->encoder->encodePassword($auteur, 'password'))
-               ->addUserRole($authorRole);
+               ->addUserRole($authorRole)
+               ->setPicture('http://image.jeuxvideo.com/avatar-md/default.jpg');
 
         $manager->persist($auteur);
 
@@ -86,7 +88,8 @@ class AppFixtures extends Fixture
             $user->setUsername($faker->firstName)
                  ->setEmail($faker->email)
                  ->setDescription('<p>' . join('</p><p>', $faker->paragraphs(3)) . '</p>')
-                 ->setHash($hash);
+                 ->setHash($hash)
+                 ->setPicture('http://image.jeuxvideo.com/avatar-md/default.jpg');
 
             $manager->persist($user);
         }
@@ -129,7 +132,7 @@ class AppFixtures extends Fixture
         $manager->persist($ps4, $switch, $one, $pc);
 
         // Création des articles
-        for ($i = 1; $i <= 15; $i++) {
+        for ($i = 1; $i <= 30; $i++) {
             $article = new Article();
 
             $title = $faker->sentence(5);

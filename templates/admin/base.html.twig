@@ -15,17 +15,11 @@
         {% endblock %}     
     </head>
     <body>
-        {% include 'partials/header.html.twig' %}
-
-        <!-- Bloc d'accueil : Message de bienvenue -->
-        <div class="container text-center py-2 blue-grey lighten-5 shadow-lg">
-            <h1 class="h6 mb-0">Bienvenue sur la Taverne du JV ! La Taverne du JV : le site sur l'actualité du jeu vidéo sur consoles et PC.</h1>
-            <span>Retrouvez l'actualité des jeux vidéo grâce à nos <a href="#">news</a>, <a href="#">tests</a>, <a href="#">previews</a>. Rejoignez notre communauté et participez aux <a href="#">forums</a> !</span>
-        </div>
+        {% include 'admin/partials/header.html.twig' %}
         
         {% block body %}{% endblock %}
 
-        {% include 'partials/footer.html.twig' %}
+        {% include 'admin/partials/footer.html.twig' %}
         
         {% block javascripts %}
             <!-- JQuery -->

@@ -6,7 +6,7 @@
 
 {% block body %}
 
-    <div class="container white pb-3">
+    <div class="container white pb-3 shadow-lg">
 
         {% include 'partials/alert.html.twig' %}
 
@@ -20,6 +20,11 @@
                         <span class="{{ subcategory.style }}">{{ subcategory.title }}</span>
                     {% endfor %}
                     {{ article.title }}  
+                    {% if app.user and app.user == article.author %}
+                        <a href="{{ path('article_edit', {'slug': article.slug}) }}" class="text-white float-right" title="Modifier l'article">
+                            <i class="fas fa-edit"></i>
+                        </a>
+                    {% endif %}
                 </h2>
 
                 <img src="{{ article.coverimage }}" alt="Image de {{ article.title }}" class="img-fluid">

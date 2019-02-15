@@ -6,12 +6,17 @@
 
 {% block body %}
 
-    <div class="container py-3 white">
+    <div class="container py-3 white shadow-lg">
 
         {% set forum = topic.forum %}
-        <a class="btn btn-primary text-light mb-3" href="{{ path('forum_show', {'slug': forum.slug}) }}">Retour sur le forum</a>
-
-        <h3 class="card-header text-white {{ forum.platformStyle }}"><i class="{{ forum.platformLogo }}"></i> {{ topic.title }}</h3>
+        <h3 class="card-header text-white {{ forum.platformStyle }}">
+            <a href="{{ path('forum_show', {'slug': forum.slug}) }}" title="Retour sur le forum {{ forum.title }}">
+                <i class="fas fa-arrow-circle-left text-white"></i>
+            </a>
+            |
+            <i class="{{ forum.platformLogo }}"></i> 
+            {{ topic.title }}
+        </h3>
 
         {# Affichage du commentaire de l'auteur d'un topic #}
         <div class="card my-3">
@@ -19,11 +24,7 @@
             <div class="card-body">
                 <div class="row">
                     <div class="col-2 text-center border-right">
-                        {% if topic.user.picture is empty %}
-                            <img src="http://image.jeuxvideo.com/avatar-md/default.jpg" alt="Image de profil par défaut" class="avatar"> 
-                        {% else %}
-                            <img src="{{ topic.user.picture }}" alt="Avatar de {{  topic.user.username }}" class="avatar">
-                        {% endif %}
+                        <img src="{{ topic.user.picture }}" alt="Avatar de {{  topic.user.username }}" class="avatar">
 
                         <div class="col">
                             {%  if topic.user.getRoles()[0] == 'ROLE_ADMIN' %}

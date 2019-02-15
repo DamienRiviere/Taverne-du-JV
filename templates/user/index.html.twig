@@ -6,14 +6,10 @@
 
 {% block body %}
 
-    <div class="container white">
+    <div class="container white shadow-lg">
         <div class="row align-items-center pt-3 pb-3">
             <div class="col-3 text-center">
-                {% if user.picture == null %}
-                    <img src="http://image.jeuxvideo.com/avatar-md/default.jpg" alt="Image de profil par défaut" class="avatar mb-3"> 
-                {% else %}
-                    <img src="{{ user.picture }}" class="avatar mb-3" alt="Avatar de {{ user.username }}">
-                {% endif %}  
+                <img src="{{ user.picture }}" class="avatar mb-3" alt="Avatar de {{ user.username }}">
                 <br>
                 {%  if user.getRoles()[0] == 'ROLE_ADMIN' %}
                     <span class="badge badge-danger">
@@ -80,35 +76,72 @@
                     {% endif %}
                 </div>
             </div>
+            
             <div class="col-6">
-                <div class="row">
+                <div class="row"> 
+                    <div class="col">
 
-                    <div class="card bg-primary text-white text-center mr-3">
-                        <div class="card-body">
-                            <div class="row">
-                                <div class="col-4">
-                                    <i class="far fa-newspaper fa-4x"></i>
-                                </div>
-                                <div class="col-8">
-                                    <h4>{{ user.articles  | length }} articles</h4>
+                        <div class="card bg-primary text-white text-center mr-3">
+                            <div class="card-body">
+                                <div class="row align-items-center">
+                                    <div class="col-4">
+                                        <i class="far fa-newspaper fa-3x"></i>
+                                    </div>
+                                    <div class="col-8">
+                                        <h6>{{ user.articles  | length }} articles</h6>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
 
-                    <div class="card orange accent-3 text-white text-center">
-                        <div class="card-body">
-                            <div class="row">
-                                <div class="col-4">
-                                    <i class="fas fa-comments fa-4x"></i>
-                                </div>
-                                <div class="col-8">
-                                    <h4>{{ user.commentArticle  | length }} messages</h4>
+                        <hr>
+
+                        <div class="card primary-color-dark text-white text-center mr-3">
+                            <div class="card-body">
+                                <div class="row align-items-center">
+                                    <div class="col-4">
+                                        <i class="far fa-newspaper fa-3x"></i>
+                                    </div>
+                                    <div class="col-8">
+                                        <h6>{{ user.topics  | length }} topics</h6>
+                                    </div>
                                 </div>
                             </div>
                         </div>
+                        
                     </div>
+                
+                    <div class="col">
 
+                        <div class="card orange accent-3 text-white text-center">
+                            <div class="card-body">
+                                <div class="row align-items-center">
+                                    <div class="col-4">
+                                        <i class="fas fa-comments fa-3x"></i>
+                                    </div>
+                                    <div class="col-8">
+                                        <h6>{{ user.commentArticle  | length }} messages dans les articles</h6>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <hr>
+
+                        <div class="card red text-white text-center">
+                            <div class="card-body">
+                                <div class="row align-items-center">
+                                    <div class="col-4">
+                                        <i class="fas fa-comments fa-3x"></i>
+                                    </div>
+                                    <div class="col-8">
+                                        <h6>{{ user.commentTopics | length }} messages dans les forums</h6>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
                 </div>
             </div>
         </div>
