@@ -44,6 +44,9 @@
                             {% if app.user and app.user == comment.getUser() %}
                                 <a href="{{ path('comment_topic_edit', {'id': comment.id}) }}" class="text-primary ml-2" title="Modifier le commentaire"><i class="fas fa-edit"></i></a>
                             {% endif %}
+                            {% if comment.moderation.statut == "Commentaire publié" and app.user and app.user != comment.getUser() %}
+                                <a href="{{ path('moderation_signal_comment_topic', {'id': comment.id}) }}" class="text-primary" title="Signaler le commentaire"><i class="fas fa-exclamation-circle"></i></a>
+                            {% endif %}
                         </h6>       
                     </div> 
                 </div>

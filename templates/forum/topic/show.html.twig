@@ -70,7 +70,12 @@
 
         {# Affichage d'un commentaire d'un topic #}
         {% for comment in topic.commentTopic %}
-            {% include 'partials/comment_topic/comment.html.twig' %}
+
+            {# Affichage des commentaires qui sont un statut "publié" ou "signalé" #}
+            {% if comment.moderation.statut == "Commentaire publié" or comment.moderation.statut == "Commentaire signalé" %}
+                {% include 'partials/comment_topic/comment.html.twig' %}
+            {% endif %}
+
         {% endfor %}
 
         {% include 'partials/alert.html.twig' %}

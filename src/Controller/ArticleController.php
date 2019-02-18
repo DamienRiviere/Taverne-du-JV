@@ -7,6 +7,7 @@ use App\Form\ArticleType;
 use App\Entity\CommentArticle;
 use App\Form\CommentArticleType;
 use App\Repository\ArticleRepository;
+use App\Repository\ModerationRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
@@ -141,7 +142,7 @@ class ArticleController extends AbstractController
      * 
      * @return Response
      */
-    public function show(Article $article, Request $request, EntityManagerInterface $manager) {
+    public function show(Article $article, Request $request, EntityManagerInterface $manager, ModerationRepository $repo) {
 
         $comment = new CommentArticle();
 
@@ -154,7 +155,10 @@ class ArticleController extends AbstractController
         if($form->isSubmitted() && $form->isValid())
         {
             $comment->setUser($user);
-            $comment->setArticle($article);
+            $comment->setArticle($article)
+                    ->setModeration($repo->findOneBy([
+                        'statut' => 'Commentaire publié'
+                    ]));
 
             $manager->persist($comment);
             $manager->flush();
@@ -170,6 +174,5 @@ class ArticleController extends AbstractController
             'form' => $form->createView()
         ]);
     }
-
-    
+ 
 }

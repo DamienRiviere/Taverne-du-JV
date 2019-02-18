@@ -20,6 +20,9 @@
 {# Affichage des commentaires #}
 {% for comment in article.commentArticle | reverse %}
 
-    {% include 'partials/comment_article/comment.html.twig' %}
+    {# Affichage des commentaires qui sont un statut "publié" ou "signalé" #}
+    {% if comment.moderation.statut == "Commentaire publié" or comment.moderation.statut == "Commentaire signalé" %}
+        {% include 'partials/comment_article/comment.html.twig' %}
+    {% endif %}
     
 {% endfor %}

@@ -1,0 +1,74 @@
+{# Page de gestion des topics #}
+
+{% extends 'admin/base.html.twig' %}
+
+{% block title %}Administration des topics{% endblock %}
+
+{% block body %}
+
+<div class="container-fluid">
+    <h2 class="my-4">Gestion des topics</h2>
+
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Titre</th>
+                <th>Auteur</th>
+                <th>Message</th>
+                <th>Forum</th>
+                <th>Commentaire</th>
+                <th>Date de création</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            {% for topic in topics | reverse %}
+            {% set user = topic.user %}
+            {% set forum = topic.forum %}
+            <tr>
+                <td><strong>{{ topic.id }}</strong></td>
+                <td><strong>{{ topic.title }}</strong></td>
+                <td>
+                    <img src="{{ user.picture }}" alt="Avatar de {{ user.username }}" class="avatar avatar-micro mr-2">
+                    <strong>{{ user.username }}</strong>
+                </td>
+                <td>{{ topic.message | raw | slice(3, 50) }}</td>
+                <td>
+                    <h6>
+                {% if forum.platformTitle == "Playstation" %}
+                    <span class="badge {{ forum.platformStyle }}">{{ forum.title }}</span>
+                {% elseif forum.platformTitle == "Nintendo" %}
+                    <span class="badge {{ forum.platformStyle }}">{{ forum.title }}</span>
+                {% elseif forum.platformTitle == "Xbox" %}
+                    <span class="badge {{ forum.platformStyle }}">{{ forum.title }}</span>
+                {% elseif forum.platformTitle == "PC" %}
+                    <span class="badge {{ forum.platformStyle }}">{{ forum.title }}</span>
+                {% endif %}
+                    </h6>
+                </td>
+                <td>
+                    <h6>
+                        <span class="badge orange accent-3">{{ topic.commentTopic | length }} commentaires</span>
+                    </h6>
+                </td>
+                <td>{{ topic.createdAt | date('d/m/Y') }} à {{ topic.createdAt | date('H:i') }}</td>
+                <td>
+                    <a href="#" class="btn btn-md btn-primary" title="Modifier le topic">
+                        <i class="fas fa-edit"></i>
+                    </a>
+                    <a href="#" class="btn btn-md orange accent-3" title="Voir les commentaires">
+                        <i class="fas fa-comments text-white"></i>
+                    </a>
+                    <a href="#" class="btn btn-md btn-danger" title="Supprimer le topic">
+                        <i class="fas fa-trash"></i>
+                    </a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+{% endblock %}

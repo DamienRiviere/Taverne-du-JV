@@ -9,6 +9,7 @@ use App\Entity\Forum;
 use App\Entity\Topic;
 use App\Entity\Article;
 use App\Entity\Category;
+use App\Entity\Moderation;
 use App\Entity\SubCategory;
 use App\Entity\CommentTopic;
 use App\Entity\CommentArticle;
@@ -131,6 +132,21 @@ class AppFixtures extends Fixture
 
         $manager->persist($ps4, $switch, $one, $pc);
 
+        $comPublier = new Moderation();
+        $comPublier->setStatut('Commentaire publié');
+
+        $manager->persist($comPublier);
+
+        $comSignaler = new Moderation();
+        $comSignaler->setStatut('Commentaire signalé');
+
+        $manager->persist($comSignaler);
+
+        $comModerer = new Moderation();
+        $comModerer->setStatut('Commentaire modéré');
+
+        $manager->persist($comModerer);
+
         // Création des articles
         for ($i = 1; $i <= 30; $i++) {
             $article = new Article();
@@ -153,7 +169,8 @@ class AppFixtures extends Fixture
                 $commentArticle = new CommentArticle();
                 $commentArticle->setContent('<p>' . join('</p><p>', $faker->paragraphs(1)) . '</p>')
                                ->setUser($damien)
-                               ->setArticle($article);
+                               ->setArticle($article)
+                               ->setModeration($comPublier);
                 $manager->persist($commentArticle);
             }
 

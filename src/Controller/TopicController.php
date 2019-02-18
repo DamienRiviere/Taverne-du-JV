@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Topic;
 use App\Entity\CommentTopic;
 use App\Form\CommentTopicType;
+use App\Repository\ModerationRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
@@ -17,7 +18,7 @@ class TopicController extends AbstractController
      * 
      * @Route("/forum/{slugForum}/{id}/{slugTopic}", name="topic_show")
      */
-    public function show(Topic $topic, Request $request, EntityManagerInterface $manager)
+    public function show(Topic $topic, Request $request, EntityManagerInterface $manager, ModerationRepository $repo)
     {
         $comment = new CommentTopic();
 
@@ -30,7 +31,10 @@ class TopicController extends AbstractController
         if($form->isSubmitted() && $form->isValid())
         {
             $comment->setUser($user)
-                    ->setTopic($topic);
+                    ->setTopic($topic)
+                    ->setModeration($repo->findOneBy([
+                        'statut' => 'Commentaire publié'
+                    ]));
 
             $manager->persist($comment);
             $manager->flush();

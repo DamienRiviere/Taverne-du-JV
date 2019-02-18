@@ -3,8 +3,9 @@
 namespace App\Repository;
 
 use App\Entity\CommentTopic;
-use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bridge\Doctrine\RegistryInterface;
+use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 
 /**
  * @method CommentTopic|null find($id, $lockMode = null, $lockVersion = null)
@@ -14,37 +15,42 @@ use Symfony\Bridge\Doctrine\RegistryInterface;
  */
 class CommentTopicRepository extends ServiceEntityRepository
 {
-    public function __construct(RegistryInterface $registry)
+    private $em;
+
+    public function __construct(RegistryInterface $registry, EntityManagerInterface $em)
     {
         parent::__construct($registry, CommentTopic::class);
+        $this->em = $em;
     }
 
-    // /**
-    //  * @return CommentTopic[] Returns an array of CommentTopic objects
-    //  */
-    /*
-    public function findByExampleField($value)
+    /**
+     * Permet de récupérer les commentaires de topic signalés
+     *
+     * @return Query
+     */
+    public function findSignalComment()
     {
-        return $this->createQueryBuilder('c')
-            ->andWhere('c.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('c.id', 'ASC')
-            ->setMaxResults(10)
-            ->getQuery()
-            ->getResult()
-        ;
-    }
-    */
+        $query = $this->em->createQuery(
+            '
+            SELECT
+                c, m
+            FROM
+                App\Entity\CommentTopic c
+            JOIN
+                c.moderation m
+            WHERE
+                m.statut = :statut
+            ORDER BY
+                c.createdAt DESC
+            '
+        );
 
-    /*
-    public function findOneBySomeField($value): ?CommentTopic
-    {
-        return $this->createQueryBuilder('c')
-            ->andWhere('c.exampleField = :val')
-            ->setParameter('val', $value)
-            ->getQuery()
-            ->getOneOrNullResult()
-        ;
+        $query->setParameters(array(
+            'statut' => 'Commentaire signalé'
+        ));
+
+        return $query->getResult();
     }
-    */
+
+    
 }

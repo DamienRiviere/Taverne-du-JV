@@ -9,7 +9,10 @@
                 <small class="text-white">le {{ comment.createdAt | date('d/m/Y') }} à {{ comment.createdAt | date('H:i') }}</small>
             </div>
             {% if app.user and app.user == comment.getUser() %}
-                <a href="{{ path('comment_article_edit', {'id': comment.id}) }}" class="text-white" title="Modifier le commentaire"><i class="fas fa-edit"></i></a>
+                <a href="{{ path('comment_article_edit', {'id': comment.id}) }}" class="text-white mr-2" title="Modifier le commentaire"><i class="fas fa-edit"></i></a>
+            {% endif %}
+            {% if comment.moderation.statut == "Commentaire publié" and app.user and app.user != comment.getUser() %}
+                <a href="{{ path('moderation_signal_comment_article', {'id': comment.id}) }}" class="text-white" title="Signaler le commentaire"><i class="fas fa-exclamation-circle"></i></a>
             {% endif %}
         </div> 
     </div>

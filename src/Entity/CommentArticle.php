@@ -45,6 +45,12 @@ class CommentArticle
     private $article;
 
     /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Moderation", inversedBy="commentArticle")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $moderation;
+
+    /**
      * Permet d'initialiser la date de création du commentaire
      * ou de la date de modification du commentaire s'il y a déjà une date de création
      *
@@ -125,6 +131,18 @@ class CommentArticle
     public function setArticle(?Article $article): self
     {
         $this->article = $article;
+
+        return $this;
+    }
+
+    public function getModeration(): ?Moderation
+    {
+        return $this->moderation;
+    }
+
+    public function setModeration(?Moderation $moderation): self
+    {
+        $this->moderation = $moderation;
 
         return $this;
     }

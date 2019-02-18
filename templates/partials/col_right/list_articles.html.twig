@@ -14,7 +14,7 @@
             <a href="{{ path('article_show', {'slug': article.slug}) }}">{{ article.title }}</a>
         </h3>
         <p class="mb-2 text-justify">{{ article.introduction | raw }}</p>
-        <small class="card-text float-left text-muted clearfix">{{ article.commentArticle |length }} commentaires</small>
+        <small class="card-text float-left text-muted clearfix">{{ article.commentArticle | length }} commentaires</small>
         <small class="card-text float-right text-muted clearfix">
             {% for subcategory in article.subcategories %}                               
                 <span class="{{ subcategory.style }}">{{ subcategory.title }}</span> 
