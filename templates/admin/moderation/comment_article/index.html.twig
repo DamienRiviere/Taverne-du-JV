@@ -49,6 +49,12 @@
             {% endfor %}
         </tbody>
     </table>
+
+    <!-- Pagination -->
+    <div class="my-3 pagination justify-content-center">
+        {{ knp_pagination_render(comments) }}
+    </div>
+
 </div>
 
 {% endblock %}

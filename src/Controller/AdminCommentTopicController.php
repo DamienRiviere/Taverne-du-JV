@@ -17,10 +17,10 @@ class AdminCommentTopicController extends AbstractController
      * 
      * @Route("/admin/moderation/comment-topic", name="admin_comment_topic_index")
      */
-    public function index(CommentTopicRepository $repo)
+    public function index(CommentTopicRepository $repo, Request $request)
     {
         return $this->render('admin/moderation/comment_topic/index.html.twig', [
-            'comments' => $repo->findSignalComment()
+            'comments' => $repo->findSignalComment($request)
         ]);
     }
 

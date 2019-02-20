@@ -17,10 +17,10 @@ class AdminUserController extends AbstractController
      * 
      * @Route("/admin/users", name="admin_users_index")
      */
-    public function index(UserRepository $repo)
+    public function index(UserRepository $repo, Request $request)
     {
         return $this->render('admin/user/index.html.twig', [
-            'users' => $repo->findAll()
+            'users' => $repo->findAllUsers($request)
         ]);
     }
 
@@ -68,6 +68,11 @@ class AdminUserController extends AbstractController
     {
         $manager->remove($user);
         $manager->flush();
+
+        $this->addFlash(
+            'red',
+            "L'utilisateur a bien été supprimer !"
+        );
 
         return $this->redirectToRoute('admin_users_index');
     }

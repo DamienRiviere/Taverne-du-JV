@@ -8,6 +8,7 @@ use App\Entity\CommentArticle;
 use App\Form\CommentArticleType;
 use App\Repository\ArticleRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use App\Repository\CommentArticleRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -19,10 +20,10 @@ class AdminArticleController extends AbstractController
      * 
      * @Route("/admin/articles", name="admin_articles_index")
      */
-    public function index(ArticleRepository $repo)
+    public function index(ArticleRepository $repo, Request $request)
     {
         return $this->render('admin/article/index.html.twig', [
-            'articles' => $repo->findAll()
+            'articles' => $repo->returnAllArticle($request)
         ]);
     }
 
@@ -72,6 +73,11 @@ class AdminArticleController extends AbstractController
         $manager->remove($article);
         $manager->flush();
 
+        $this->addFlash(
+            'red',
+            "L'article a bien été supprimer !"
+        );
+
         return $this->redirectToRoute('admin_articles_index');
     }
 
@@ -80,13 +86,14 @@ class AdminArticleController extends AbstractController
      * 
      * @Route("/admin/articles/{id}/comments", name="admin_articles_comments")
      *
-     * @param Article $article
+     * @param CommentArticleRepository $repo
+     * 
      * @return Response
      */
-    public function showComments(Article $article)
+    public function showComments(CommentArticleRepository $repo, Request $request, $id)
     {
         return $this->render('admin/article/comment/show.html.twig', [
-            'article' => $article
+            'comments' => $repo->findAllCommentsByArticle($request, $id)
         ]);
     }
 
@@ -99,7 +106,7 @@ class AdminArticleController extends AbstractController
      * @param Request $request
      * @param EntityManagerInterface $manager
      * 
-     * @return Reponse
+     * @return Response
      */
     public function editComment(CommentArticle $idComment, Request $request, EntityManagerInterface $manager)
     {
@@ -111,9 +118,14 @@ class AdminArticleController extends AbstractController
         {
             $manager->persist($idComment);
             $manager->flush();
+
+            $this->addFlash(
+                'green lighten-1',
+                "Le commentaire a bien été modifié !"
+            );
         }
 
-        return $this->render('/admin/article/comment/edit.html.twig', [
+        return $this->render('admin/article/comment/edit.html.twig', [
             'comment' => $idComment,
             'form' => $form->createView()
         ]);
@@ -131,6 +143,11 @@ class AdminArticleController extends AbstractController
     {
         $manager->remove($idComment);
         $manager->flush();
+
+        $this->addFlash(
+            'red',
+            "Le commentaire a bien été supprimer !"
+        );
 
         return $this->redirectToRoute('admin_articles_comments', ['id' => $idComment->getArticle()->getId()]);
     }

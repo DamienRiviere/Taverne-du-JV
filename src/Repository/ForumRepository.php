@@ -24,22 +24,14 @@ class ForumRepository extends ServiceEntityRepository
     }
 
     /**
-     * Permet de récupérer les forums Nintendo suivant le type de plateforme (Console de salon ou portable)
+     * Permet de récupérer les forums suivant le type de plateforme (Console de salon ou portable)
      *
      * @return Query
      */
     public function findForumByPlatformType($platformTitle, $platformType)
     {
         $query = $this->em->createQuery(
-            '
-            SELECT
-                f
-            FROM App\Entity\Forum f
-            WHERE
-                f.platform_title = :title
-            AND
-                f.platform_type = :type
-            '
+            'SELECT f FROM App\Entity\Forum f WHERE f.platform_title = :title AND f.platform_type = :type'
         );
 
         $query->setParameters(array(

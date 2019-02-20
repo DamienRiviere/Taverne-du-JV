@@ -13,6 +13,11 @@
                 <h2 class="card-header orange accent-3 text-white mt-3 mb-3 h3 font-weight-light"><i class="fas fa-angle-down"></i> Tous les tests</h2>
 
                 {% include 'partials/col_right/list_articles.html.twig' %}
+
+                <!-- Pagination -->
+                <div class="my-3 pagination justify-content-center">
+                    {{ knp_pagination_render(articles) }}
+                </div>
             </div>
 
             <div class="col-4">

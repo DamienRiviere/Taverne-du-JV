@@ -9,6 +9,8 @@
 <div class="container-fluid">
     <h2 class="my-4">Gestion des topics</h2>
 
+    {% include('partials/alert.html.twig') %}
+
     <table class="table table-hover">
         <thead>
             <tr>
@@ -24,12 +26,12 @@
         </thead>
 
         <tbody>
-            {% for topic in topics | reverse %}
+            {% for topic in topics %}
             {% set user = topic.user %}
             {% set forum = topic.forum %}
             <tr>
                 <td><strong>{{ topic.id }}</strong></td>
-                <td><strong>{{ topic.title }}</strong></td>
+                <td class="font-weight-bold">{{ topic.title }}</td>
                 <td>
                     <img src="{{ user.picture }}" alt="Avatar de {{ user.username }}" class="avatar avatar-micro mr-2">
                     <strong>{{ user.username }}</strong>
@@ -37,15 +39,15 @@
                 <td>{{ topic.message | raw | slice(3, 50) }}</td>
                 <td>
                     <h6>
-                {% if forum.platformTitle == "Playstation" %}
-                    <span class="badge {{ forum.platformStyle }}">{{ forum.title }}</span>
-                {% elseif forum.platformTitle == "Nintendo" %}
-                    <span class="badge {{ forum.platformStyle }}">{{ forum.title }}</span>
-                {% elseif forum.platformTitle == "Xbox" %}
-                    <span class="badge {{ forum.platformStyle }}">{{ forum.title }}</span>
-                {% elseif forum.platformTitle == "PC" %}
-                    <span class="badge {{ forum.platformStyle }}">{{ forum.title }}</span>
-                {% endif %}
+                        {% if forum.platformTitle == "Playstation" %}
+                            <span class="badge {{ forum.platformStyle }}">{{ forum.title }}</span>
+                        {% elseif forum.platformTitle == "Nintendo" %}
+                            <span class="badge {{ forum.platformStyle }}">{{ forum.title }}</span>
+                        {% elseif forum.platformTitle == "Xbox" %}
+                            <span class="badge {{ forum.platformStyle }}">{{ forum.title }}</span>
+                        {% elseif forum.platformTitle == "PC" %}
+                            <span class="badge {{ forum.platformStyle }}">{{ forum.title }}</span>
+                        {% endif %}
                     </h6>
                 </td>
                 <td>
@@ -55,13 +57,13 @@
                 </td>
                 <td>{{ topic.createdAt | date('d/m/Y') }} à {{ topic.createdAt | date('H:i') }}</td>
                 <td>
-                    <a href="#" class="btn btn-md btn-primary" title="Modifier le topic">
+                    <a href="{{ path('admin_topics_edit', {'id': topic.id}) }}" class="btn btn-md btn-primary" title="Modifier le topic">
                         <i class="fas fa-edit"></i>
                     </a>
-                    <a href="#" class="btn btn-md orange accent-3" title="Voir les commentaires">
+                    <a href="{{ path('admin_topics_comments', {'id': topic.id}) }}" class="btn btn-md orange accent-3" title="Voir les commentaires">
                         <i class="fas fa-comments text-white"></i>
                     </a>
-                    <a href="#" class="btn btn-md btn-danger" title="Supprimer le topic">
+                    <a href="{{ path('admin_topics_delete', {'id': topic.id}) }}" class="btn btn-md btn-danger" title="Supprimer le topic">
                         <i class="fas fa-trash"></i>
                     </a>
                 </td>
@@ -69,6 +71,12 @@
             {% endfor %}
         </tbody>
     </table>
+
+    <!-- Pagination -->
+    <div class="my-3 pagination justify-content-center">
+        {{ knp_pagination_render(topics) }}
+    </div>
+
 </div>
 
 {% endblock %}

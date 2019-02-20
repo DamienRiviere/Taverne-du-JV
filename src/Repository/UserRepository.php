@@ -3,8 +3,10 @@
 namespace App\Repository;
 
 use App\Entity\User;
-use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bridge\Doctrine\RegistryInterface;
+use Symfony\Component\DependencyInjection\ContainerInterface;
+use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 
 /**
  * @method User|null find($id, $lockMode = null, $lockVersion = null)
@@ -14,37 +16,41 @@ use Symfony\Bridge\Doctrine\RegistryInterface;
  */
 class UserRepository extends ServiceEntityRepository
 {
-    public function __construct(RegistryInterface $registry)
+    private $manager;
+    private $container;
+
+    public function __construct(RegistryInterface $registry, EntityManagerInterface $manager, ContainerInterface $container)
     {
         parent::__construct($registry, User::class);
+        $this->manager = $manager;
+        $this->container = $container;
     }
 
-    // /**
-    //  * @return User[] Returns an array of User objects
-    //  */
-    /*
-    public function findByExampleField($value)
-    {
-        return $this->createQueryBuilder('u')
-            ->andWhere('u.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('u.id', 'ASC')
-            ->setMaxResults(10)
-            ->getQuery()
-            ->getResult()
-        ;
-    }
-    */
+    /**
+     * Permet de récupérer tout les utilisateurs
+     *
+     * @param [type] $request
+     * 
+     * @return Query
+     */
+    public function findAllUsers($request) {
+        $query = $this->manager->createQuery(
+            '
+            SELECT
+                u
+            FROM
+                App\Entity\User u
+            '
+        );
 
-    /*
-    public function findOneBySomeField($value): ?User
-    {
-        return $this->createQueryBuilder('u')
-            ->andWhere('u.exampleField = :val')
-            ->setParameter('val', $value)
-            ->getQuery()
-            ->getOneOrNullResult()
-        ;
+        $pagenator = $this->container->get('knp_paginator');
+        $results = $pagenator->paginate(
+            $query,
+            $request->query->getInt('page', 1),
+            $request->query->getInt('limit', 10)
+        );
+
+        return ($results);
     }
-    */
+    
 }

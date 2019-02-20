@@ -1,0 +1,127 @@
+{# Page du dashboard #}
+
+{% extends 'admin/base.html.twig' %}
+
+{% block title %}Tableau de bord{% endblock %}
+
+{% block body %}
+
+<div class="container my-4">
+
+    <h2 class="my-4">Utilisateurs</h2>
+
+    <div class="row">
+        <div class="col">
+            <div class="card bg-success text-white text-center">
+                <div class="card-body">
+                    <div class="row align-items-center">
+                        <div class="col-4">
+                            <i class="fas fa-users fa-4x"></i>
+                        </div>
+                        <div class="col-8">
+                            <h6>{{ stats.users }} utilisateurs</h6>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <h2 class="my-4">Articles</h2>
+
+    <div class="row">
+        <div class="col">
+            <div class="card bg-primary text-white text-center">
+                <div class="card-body">
+                    <div class="row align-items-center">
+                        <div class="col-4">
+                            <i class="far fa-newspaper fa-4x"></i>
+                        </div>
+                        <div class="col-8">
+                            <h6>{{ stats.articles }} articles</h6>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col">
+            <div class="card orange accent-3 text-white text-center">
+                <div class="card-body">
+                    <div class="row align-items-center">
+                        <div class="col-4">
+                            <i class="fas fa-comments fa-4x"></i>
+                        </div>
+                        <div class="col-8">
+                            <h6>{{ stats.commentsArticle }} commentaires dans les articles</h6>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col">
+            <div class="card red text-white text-center">
+                <div class="card-body">
+                    <div class="row align-items-center">
+                        <div class="col-4">
+                            <i class="fas fa-exclamation-circle fa-4x"></i>
+                        </div>
+                        <div class="col-8">
+                            <h6>{{ stats.commentsArticleSignal | length}} commentaires signalés dans les articles</h6>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <hr>
+
+    <h2 class="my-4">Forums</h2>
+
+    <div class="row">
+        <div class="col">
+            <div class="card primary-color-dark text-white text-center">
+                <div class="card-body">
+                    <div class="row align-items-center">
+                        <div class="col-4">
+                            <i class="far fa-newspaper fa-4x"></i>
+                        </div>
+                        <div class="col-8">
+                            <h6>{{ stats.topics }} topics</h6>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col">
+            <div class="card orange accent-4 text-white text-center">
+                <div class="card-body">
+                    <div class="row align-items-center">
+                        <div class="col-4">
+                            <i class="fas fa-comments fa-4x"></i>
+                        </div>
+                        <div class="col-8">
+                            <h6>{{ stats.commentsTopic }} messages dans les forums</h6>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col">
+            <div class="card red darken-1 text-white text-center">
+                <div class="card-body">
+                    <div class="row align-items-center">
+                        <div class="col-4">
+                            <i class="fas fa-exclamation-circle fa-4x"></i>
+                        </div>
+                        <div class="col-8">
+                            <h6>{{ stats.commentsTopicSignal | length }} commentaires signalés dans les forums</h6>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

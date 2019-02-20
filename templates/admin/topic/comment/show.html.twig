@@ -1,4 +1,4 @@
-{# Page de détails d'un commentaire d'un article #}
+{# Page de détails d'un commentaire d'un topic #}
 
 {% extends 'admin/base.html.twig' %}
 
@@ -8,7 +8,7 @@
 
 <div class="container-fluid">
     <h2 class="my-4">
-        <a href="{{ path('admin_articles_index') }}" class="mr-2" title="Retour à la liste des articles">
+        <a href="{{ path('admin_topics_index') }}" class="mr-2" title="Retour à la liste des topics">
             <i class="fas fa-arrow-circle-left"></i>
         </a>
         Liste des commentaires
@@ -21,10 +21,10 @@
             <tr>
                 <th>Id</th>
                 <th>Auteur</th>
+                <th>Topic</th>
                 <th>Commentaire</th>
-                <th>Article</th>
                 <th>Date de création</th>
-                <th>Statut</th>
+                <th>Statut</th>              
                 <th>Action</th>
             </tr>
         </thead>
@@ -32,14 +32,15 @@
         <tbody>
             {% for comment in comments %}
             {% set user = comment.user %}
+            {% set topic = comment.topic %}
             <tr>
                 <td><strong>{{ comment.id }}</strong></td>
                 <td>
                     <img src="{{ user.picture }}" alt="Avatar de {{ user.username }}" class="avatar avatar-micro mr-2">
                     <strong>{{ user.username }}</strong>
                 </td>
-                <td>{{ comment.content | raw | slice(3, 80) }} ...</td>
-                <td class="font-weight-bold">{{ comment.article.title }}</td>
+                <td class="font-weight-bold">{{ topic.title }}</td>
+                <td>{{ comment.content | raw | slice(0, 80) }} ...</td>
                 <td>{{ comment.createdAt | date('d/m/Y') }} à {{ comment.createdAt | date('H:i') }}</td>
                     {% if comment.moderation.statut == "Commentaire publié" %}
                         <td class="font-weight-bold text-success">{{ comment.moderation.statut }}</td>
@@ -49,10 +50,10 @@
                         <td class="font-weight-bold text-warning">{{ comment.moderation.statut }}</td>
                     {% endif %}
                 <td>
-                    <a href="{{ path('admin_articles_comments_edit', {'idArticle': comment.article.id, 'idComment': comment.id}) }}" class="btn btn-md btn-primary" title="Modifier le commentaire">
+                    <a href="{{ path('admin_topics_comments_edit', {'idTopic': topic.id, 'idComment': comment.id}) }}" class="btn btn-md btn-primary" title="Modifier le commentaire">
                         <i class="fas fa-edit"></i>
                     </a>
-                    <a href="{{ path('admin_articles_comments_delete', {'idArticle': comment.article.id, 'idComment': comment.id}) }}" class="btn btn-md btn-danger" title="Supprimer le commentaire">
+                    <a href="{{ path('admin_topics_comments_delete', {'idTopic': topic.id, 'idComment': comment.id}) }}" class="btn btn-md btn-danger" title="Supprimer le commentaire">
                         <i class="fas fa-trash"></i>
                     </a>
                 </td>

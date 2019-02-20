@@ -1,0 +1,47 @@
+{# Page d'édition d'un topic #}
+
+{% extends 'admin/base.html.twig' %}
+
+{% block title %}Modification du topic numéro {{ topic.id }}{% endblock %}
+
+{% block body %}
+
+<div class="container-fluid">
+    <h2 class="my-4">
+        <a href="{{ path('admin_topics_index') }}" class="mr-2" title="Retour à la liste des topics">
+            <i class="fas fa-arrow-circle-left"></i>
+        </a>
+        Modification du topic numéro {{ topic.id }}
+    </h2>
+
+    <div class="mb-3">
+        {% include 'partials/alert.html.twig' %}
+    </div>
+
+    <!-- Formulaire de création d'un topic -->
+    <div class="row">
+        <div class="col-7">
+            <div class="alert blue-grey lighten-5">
+                <h2>{{ topic.title }} par {{ topic.user.username }}</h2>
+
+                {{ form_start(form) }}
+
+                {{ form_widget(form) }}
+
+                <button type="submit" class="btn btn-success btn-block mb-3">Modifier le topic</button>
+
+                {{ form_end(form)}}
+            </div> 
+        </div>
+
+        {# Auteur de l'article #}
+        {% set user = topic.user %}
+        <div class="col-5">
+            {% include 'admin/partials/author.html.twig' %}
+        </div>
+            
+    </div>
+    
+</div>
+
+{% endblock %}

@@ -103,9 +103,9 @@ class ArticleController extends AbstractController
      * 
      * @return Response
      */
-    public function news() {
+    public function news(Request $request) {
         return $this->render('article/category/news.html.twig', [
-            'articles' => $this->repo->returnNews()
+            'articles' => $this->repo->returnNews($request)
         ]);
     }
 
@@ -116,9 +116,9 @@ class ArticleController extends AbstractController
      *
      * @return Response
      */
-    public function preview() {
+    public function preview(Request $request) {
         return $this->render('article/category/preview.html.twig', [
-            'articles' => $this->repo->returnPreview()
+            'articles' => $this->repo->returnPreview($request)
         ]);
     }
 
@@ -129,9 +129,9 @@ class ArticleController extends AbstractController
      * 
      * @return Response
      */
-    public function test() {
+    public function test(Request $request) {
         return $this->render('article/category/test.html.twig', [
-            'articles' => $this->repo->returnTest()
+            'articles' => $this->repo->returnTest($request)
         ]);
     }
 
