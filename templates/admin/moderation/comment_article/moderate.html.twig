@@ -1,13 +1,18 @@
-{# Page de gestion des commentaires signalés des topics #}
+{# Page de gestion des commentaires modérés des articles #}
 
 {% extends 'admin/base.html.twig' %}
 
-{% block title %}Gestion des commentaires de topic signalés{% endblock %}
+{% block title %}Gestion des commentaires modérés d'article{% endblock %}
 
 {% block body %}
 
 <div class="container-fluid">
-    <h2 class="my-4">Gestion des commentaires de topic signalés <a href="{{ path('admin_comment_topic_moderate') }}">(Voir les commentaires modérés)</a></h2>
+    <h2 class="my-4">
+        <a href="{{ path('admin_comment_article_index') }}" class="mr-2" title="Retour à la liste des commentaires">
+            <i class="fas fa-arrow-circle-left"></i>
+        </a>
+        Gestion des commentaires modérés d'article
+    </h2>
 
     {% include 'partials/alert.html.twig' %}
 
@@ -17,8 +22,7 @@
                 <th>Id</th>
                 <th>Auteur</th>
                 <th>Commentaire</th>
-                <th>Topic</th>
-                <th>Forum</th>
+                <th>Article</th>
                 <th>Date de création</th>
                 <th>Statut</th>
                 <th>Action</th>
@@ -28,7 +32,6 @@
         <tbody>
             {% for comment in comments %}
             {% set user = comment.user %}
-            {% set forum = comment.topic.forum %}
             <tr>
                 <td><strong>{{ comment.id }}</strong></td>
                 <td>
@@ -36,27 +39,14 @@
                     <strong>{{ user.username }}</strong>
                 </td>
                 <td>{{ comment.content | raw | slice(3, 50)}}</td>
-                <td>{{ comment.topic.title }}</td>
-                <td>
-                    <h6>
-                    {% if forum.platformTitle == "Playstation" %}
-                        <span class="badge {{ forum.platformStyle }}">{{ forum.title }}</span>
-                    {% elseif forum.platformTitle == "Nintendo" %}
-                        <span class="badge {{ forum.platformStyle }}">{{ forum.title }}</span>
-                    {% elseif forum.platformTitle == "Xbox" %}
-                        <span class="badge {{ forum.platformStyle }}">{{ forum.title }}</span>
-                    {% elseif forum.platformTitle == "PC" %}
-                        <span class="badge {{ forum.platformStyle }}">{{ forum.title }}</span>
-                    {% endif %}
-                    </h6>
-                </td>
+                <td>{{ comment.article.title }}</td>
                 <td>{{ comment.createdAt | date('d/m/Y') }} à {{ comment.createdAt | date('H:i') }}</td>
                 <td class="text-danger font-weight-bold">{{ comment.moderation.statut }}</td>
                 <td>
-                    <a href="{{ path('admin_comment_topic_show', {'id': comment.id}) }}" class="btn btn-md btn-primary" title="Détails du commentaire">
+                    <a href="{{ path('admin_comment_article_show', {'id': comment.id}) }}" class="btn btn-md btn-primary" title="Détails du commentaire">
                         <i class="fas fa-edit"></i>
                     </a>
-                    <a href="{{ path('admin_comment_topic_delete', {'id': comment.id}) }}" class="btn btn-md btn-danger" title="Supprimer le commentaire">
+                    <a href="{{ path('admin_comment_article_delete', {'id': comment.id}) }}" class="btn btn-md btn-danger" title="Supprimer le commentaire">
                         <i class="fas fa-trash"></i>
                     </a>
                 </td>

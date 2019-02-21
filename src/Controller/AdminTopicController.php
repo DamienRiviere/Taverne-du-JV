@@ -16,15 +16,22 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class AdminTopicController extends AbstractController
 {
+    private $manager;
+    private $pagination;
+
+    public function __construct(EntityManagerInterface $manager, Pagination $pagination) {
+        $this->manager = $manager;
+        $this->pagination = $pagination;
+    }
+
     /**
      * Permet d'afficher la page de gestion des topics
      * 
      * @Route("/admin/topics", name="admin_topics_index")
      */
-    public function index(TopicRepository $repo, Request $request)
-    {
+    public function index(TopicRepository $repo, Request $request) {
         return $this->render('admin/topic/index.html.twig', [
-            'topics' => $repo->returnAllTopics($request)
+            'topics' => $this->pagination->paginate($repo->findAllTopics(), $request, 15)
         ]);
     }
 
@@ -35,20 +42,17 @@ class AdminTopicController extends AbstractController
      *
      * @param Topic $topic
      * @param Request $request
-     * @param EntityManagerInterface $manager
      * 
      * @return Response
      */
-    public function edit(Topic $topic, Request $request, EntityManagerInterface $manager)
-    {
+    public function edit(Topic $topic, Request $request) {
         $form = $this->createForm(TopicType::class, $topic);
 
         $form->handleRequest($request);
 
-        if($form->isSubmitted() && $form->isValid())
-        {
-            $manager->persist($topic);
-            $manager->flush();
+        if($form->isSubmitted() && $form->isValid()) {
+            $this->manager->persist($topic);
+            $this->manager->flush();
 
             $this->addFlash(
                 'green lighten-1',
@@ -68,14 +72,12 @@ class AdminTopicController extends AbstractController
      * @Route("/admin/topics/{id}/delete", name="admin_topics_delete")
      * 
      * @param Topic $topic
-     * @param EntityManagerInterface $manager
      * 
      * @return void
      */
-    public function delete(Topic $topic, EntityManagerInterface $manager)
-    {
-        $manager->remove($topic);
-        $manager->flush();
+    public function delete(Topic $topic) {
+        $this->manager->remove($topic);
+        $this->manager->flush();
 
         $this->addFlash(
             'red',
@@ -94,10 +96,9 @@ class AdminTopicController extends AbstractController
      * 
      * @return Response
      */
-    public function showComments(CommentTopicRepository $repo, Request $request, $id)
-    {
+    public function showComments(CommentTopicRepository $repo, Request $request, $id) {
         return $this->render('admin/topic/comment/show.html.twig', [
-            'comments' => $repo->findAllCommentsByTopic($request, $id)
+            'comments' => $this->pagination->paginate($repo->findTopicAllComments($id), $request, 10)
         ]);
     }
 
@@ -108,20 +109,17 @@ class AdminTopicController extends AbstractController
      * 
      * @param CommentTopic $idComment
      * @param Request $request
-     * @param EntityManagerInterface $manager
      * 
      * @return Response
      */
-    public function editComment(CommentTopic $idComment, Request $request, EntityManagerInterface $manager)
-    {
+    public function editComment(CommentTopic $idComment, Request $request) {
         $form = $this->createForm(CommentTopicType::class, $idComment);
 
         $form->handleRequest($request);
 
-        if($form->isSubmitted() && $form->isValid())
-        {
-            $manager->persist($idComment);
-            $manager->flush();
+        if($form->isSubmitted() && $form->isValid()) {
+            $this->manager->persist($idComment);
+            $this->manager->flush();
 
             $this->addFlash(
                 'green lighten-1',
@@ -141,14 +139,12 @@ class AdminTopicController extends AbstractController
      * @Route("/admin/topics/{idTopic}/comments/{idComment}/delete", name="admin_topics_comments_delete")
      * 
      * @param CommentTopic $idComment
-     * @param EntityManagerInterface $manager
      * 
      * @return void
      */
-    public function deleteComment(CommentTopic $idComment, EntityManagerInterface $manager)
-    {
-        $manager->remove($idComment);
-        $manager->flush();
+    public function deleteComment(CommentTopic $idComment) {
+        $this->manager->remove($idComment);
+        $this->manager->flush();
 
         $this->addFlash(
             'red',

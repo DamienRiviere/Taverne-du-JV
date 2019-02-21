@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\CommentArticle;
 use App\Form\CommentArticleType;
+use App\Repository\ArticleRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
@@ -12,6 +13,12 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class CommentArticleController extends AbstractController
 {
+    private $manager;
+
+    public function __construct(EntityManagerInterface $manager) {
+        $this->manager = $manager;
+    }
+
     /**
      * Permet de modifier un commentaire d'un article
      * 
@@ -19,16 +26,14 @@ class CommentArticleController extends AbstractController
      * @Security("is_granted('ROLE_USER') and user === comment.getUser()")
      * 
      */
-    public function edit(CommentArticle $comment, Request $request, EntityManagerInterface $manager)
-    {
+    public function edit(CommentArticle $comment, Request $request, ArticleRepository $repo) {
         $form = $this->createForm(CommentArticleType::class, $comment);
 
         $form->handleRequest($request);
 
-        if($form->isSubmitted() && $form->isValid())
-        {
-            $manager->persist($comment);
-            $manager->flush();
+        if($form->isSubmitted() && $form->isValid()) {
+            $this->manager->persist($comment);
+            $this->manager->flush();
 
             $this->AddFlash(
                 'green lighten-1',
@@ -40,7 +45,9 @@ class CommentArticleController extends AbstractController
 
         return $this->render('article/comment/edit.html.twig', [
             'comment' => $comment,
-            'form' => $form->createView()
+            'form' => $form->createView(),
+            'tests' => $repo->findTest(),
+            'previews' => $repo->findPreview()
         ]);
     }
 }

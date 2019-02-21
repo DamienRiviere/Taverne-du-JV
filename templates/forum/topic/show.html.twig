@@ -19,11 +19,12 @@
         </h3>
 
         {# Affichage du commentaire de l'auteur d'un topic #}
-        <div class="card my-3">
+        <div class="card my-3 bg-light">
 
+            <h5 class="mb-0 ml-2 mt-1">Premier message du topic</h5>
             <div class="card-body">
                 <div class="row">
-                    <div class="col-2 text-center border-right">
+                    <div class="col-2 text-center border-right border-white">
                         <img src="{{ topic.user.picture }}" alt="Avatar de {{  topic.user.username }}" class="avatar">
 
                         <div class="col">
@@ -68,8 +69,10 @@
 
         </div>
 
+        <hr>
+
         {# Affichage d'un commentaire d'un topic #}
-        {% for comment in topic.commentTopic %}
+        {% for comment in comments %}
 
             {# Affichage des commentaires qui sont un statut "publié" ou "signalé" #}
             {% if comment.moderation.statut == "Commentaire publié" or comment.moderation.statut == "Commentaire signalé" %}
@@ -79,6 +82,11 @@
         {% endfor %}
 
         {% include 'partials/alert.html.twig' %}
+
+        <!-- Pagination -->
+        <div class="my-3 pagination justify-content-center">
+            {{ knp_pagination_render(comments) }}
+        </div>
 
         {% if app.user %}
         <div class="alert blue-grey lighten-5 mt-3">

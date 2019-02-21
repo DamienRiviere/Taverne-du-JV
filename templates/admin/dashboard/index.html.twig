@@ -19,7 +19,7 @@
                             <i class="fas fa-users fa-4x"></i>
                         </div>
                         <div class="col-8">
-                            <h6>{{ stats.users }} utilisateurs</h6>
+                            <h6><a href="{{ path('admin_users_index') }}" class="text-white">{{ stats.users }} utilisateurs</a></h6>
                         </div>
                     </div>
                 </div>
@@ -38,7 +38,7 @@
                             <i class="far fa-newspaper fa-4x"></i>
                         </div>
                         <div class="col-8">
-                            <h6>{{ stats.articles }} articles</h6>
+                            <h6><a href="{{ path('admin_articles_index') }}" class="text-white">{{ stats.articles }} articles</a></h6>
                         </div>
                     </div>
                 </div>
@@ -66,7 +66,7 @@
                             <i class="fas fa-exclamation-circle fa-4x"></i>
                         </div>
                         <div class="col-8">
-                            <h6>{{ stats.commentsArticleSignal | length}} commentaires signalés dans les articles</h6>
+                            <h6><a href="{{ path('admin_comment_article_index') }}" class="text-white">{{ stats.commentsArticleSignal | length}} commentaires signalés dans les articles</a></h6>
                         </div>
                     </div>
                 </div>
@@ -87,7 +87,7 @@
                             <i class="far fa-newspaper fa-4x"></i>
                         </div>
                         <div class="col-8">
-                            <h6>{{ stats.topics }} topics</h6>
+                            <h6><a href="{{ path('admin_topics_index') }}" class="text-white">{{ stats.topics }} topics</a></h6>
                         </div>
                     </div>
                 </div>
@@ -115,7 +115,7 @@
                             <i class="fas fa-exclamation-circle fa-4x"></i>
                         </div>
                         <div class="col-8">
-                            <h6>{{ stats.commentsTopicSignal | length }} commentaires signalés dans les forums</h6>
+                            <h6><a href="{{ path('admin_comment_topic_index') }}" class="text-white">{{ stats.commentsTopicSignal | length }} commentaires signalés dans les forums</a></h6>
                         </div>
                     </div>
                 </div>

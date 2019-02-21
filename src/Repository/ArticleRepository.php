@@ -17,13 +17,11 @@ use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 class ArticleRepository extends ServiceEntityRepository
 {
     private $manager;
-    private $container;
 
-    public function __construct(RegistryInterface $registry, EntityManagerInterface $manager, ContainerInterface $container)
+    public function __construct(RegistryInterface $registry, EntityManagerInterface $manager)
     {
         parent::__construct($registry, Article::class);
         $this->manager = $manager;
-        $this->container = $container;
     }
 
     /**
@@ -31,20 +29,11 @@ class ArticleRepository extends ServiceEntityRepository
      *
      * @return Query
      */
-    public function returnAllArticle($request) 
+    public function findAllArticles() 
     {
-        $query = $this->manager->createQuery(
-            'SELECT a FROM App\Entity\Article a ORDER BY a.createdAt DESC'
-        );
+        $query = $this->manager->createQuery('SELECT a FROM App\Entity\Article a ORDER BY a.createdAt DESC');
 
-        $pagenator = $this->container->get('knp_paginator');
-        $results = $pagenator->paginate(
-            $query,
-            $request->query->getInt('page', 1),
-            $request->query->getInt('limit', 15)
-        );
-
-        return ($results);
+        return $query->getResult();
     }
 
     /**
@@ -52,29 +41,15 @@ class ArticleRepository extends ServiceEntityRepository
      *
      * @return Query
      */
-    public function returnTest($request)
+    public function findTest()
     {
-        $query = $this->manager->createQuery(
-            'SELECT a, c 
-            FROM App\Entity\Article a 
-            JOIN a.category c
-            WHERE c.title = :test
-            ORDER BY a.createdAt DESC
-            '
-        );
+        $query = $this->manager->createQuery('SELECT a, c FROM App\Entity\Article a JOIN a.category c WHERE c.title = :test ORDER BY a.createdAt DESC');
 
         $query->setParameters(array(
             'test' => 'Test'
         ));
 
-        $pagenator = $this->container->get('knp_paginator');
-        $results = $pagenator->paginate(
-            $query,
-            $request->query->getInt('page', 1),
-            $request->query->getInt('limit', 15)
-        );
-
-        return ($results);
+        return $query->getResult();
     }
 
     /**
@@ -82,29 +57,15 @@ class ArticleRepository extends ServiceEntityRepository
      *
      * @return Query
      */
-    public function returnPreview($request)
+    public function findPreview()
     {
-        $query = $this->manager->createQuery(
-            'SELECT a, c
-            FROM App\Entity\Article a
-            JOIN a.category c
-            WHERE c.title = :preview
-            ORDER BY a.createdAt DESC
-            '
-        );
+        $query = $this->manager->createQuery('SELECT a, c FROM App\Entity\Article a JOIN a.category c WHERE c.title = :preview ORDER BY a.createdAt DESC');
 
         $query->setParameters(array(
             'preview' => 'Preview'
         ));
 
-        $pagenator = $this->container->get('knp_paginator');
-        $results = $pagenator->paginate(
-            $query,
-            $request->query->getInt('page', 1),
-            $request->query->getInt('limit', 15)
-        );
-
-        return ($results);
+        return $query->getResult();
     }
 
     /**
@@ -112,29 +73,15 @@ class ArticleRepository extends ServiceEntityRepository
      *
      * @return Query
      */
-    public function returnNews($request)
+    public function findNews()
     {
-        $query = $this->manager->createQuery(
-            'SELECT a, c
-            FROM App\Entity\Article a
-            JOIN a.category c
-            WHERE c.title = :news
-            ORDER BY a.createdAt DESC
-            '
-        );
+        $query = $this->manager->createQuery('SELECT a, c FROM App\Entity\Article a JOIN a.category c WHERE c.title = :news ORDER BY a.createdAt DESC');
 
         $query->setParameters(array(
             'news' => 'News'
         ));
 
-        $pagenator = $this->container->get('knp_paginator');
-        $results = $pagenator->paginate(
-            $query,
-            $request->query->getInt('page', 1),
-            $request->query->getInt('limit', 15)
-        );
-
-        return ($results);
+        return $query->getResult();
     }
 
 }

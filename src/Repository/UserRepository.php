@@ -17,13 +17,11 @@ use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 class UserRepository extends ServiceEntityRepository
 {
     private $manager;
-    private $container;
 
-    public function __construct(RegistryInterface $registry, EntityManagerInterface $manager, ContainerInterface $container)
+    public function __construct(RegistryInterface $registry, EntityManagerInterface $manager)
     {
         parent::__construct($registry, User::class);
         $this->manager = $manager;
-        $this->container = $container;
     }
 
     /**
@@ -33,24 +31,10 @@ class UserRepository extends ServiceEntityRepository
      * 
      * @return Query
      */
-    public function findAllUsers($request) {
-        $query = $this->manager->createQuery(
-            '
-            SELECT
-                u
-            FROM
-                App\Entity\User u
-            '
-        );
+    public function findAllUsers() {
+        $query = $this->manager->createQuery('SELECT u FROM App\Entity\User u');
 
-        $pagenator = $this->container->get('knp_paginator');
-        $results = $pagenator->paginate(
-            $query,
-            $request->query->getInt('page', 1),
-            $request->query->getInt('limit', 10)
-        );
-
-        return ($results);
+        return $query->getResult();
     }
     
 }

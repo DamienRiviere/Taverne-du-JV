@@ -19,6 +19,14 @@ use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 class AccountController extends AbstractController
 {
+    private $manager;
+    private $encoder;
+
+    public function __construct(EntityManagerInterface $manager, UserPasswordEncoderInterface $encoder) {
+        $this->manager = $manager;
+        $this->encoder = $encoder;
+    }
+
     /**
      * Permet d'afficher et de gérer le formulaire de connexion
      * 
@@ -52,21 +60,20 @@ class AccountController extends AbstractController
      * 
      * @return Response
      */
-    public function register(Request $request, EntityManagerInterface $manager, UserPasswordEncoderInterface $encoder) {
+    public function register(Request $request) {
         $user = new User();
 
         $form = $this->createForm(RegistrationType::class, $user);
 
         $form->handleRequest($request);
 
-        if($form->isSubmitted() && $form->isValid())
-        {
-            $hash = $encoder->encodePassword($user, $user->getHash());
+        if($form->isSubmitted() && $form->isValid()) {
+            $hash = $this->encoder->encodePassword($user, $user->getHash());
             $user->setHash($hash)
                  ->setPicture('http://image.jeuxvideo.com/avatar-md/default.jpg');
 
-            $manager->persist($user);
-            $manager->flush();
+            $this->manager->persist($user);
+            $this->manager->flush();
 
             $this->addFlash(
                 'green lighten-1',
@@ -89,17 +96,16 @@ class AccountController extends AbstractController
      *
      * @return Response
      */
-    public function profile(Request $request, EntityManagerInterface $manager) {
+    public function profile(Request $request) {
         $user = $this->getUser();
 
         $form = $this->createForm(AccountType::class, $user);
 
         $form->handleRequest($request);
 
-        if($form->isSubmitted() && $form->isValid())
-        {
-            $manager->persist($user);
-            $manager->flush();
+        if($form->isSubmitted() && $form->isValid()) {
+            $this->manager->persist($user);
+            $this->manager->flush();
 
             $this->addFlash(
                 'green lighten-1',
@@ -120,7 +126,7 @@ class AccountController extends AbstractController
      * 
      * @return Response
      */
-    public function updatePassword(Request $request, UserPasswordEncoderInterface $encoder, EntityManagerInterface $manager) {
+    public function updatePassword(Request $request) {
         $passwordUpdate = new PasswordUpdate();
 
         $user = $this->getUser();
@@ -129,23 +135,19 @@ class AccountController extends AbstractController
 
         $form->handleRequest($request);
 
-        if($form->isSubmitted() && $form->isValid())
-        {
+        if($form->isSubmitted() && $form->isValid()) {
             // Vérification que le oldPassword du formulaire soit le même que le password de l'user
-            if(!password_verify($passwordUpdate->getOldPassword(), $user->getHash()))
-            {
+            if(!password_verify($passwordUpdate->getOldPassword(), $user->getHash())) {
                 // On affiche une erreur si le oldPassword n'est pas identique au password de l'user
                 $form->get('oldPassword')->addError(new FormError("Le mot de passe que vous avez tapé n'est pas votre mot de passe actuel !"));
-            } 
-            else 
-            {
+            } else {
                 $newPassword = $passwordUpdate->getNewPassword();
-                $hash = $encoder->encodePassword($user, $newPassword);
+                $hash = $this->encoder->encodePassword($user, $newPassword);
 
                 $user->setHash($hash);
 
-                $manager->persist($user);
-                $manager->flush();
+                $this->manager->persist($user);
+                $this->manager->flush();
 
                 $this->addFlash(
                     'green lighten-1',

@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Article;
 use App\Form\ArticleType;
+use App\Service\Pagination;
 use App\Entity\CommentArticle;
 use App\Form\CommentArticleType;
 use App\Repository\ArticleRepository;
@@ -15,15 +16,25 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class AdminArticleController extends AbstractController
 {
+    private $manager;
+    private $pagination;
+
+    public function __construct(EntityManagerInterface $manager, Pagination $pagination) {
+        $this->manager = $manager;
+        $this->pagination = $pagination;
+    }
+
     /**
      * Permet d'afficher la page de gestion des articles
      * 
      * @Route("/admin/articles", name="admin_articles_index")
+     * 
+     * @param ArticleRepository $repo
+     * @param Request $request
      */
-    public function index(ArticleRepository $repo, Request $request)
-    {
+    public function index(ArticleRepository $repo, Request $request) {
         return $this->render('admin/article/index.html.twig', [
-            'articles' => $repo->returnAllArticle($request)
+            'articles' => $this->pagination->paginate($repo->findAllArticles(), $request, 15)
         ]);
     }
 
@@ -35,16 +46,14 @@ class AdminArticleController extends AbstractController
      * @param Article $article
      * @return Response
      */
-    public function edit(Article $article, Request $request, EntityManagerInterface $manager)
-    {
+    public function edit(Article $article, Request $request) {
         $form = $this->createForm(ArticleType::class, $article);
 
         $form->handleRequest($request);
 
-        if($form->isSubmitted() && $form->isValid())
-        {
-            $manager->persist($article);
-            $manager->flush();
+        if($form->isSubmitted() && $form->isValid()) {
+            $this->manager->persist($article);
+            $this->manager->flush();
 
             $this->addFlash(
                 'green lighten-1',
@@ -68,10 +77,9 @@ class AdminArticleController extends AbstractController
      * 
      * @return void
      */
-    public function delete(Article $article, EntityManagerInterface $manager)
-    {
-        $manager->remove($article);
-        $manager->flush();
+    public function delete(Article $article) {
+        $this->manager->remove($article);
+        $this->manager->flush();
 
         $this->addFlash(
             'red',
@@ -90,10 +98,9 @@ class AdminArticleController extends AbstractController
      * 
      * @return Response
      */
-    public function showComments(CommentArticleRepository $repo, Request $request, $id)
-    {
+    public function showComments(CommentArticleRepository $repo, Request $request, $id) {
         return $this->render('admin/article/comment/show.html.twig', [
-            'comments' => $repo->findAllCommentsByArticle($request, $id)
+            'comments' => $this->pagination->paginate($repo->findArticleAllCommentsWithId($id), $request, 10)
         ]);
     }
 
@@ -108,16 +115,14 @@ class AdminArticleController extends AbstractController
      * 
      * @return Response
      */
-    public function editComment(CommentArticle $idComment, Request $request, EntityManagerInterface $manager)
-    {
+    public function editComment(CommentArticle $idComment, Request $request) {
         $form = $this->createForm(CommentArticleType::class, $idComment);
 
         $form->handleRequest($request);
 
-        if($form->isSubmitted() && $form->isValid())
-        {
-            $manager->persist($idComment);
-            $manager->flush();
+        if($form->isSubmitted() && $form->isValid()) {
+            $this->manager->persist($idComment);
+            $this->manager->flush();
 
             $this->addFlash(
                 'green lighten-1',
@@ -139,10 +144,9 @@ class AdminArticleController extends AbstractController
      * @param CommentArticle $comment
      * @return void
      */
-    public function deleteComment(CommentArticle $idComment, EntityManagerInterface $manager)
-    {
-        $manager->remove($idComment);
-        $manager->flush();
+    public function deleteComment(CommentArticle $idComment) {
+        $this->manager->remove($idComment);
+        $this->manager->flush();
 
         $this->addFlash(
             'red',

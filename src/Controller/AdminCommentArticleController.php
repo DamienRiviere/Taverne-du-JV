@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Service\Pagination;
 use App\Entity\CommentArticle;
 use App\Form\AdminCommentArticleType;
 use Doctrine\ORM\EntityManagerInterface;
@@ -12,15 +13,37 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class AdminCommentArticleController extends AbstractController
 {
+    private $manager;
+    private $repo;
+    private $pagination;
+
+    public function __construct(CommentArticleRepository $repo, EntityManagerInterface $manager, Pagination $pagination) {
+        $this->manager = $manager;
+        $this->repo = $repo;
+        $this->pagination = $pagination;
+    }
+
     /**
      * Permet d'afficher la page de modération des commentaires signalés
      * 
      * @Route("/admin/moderation/comment-article", name="admin_comment_article_index")
      */
-    public function index(CommentArticleRepository $repo, Request $request)
-    {
+    public function index(Request $request) {
         return $this->render('admin/moderation/comment_article/index.html.twig', [
-            'comments' => $repo->findSignalComment($request)
+            'comments' => $this->pagination->paginate($this->repo->findSignalComment(), $request, 10)
+        ]);
+    }
+
+    /**
+     * Permets d'afficher les commentaires qui ont été modérer
+     *
+     * @Route("/admin/moderation/comment-article/moderate", name="admin_comment_article_moderate")
+     * 
+     * @return void
+     */
+    public function moderateComments(Request $request) {
+        return $this->render('admin/moderation/comment_article/moderate.html.twig', [
+            'comments' => $this->pagination->paginate($this->repo->findModerateComment(), $request, 10)
         ]);
     }
 
@@ -35,16 +58,14 @@ class AdminCommentArticleController extends AbstractController
      * 
      * @return Response
      */
-    public function show(CommentArticle $comment, EntityManagerInterface $manager, Request $request) 
-    {
+    public function show(CommentArticle $comment, Request $request) {
         $form = $this->createForm(AdminCommentArticleType::class, $comment);
 
         $form->handleRequest($request);
 
-        if($form->isSubmitted() && $form->isValid())
-        {
-            $manager->persist($comment);
-            $manager->flush();
+        if($form->isSubmitted() && $form->isValid()) {
+            $this->manager->persist($comment);
+            $this->manager->flush();
 
             $this->addFlash(
                 'green lighten-1',
@@ -70,10 +91,9 @@ class AdminCommentArticleController extends AbstractController
      * 
      * @return void
      */
-    public function delete(CommentArticle $comment, EntityManagerInterface $manager)
-    {
-        $manager->remove($comment);
-        $manager->flush();
+    public function delete(CommentArticle $comment) {
+        $this->manager->remove($comment);
+        $this->manager->flush();
 
         $this->addFlash(
             'red',
@@ -82,4 +102,5 @@ class AdminCommentArticleController extends AbstractController
 
         return $this->redirectToRoute('admin_comment_article_index');
     }
+
 }

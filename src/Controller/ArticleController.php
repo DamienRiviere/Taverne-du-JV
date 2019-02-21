@@ -4,11 +4,13 @@ namespace App\Controller;
 
 use App\Entity\Article;
 use App\Form\ArticleType;
+use App\Service\Pagination;
 use App\Entity\CommentArticle;
 use App\Form\CommentArticleType;
 use App\Repository\ArticleRepository;
 use App\Repository\ModerationRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use App\Repository\CommentArticleRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
@@ -16,10 +18,14 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class ArticleController extends AbstractController
 {
+    private $manager;
     private $repo;
+    private $pagination;
 
-    public function __construct(ArticleRepository $repo) {
+    public function __construct(ArticleRepository $repo, EntityManagerInterface $manager, Pagination $pagination) {
         $this->repo = $repo;
+        $this->manager = $manager;
+        $this->pagination = $pagination;
     }
 
     /**
@@ -33,7 +39,7 @@ class ArticleController extends AbstractController
      * 
      * @return Response
      */
-    public function create(Request $request, EntityManagerInterface $manager) {
+    public function create(Request $request) {
         $article = new Article();
 
         $user = $this->getUser();
@@ -42,12 +48,11 @@ class ArticleController extends AbstractController
 
         $form->handleRequest($request);
 
-        if($form->isSubmitted() && $form->isValid())
-        {
+        if($form->isSubmitted() && $form->isValid()) {
             $article->setAuthor($user);
 
-            $manager->persist($article);
-            $manager->flush();
+            $this->manager->persist($article);
+            $this->manager->flush();
 
             $this->addFlash(
                 'green lighten-1',
@@ -73,15 +78,14 @@ class ArticleController extends AbstractController
      * 
      * @return Response
      */
-    public function edit(Article $article, Request $request, EntityManagerInterface $manager) {
+    public function edit(Article $article, Request $request) {
         $form = $this->createForm(ArticleType::class, $article);
 
         $form->handleRequest($request);
 
-        if($form->isSubmitted() && $form->isValid())
-        {
-            $manager->persist($article);
-            $manager->flush();
+        if($form->isSubmitted() && $form->isValid()) {
+            $this->manager->persist($article);
+            $this->manager->flush();
 
             $this->addFlash(
                 'green lighten-1',
@@ -105,7 +109,9 @@ class ArticleController extends AbstractController
      */
     public function news(Request $request) {
         return $this->render('article/category/news.html.twig', [
-            'articles' => $this->repo->returnNews($request)
+            'articles' => $this->pagination->paginate($this->repo->findNews(), $request, 15),
+            'tests' => $this->repo->findTest(),
+            'previews' => $this->repo->findPreview()
         ]);
     }
 
@@ -118,7 +124,9 @@ class ArticleController extends AbstractController
      */
     public function preview(Request $request) {
         return $this->render('article/category/preview.html.twig', [
-            'articles' => $this->repo->returnPreview($request)
+            'articles' => $this->pagination->paginate($this->repo->findPreview(), $request, 15),
+            'news' => $this->repo->findNews(),
+            'tests' => $this->repo->findTest()
         ]);
     }
 
@@ -131,7 +139,9 @@ class ArticleController extends AbstractController
      */
     public function test(Request $request) {
         return $this->render('article/category/test.html.twig', [
-            'articles' => $this->repo->returnTest($request)
+            'articles' => $this->pagination->paginate($this->repo->findTest(), $request, 15),
+            'previews' => $this->repo->findPreview(),
+            'news' => $this->repo->findNews()
         ]);
     }
 
@@ -142,7 +152,7 @@ class ArticleController extends AbstractController
      * 
      * @return Response
      */
-    public function show(Article $article, Request $request, EntityManagerInterface $manager, ModerationRepository $repo) {
+    public function show(Article $article, Request $request, ModerationRepository $repoMode, CommentArticleRepository $repoComment, $slug) {
 
         $comment = new CommentArticle();
 
@@ -156,12 +166,12 @@ class ArticleController extends AbstractController
         {
             $comment->setUser($user);
             $comment->setArticle($article)
-                    ->setModeration($repo->findOneBy([
+                    ->setModeration($repoMode->findOneBy([
                         'statut' => 'Commentaire publié'
                     ]));
 
-            $manager->persist($comment);
-            $manager->flush();
+            $this->manager->persist($comment);
+            $this->manager->flush();
 
             $this->addFlash(
                 'green lighten-1',
@@ -171,7 +181,10 @@ class ArticleController extends AbstractController
 
         return $this->render('article/show.html.twig', [
             'article' => $article,
-            'form' => $form->createView()
+            'form' => $form->createView(),
+            'comments' => $this->pagination->paginate($repoComment->findArticleAllCommentsWithSlug($slug), $request, 15),
+            'tests' => $this->repo->findTest(),
+            'previews' => $this->repo->findPreview()
         ]);
     }
  

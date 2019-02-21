@@ -12,7 +12,7 @@
 
           <!-- Content -->
           <h5 class="text-uppercase">La Taverne du JV : le site d'actualité du jeu vidéo sur consoles et PC.</h5>
-          <p><span>Retrouvez l'actualité des jeux vidéo grâce à nos <a href="#">news</a>, <a href="#">tests</a>, <a href="#">previews</a>. Rejoignez notre communauté et participez aux <a href="#">forums</a> !</span></p>
+          <p><span>Retrouvez l'actualité des jeux vidéo grâce à nos <a href="{{ path('article_news') }}">news</a>, <a href="{{ path('article_test') }}">tests</a>, <a href="{{ path('article_preview') }}">previews</a>. Rejoignez notre communauté et participez aux <a href="{{ path('forum_index') }}">forums</a> !</span></p>
 
         </div>
         <!-- Grid column -->
@@ -27,16 +27,16 @@
 
             <ul class="list-unstyled">
                 <li>
-                    <a href="#!">Test</a>
+                    <a href="{{ path('article_test') }}">Test</a>
                 </li>
                 <li>
-                    <a href="#!">Preview</a>
+                    <a href="{{ path('article_preview') }}">Preview</a>
                 </li>
                 <li>
-                    <a href="#!">News</a>
+                    <a href="{{ path('article_news') }}">News</a>
                 </li>
                 <li>
-                    <a href="#!">Toute l'actu</a>
+                    <a href="{{ path('home') }}">Toute l'actu</a>
                 </li>
             </ul>
 
@@ -51,19 +51,19 @@
 
             <ul class="list-unstyled">
                 <li>
-                    <a href="#!">Playstation 4</a>
+                    <a href="{{ path('forum_show', {'slug': 'playstation-4'}) }}">Playstation 4</a>
                 </li>
                 <li>
-                    <a href="#!">Switch</a>
+                    <a href="{{ path('forum_show', {'slug': 'switch'}) }}">Switch</a>
                 </li>
                 <li>
-                    <a href="#!">Xbox One</a>
+                    <a href="{{ path('forum_show', {'slug': 'xbox-one'}) }}">Xbox One</a>
                 </li>
                 <li>
-                    <a href="#!">PC</a>
+                    <a href="{{ path('forum_show', {'slug': 'jeux'}) }}">PC</a>
                 </li>
                 <li>
-                    <a href="#!">Tous les forums</a>
+                    <a href="{{ path('forum_index') }}">Tous les forums</a>
                 </li>
             </ul>
 

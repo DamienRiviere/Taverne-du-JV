@@ -17,40 +17,30 @@ use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 class CommentTopicRepository extends ServiceEntityRepository
 {
     private $manager;
-    private $container;
 
-    public function __construct(RegistryInterface $registry, EntityManagerInterface $manager, ContainerInterface $container)
+    public function __construct(RegistryInterface $registry, EntityManagerInterface $manager)
     {
         parent::__construct($registry, CommentTopic::class);
         $this->manager = $manager;
-        $this->container = $container;
     }
 
     /**
-     * Permet de récupérer tout les commentaires d'un topic
+     * Permet de récupérer tout les commentaires d'un topic via son id
      *
-     * @param [type] $request
      * @param [type] $id
      * 
      * @return Query
      */
-    public function findAllCommentsByTopic($request, $id) {
+    public function findTopicAllComments($id) {
         $query = $this->manager->createQuery(
-            'SELECT c FROM App\Entity\CommentTopic c WHERE c.topic = :id ORDER BY c.createdAt DESC'
+            'SELECT c FROM App\Entity\CommentTopic c WHERE c.topic = :id'
         );
 
         $query->setParameters(array(
             'id' => $id
         ));
 
-        $pagenator = $this->container->get('knp_paginator');
-        $results = $pagenator->paginate(
-            $query,
-            $request->query->getInt('page', 1),
-            $request->query->getInt('limit', 10)
-        );
-
-        return ($results);
+        return $query->getResult();
     }
 
     /**
@@ -58,7 +48,7 @@ class CommentTopicRepository extends ServiceEntityRepository
      *
      * @return Query
      */
-    public function findSignalComment($request)
+    public function findSignalComment()
     {
         $query = $this->manager->createQuery(
             'SELECT c, m FROM App\Entity\CommentTopic c JOIN c.moderation m WHERE m.statut = :statut ORDER BY c.createdAt DESC'
@@ -68,14 +58,25 @@ class CommentTopicRepository extends ServiceEntityRepository
             'statut' => 'Commentaire signalé'
         ));
 
-        $pagenator = $this->container->get('knp_paginator');
-        $results = $pagenator->paginate(
-            $query,
-            $request->query->getInt('page', 1),
-            $request->query->getInt('limit', 10)
+        return $query->getResult();
+    }
+
+    /**
+     * Permet de récupérer les commentaires de topic modéré
+     *
+     * @return Query
+     */
+    public function findModerateComment()
+    {
+        $query = $this->manager->createQuery(
+            'SELECT c, m FROM App\Entity\CommentTopic c JOIN c.moderation m WHERE m.statut = :statut ORDER BY c.createdAt DESC'
         );
 
-        return ($results);
+        $query->setParameters(array(
+            'statut' => 'Commentaire modéré'
+        ));
+
+        return $query->getResult();
     }
       
 }

@@ -12,6 +12,12 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class ModerationController extends AbstractController
 {
+    private $manager;
+
+    public function __construct(EntityManagerInterface $manager) {
+        $this->manager = $manager;
+    }
+
     /**
      * Permet de signaler le commentaire d'un article
      * 
@@ -19,14 +25,13 @@ class ModerationController extends AbstractController
      * @Security("is_granted('ROLE_USER') and user !== comment.getUser() ")
      * 
      */
-    public function signalCommentArticle(CommentArticle $comment, ModerationRepository $repo, EntityManagerInterface $manager)
-    {
+    public function signalCommentArticle(CommentArticle $comment, ModerationRepository $repo) {
         $comment->setModeration($repo->findOneBy([
             'statut' => 'Commentaire signalé'
         ]));
 
-        $manager->persist($comment);
-        $manager->flush();
+        $this->manager->persist($comment);
+        $this->manager->flush();
 
         return $this->redirectToRoute('article_show', ['slug' => $comment->getArticle()->getSlug()]);
     }
@@ -43,15 +48,20 @@ class ModerationController extends AbstractController
      * 
      * @return void
      */
-    public function signalCommentTopic(CommentTopic $comment, ModerationRepository $repo, EntityManagerInterface $manager)
-    {
+    public function signalCommentTopic(CommentTopic $comment, ModerationRepository $repo) {
         $comment->setModeration($repo->findOneBy([
             'statut' => 'Commentaire signalé'
         ]));
 
-        $manager->persist($comment);
-        $manager->flush();
+        $this->manager->persist($comment);
+        $this->manager->flush();
 
-        return $this->redirectToRoute('topic_show', ['slugForum' => $comment->getTopic()->getForum()->getSlug(), 'id' => $comment->getTopic()->getId() ,'slugTopic' => $comment->getTopic()->getSlug()]);
+        return $this->redirectToRoute(
+            'topic_show', [
+                'slugForum' => $comment->getTopic()->getForum()->getSlug(), 
+                'id' => $comment->getTopic()->getId() ,
+                'slugTopic' => $comment->getTopic()->getSlug()
+            ]
+        );
     }
 }

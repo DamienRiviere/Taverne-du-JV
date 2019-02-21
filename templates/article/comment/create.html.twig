@@ -18,7 +18,7 @@
 {% endif %}
 
 {# Affichage des commentaires #}
-{% for comment in article.commentArticle | reverse %}
+{% for comment in comments %}
 
     {# Affichage des commentaires qui sont un statut "publié" ou "signalé" #}
     {% if comment.moderation.statut == "Commentaire publié" or comment.moderation.statut == "Commentaire signalé" %}
@@ -26,3 +26,8 @@
     {% endif %}
     
 {% endfor %}
+
+<!-- Pagination -->
+<div class="my-3 pagination justify-content-center">
+    {{ knp_pagination_render(comments) }}
+</div>

@@ -12,22 +12,26 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class CommentTopicController extends AbstractController
 {
+    private $manager;
+
+    public function __construct(EntityManagerInterface $manager) {
+        $this->manager = $manager;
+    }
+
     /**
      * Permet de modifier un commentaire d'un topic
      * 
      * @Route("/comment-topic/edit/{id}", name="comment_topic_edit")
      * @Security("is_granted('ROLE_USER') and user === comment.getUser()")
      */
-    public function edit(CommentTopic $comment, Request $request, EntityManagerInterface $manager)
-    {
+    public function edit(CommentTopic $comment, Request $request) {
         $form = $this->createForm(CommentTopicType::class, $comment);
 
         $form->handleRequest($request);
 
-        if($form->isSubmitted() && $form->isValid())
-        {
-            $manager->persist($comment);
-            $manager->flush();
+        if($form->isSubmitted() && $form->isValid()) {
+            $this->manager->persist($comment);
+            $this->manager->flush();
 
             $this->addFlash(
                 'green lighten-1',

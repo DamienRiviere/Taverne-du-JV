@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\User;
 use App\Form\AdminUserType;
+use App\Service\Pagination;
 use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -12,6 +13,14 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class AdminUserController extends AbstractController
 {
+    private $manager;
+    private $pagination;
+
+    public function __construct(EntityManagerInterface $manager, Pagination $pagination) {
+        $this->manager = $manager;
+        $this->pagination = $pagination;
+    }
+
     /**
      * Affiche la liste des utilisateurs du site
      * 
@@ -20,7 +29,7 @@ class AdminUserController extends AbstractController
     public function index(UserRepository $repo, Request $request)
     {
         return $this->render('admin/user/index.html.twig', [
-            'users' => $repo->findAllUsers($request)
+            'users' => $this->pagination->paginate($repo->findAllUsers(), $request, 10)
         ]);
     }
 
@@ -32,16 +41,14 @@ class AdminUserController extends AbstractController
      * @param User $user
      * @return void
      */
-    public function show(User $user, Request $request, EntityManagerInterface $manager)
-    {
+    public function show(User $user, Request $request) {
         $form = $this->createForm(AdminUserType::class, $user);
 
         $form->handleRequest($request);
 
-        if($form->isSubmitted() && $form->isValid())
-        {
-            $manager->persist($user);
-            $manager->flush();
+        if($form->isSubmitted() && $form->isValid()) {
+            $this->manager->persist($user);
+            $this->manager->flush();
 
             $this->addFlash(
                 'green lighten-1',
@@ -64,10 +71,9 @@ class AdminUserController extends AbstractController
      * @param EntityManagerInterface $manager
      * @return void
      */
-    public function delete(User $user, EntityManagerInterface $manager)
-    {
-        $manager->remove($user);
-        $manager->flush();
+    public function delete(User $user) {
+        $this->manager->remove($user);
+        $this->manager->flush();
 
         $this->addFlash(
             'red',

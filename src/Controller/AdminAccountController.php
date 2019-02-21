@@ -12,9 +12,10 @@ class AdminAccountController extends AbstractController
      * Permet de se connecter à l'administration
      * 
      * @Route("/admin/login", name="admin_account_login")
+     * 
+     * @param AuthenticationUtils $utils
      */
-    public function login(AuthenticationUtils $utils)
-    {
+    public function login(AuthenticationUtils $utils) {
         $error = $utils->getLastAuthenticationError();
         $username = $utils->getLastUsername();
 

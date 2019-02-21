@@ -5,7 +5,9 @@ namespace App\Controller;
 use App\Entity\Forum;
 use App\Entity\Topic;
 use App\Form\TopicType;
+use App\Service\Pagination;
 use App\Repository\ForumRepository;
+use App\Repository\TopicRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
@@ -13,13 +15,20 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class ForumController extends AbstractController
 {
+    private $manager;
+    private $pagination;
+
+    public function __construct(EntityManagerInterface $manager, Pagination $pagination) {
+        $this->manager = $manager;
+        $this->pagination = $pagination;
+    }
+
     /**
      * Permet d'affichier la page de tous les forums
      * 
-     * @Route("/forum", name="forum")
+     * @Route("/forum", name="forum_index")
      */
-    public function index(ForumRepository $repo)
-    {
+    public function index(ForumRepository $repo) {
         return $this->render('forum/index.html.twig', [
             'nintendoHybrides' => $repo->findForumByPlatformType("Nintendo", "Hybride"),
             'nintendoSalons' => $repo->findForumByPlatformType("Nintendo", "Console de salon"),
@@ -36,11 +45,10 @@ class ForumController extends AbstractController
      *
      * @Route("/forum/{slug}", name="forum_show")
      * 
-     * @param ForumRepository $repo
+     * @param TopicRepository $repo
      * @return void
      */
-    public function show(Forum $forum, Request $request, EntityManagerInterface $manager)
-    {
+    public function show(Forum $forum, Request $request, TopicRepository $repo, $slug) {
         $topic = new Topic();
 
         $user = $this->getUser();
@@ -49,29 +57,31 @@ class ForumController extends AbstractController
 
         $form->handleRequest($request);
 
-        if($form->isSubmitted()&& $form->isValid())
-        {
+        if($form->isSubmitted()&& $form->isValid()) {
             $topic->setUser($user)
                   ->setForum($forum);
 
-            $manager->persist($topic);
-            $manager->flush();
+            $this->manager->persist($topic);
+            $this->manager->flush();
 
             $this->addFlash(
                 'green lighten-1',
                 "Votre topic vient d'être créé !"
             );
 
-            return $this->redirectToRoute('topic_show', [
-                'slugForum' => $topic->getForum()->getSlug(),
-                'id' => $topic->getId(),
-                'slugTopic' => $topic->getSlug()
-            ]);
+            return $this->redirectToRoute(
+                'topic_show', [
+                    'slugForum' => $topic->getForum()->getSlug(),
+                    'id' => $topic->getId(),
+                    'slugTopic' => $topic->getSlug()
+                ]
+            );
         }
 
         return $this->render('forum/show.html.twig', [
             'forum' => $forum,
-            'form' => $form->createView()
+            'form' => $form->createView(),
+            'topics' => $this->pagination->paginate($repo->findForumAllTopicBySlug($slug), $request, 20)
         ]);
     }
 }
