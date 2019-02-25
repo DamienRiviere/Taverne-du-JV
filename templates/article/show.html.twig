@@ -12,7 +12,7 @@
 
         <div class="row">
         
-            <div class="col-8">
+            <div class="col-lg-8 col-md-12">
                 {% set category = article.category %}
                 <h2 class="card-header orange accent-3 text-white mt-3 mb-3 h3 font-weight-light">
                     <span class="{{ category.style }}">{{ category.title }}</span> |
@@ -32,10 +32,10 @@
 
                 <div class="row">
                     {% set author = article.author %}
-                    <div class="col-1">
+                    <div class="col-1 img-author-article">
                         <img src="{{ author.picture }}" class="avatar avatar-medium" alt="Avatar de {{ author.username }}">
                     </div>
-                    <div class="col ml-2">
+                    <div class="col-lg col-md col-sm-12 article-author">
                         <h5 class="mb-0">
                             Article écrit par 
                             <a href="{{ path('user_show', {'slug': author.slug}) }}"><strong>{{ author.username }}</strong></a>
@@ -44,27 +44,26 @@
                             {% else %}
                                 <small class="text-muted">le {{ article.createdAt | date('d/m/Y') }} à {{ article.createdAt | date('H:i') }}</small>
                             {% endif %}    
+                            {% if app.user and app.user == article.author %}
+                                <a href="{{ path('article_edit', {'slug': article.slug}) }}" class="" title="Modifier l'article">
+                                    <i class="fas fa-edit"></i>
+                                </a>
+                            {% endif %}
                         </h5>
                         <span class="badge badge-primary">{{ author.articles | length }} articles</span>
                         <span class="badge orange accent-3">{{ author.commentArticle | length }} messages</span>
                     </div>
-                    {% if app.user and app.user == article.author %}
-                        <a href="{{ path('article_edit', {'slug': article.slug}) }}" class="mr-3" title="Modifier l'article">
-                            <i class="fas fa-edit"></i>
-                            Modifier l'article
-                        </a>
-                    {% endif %}
                 </div>
 
                 <hr>
 
-                <h2 class="h3">Espace des commentaires :</h2>
+                <h3 class="espace-comment">Espace des commentaires</h3>
 
                 {% include 'article/comment/create.html.twig' %}
                 
             </div>
 
-            <div class="col-4">
+            <div class="col-lg-4 col-right">
                 {% include 'partials/col_right/last_tests.html.twig' %}
                 {% include 'partials/col_right/last_previews.html.twig' %}
                 {% include 'partials/col_right/forums.html.twig' %}

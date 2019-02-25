@@ -9,6 +9,7 @@ use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class AdminUserController extends AbstractController
@@ -25,6 +26,7 @@ class AdminUserController extends AbstractController
      * Affiche la liste des utilisateurs du site
      * 
      * @Route("/admin/users", name="admin_users_index")
+     * @IsGranted("ROLE_ADMIN")
      */
     public function index(UserRepository $repo, Request $request)
     {
@@ -37,6 +39,7 @@ class AdminUserController extends AbstractController
      * Permet d'afficher les détails d'un compte utilisateur et permet de changer de rôle
      *
      * @Route("/admin/users/{id}", name="admin_users_show")
+     * @IsGranted("ROLE_ADMIN")
      * 
      * @param User $user
      * @return void
@@ -66,6 +69,7 @@ class AdminUserController extends AbstractController
      * Permet de supprimer un utilisateur
      *
      * @Route("/admin/users/{id}/delete", name="admin_users_delete")
+     * @IsGranted("ROLE_ADMIN")
      * 
      * @param User $user
      * @param EntityManagerInterface $manager

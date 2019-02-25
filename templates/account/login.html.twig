@@ -6,7 +6,7 @@
 
 {% block body %}
 
-<div class="container white py-3 shadow-lg">
+<div class="container white py-3 shadow-lg full-screen">
 
     <div class="row">
         <div class="col-md-3">&nbsp;</div>
@@ -34,6 +34,8 @@
                     </div>
                 {% endif %}
             </div>
+
+            <p class="text-center mt-3">Pas encore inscrit ? <a href="{{ path('account_register') }}">Inscrivez-vous ici !</a></p>
         </div>
 
         <div class="container text-center mt-3">

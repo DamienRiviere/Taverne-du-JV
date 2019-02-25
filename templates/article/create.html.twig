@@ -18,9 +18,9 @@
                 {{ form_start(form) }}
 
                 <div class="row">
-                    <div class="col">
+                    <div class="col-lg-6">
                         <div class="alert blue-grey lighten-5">
-                            <h2>Informations générales</h2>
+                            <h2 class="h3">Informations générales</h2>
                             {{ form_row(form.title) }}
 
                             {{ form_row(form.introduction) }}
@@ -28,9 +28,9 @@
                             {{ form_row(form.coverImage) }}
                         </div>
                     </div>
-                    <div class="col">
+                    <div class="col-lg-6">
                         <div class="alert blue-grey lighten-5">
-                            <h2>Type de l'article</h2>
+                            <h2 class="h3">Type de l'article</h2>
                             {{ form_row(form.category) }}
 
                             {{ form_row(form.subCategories) }}
@@ -39,7 +39,7 @@
                 </div>
 
                 <div class="alert blue-grey lighten-5">
-                    <h2>Contenu de l'article</h2>
+                    <h2 class="h3">Contenu de l'article</h2>
                     {{ form_row(form.content) }}
                 </div>
     

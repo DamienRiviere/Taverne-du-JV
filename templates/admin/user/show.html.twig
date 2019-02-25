@@ -5,7 +5,7 @@
 {% block body %}
 
     <div class="container">
-        <h2 class="my-4">
+        <h2 class="my-4 h3">
             <a href="{{ path('admin_users_index') }}" class="mr-2" title="Retour à la liste des articles">
                 <i class="fas fa-arrow-circle-left"></i>
             </a>
@@ -13,12 +13,12 @@
         </h2>
 
         <div class="row">
-            <div class="col-8">
+            <div class="col-lg-8">
                 {% include 'admin/partials/author.html.twig' %}
             </div>
-            <div class="col-4">
+            <div class="col-lg-4">
                 <div class="alert blue-grey lighten-5">
-                    <h2>Attribution d'un rôle</h2>
+                    <h2 class="h3">Attribution d'un rôle</h2>
                     
                     {{ form_start(form) }}
 

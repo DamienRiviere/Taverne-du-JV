@@ -7,7 +7,7 @@
 {% block body %}
 
 <div class="container-fluid">
-    <h2 class="my-4">
+    <h2 class="my-4 h3">
         <a href="{{ path('admin_articles_index') }}" class="mr-2" title="Retour à la liste des articles">
             <i class="fas fa-arrow-circle-left"></i>
         </a>
@@ -20,13 +20,13 @@
 
     <!-- Formulaire de création d'un article -->
     <div class="row">
-        <div class="col-8">  
+        <div class="col-lg-8 col-md-12">  
 
             {{ form_start(form) }}
             <div class="row">
-                <div class="col">
+                <div class="col-lg-6">
                     <div class="alert blue-grey lighten-5">
-                        <h2>Informations générales</h2>
+                        <h2 class="h3">Informations générales</h2>
                         {{ form_row(form.title) }}
 
                         {{ form_row(form.introduction) }}
@@ -34,9 +34,9 @@
                         {{ form_row(form.coverImage) }}
                     </div>
                 </div>
-                <div class="col">
+                <div class="col-lg-6">
                     <div class="alert blue-grey lighten-5">
-                        <h2>Type de l'article</h2>
+                        <h2 class="h3">Type de l'article</h2>
                         {{ form_row(form.category) }}
 
                         {{ form_row(form.subCategories) }}
@@ -45,7 +45,7 @@
             </div>
 
             <div class="alert blue-grey lighten-5">
-                <h2>Contenu de l'article</h2>
+                <h2 class="h3">Contenu de l'article</h2>
                 {{ form_row(form.content) }}
             </div>
         
@@ -56,7 +56,7 @@
 
         {# Auteur de l'article #}
         {% set user = article.author %}
-        <div class="col-4">
+        <div class="col-lg-4">
             {% include 'admin/partials/author.html.twig' %}
         </div>
             

@@ -9,6 +9,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use App\Repository\CommentTopicRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class AdminCommentTopicController extends AbstractController
@@ -27,6 +28,7 @@ class AdminCommentTopicController extends AbstractController
      * Permet d'afficher la page de modération des commentaires signalés
      * 
      * @Route("/admin/moderation/comment-topic", name="admin_comment_topic_index")
+     * @IsGranted("ROLE_MODERATOR")
      */
     public function index(Request $request) {
         return $this->render('admin/moderation/comment_topic/index.html.twig', [
@@ -38,6 +40,7 @@ class AdminCommentTopicController extends AbstractController
      * Permets d'afficher les commentaires qui ont été modérer
      *
      * @Route("/admin/moderation/comment-topic/moderate", name="admin_comment_topic_moderate")
+     * @IsGranted("ROLE_MODERATOR")
      * 
      * @return void
      */
@@ -51,9 +54,9 @@ class AdminCommentTopicController extends AbstractController
      * Permet d'afficher le détails d'un commentaire et de le modérer
      *
      * @Route("/admin/moderation/comment-topic/{id}", name="admin_comment_topic_show")
+     * @IsGranted("ROLE_MODERATOR")
      * 
      * @param CommentTopic $comment
-     * @param EntityManagerInterface $manager
      * @param Request $request
      * 
      * @return void
@@ -85,9 +88,9 @@ class AdminCommentTopicController extends AbstractController
      * Permet de supprimer un commentaire
      *
      * @Route("/admin/moderation/comment-topic/{id}/delete", name="admin_comment_topic_delete")
+     * @IsGranted("ROLE_MODERATOR")
      * 
      * @param CommentTopic $comment
-     * @param EntityManagerInterface $manager
      * 
      * @return void
      */

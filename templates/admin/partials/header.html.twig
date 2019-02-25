@@ -1,51 +1,66 @@
 <!--Navbar -->
 <nav class="navbar navbar-expand-lg navbar-dark red">
     <a class="navbar-brand" href="#">
-        <i class="fas fa-beer"></i>
         La <strong class="orange-text">Taverne</strong> du <strong class="orange-text">JV</strong> 
-        - Administration
     </a>
 
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent-333" aria-controls="navbarSupportedContent-333" aria-expanded="false" aria-label="Toggle navigation">
+    <!-- Bouton mobile -->
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
     </button>
 
-    <div class="collapse navbar-collapse" id="navbarSupportedContent-333">
+    <div class="collapse navbar-collapse" id="navbarCollapse">
         <ul class="navbar-nav mr-auto">
+
             <li class="nav-item">
                 <a class="nav-link" href="{{ path('admin_dashboard') }}">
                     <i class="fas fa-chart-line"></i>
                     Dashboard
                 </a>
             </li>
+
+            {% if is_granted('ROLE_AUTHOR') %}
             <li class="nav-item">
                 <a class="nav-link" href="{{ path('admin_articles_index') }}">
                     <i class="far fa-newspaper"></i>
                     Articles
                 </a>
             </li>
+            {% endif %}
+
+            {% if is_granted('ROLE_ADMIN') %}
             <li class="nav-item">
                 <a class="nav-link" href="{{ path('admin_topics_index') }}">
                     <i class="far fa-comment-alt"></i>
                     Topics
                 </a>
             </li>
-            <li class="nav-item dropdown">
-                <a class="nav-link" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    <i class="fas fa-exclamation-triangle"></i>
-                    Modération
-                </a>
-                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                    <a class="dropdown-item" href="{{ path('admin_comment_article_index') }}">Commentaire d'article</a>
-                    <a class="dropdown-item" href="{{ path('admin_comment_topic_index') }}">Commentaire des topics</a>
+            {% endif %}
+
+            {% if is_granted('ROLE_MODERATOR') %}
+            <li class="nav-item">
+                <div class="dropdown">
+                    <a class="nav-link" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <i class="fas fa-exclamation-triangle"></i>
+                        Modération
+                    </a>
+                    <div class="dropdown-menu scrollable-menu" aria-labelledby="dropdownMenuLink">
+                        <a class="dropdown-item" href="{{ path('admin_comment_article_index') }}">Commentaire d'article</a>
+                        <a class="dropdown-item" href="{{ path('admin_comment_topic_index') }}">Commentaire des topics</a>
+                    </div>
                 </div>
             </li>
+            {% endif %}
+
+            {% if is_granted('ROLE_ADMIN') %}
             <li class="nav-item">
                 <a class="nav-link" href="{{ path('admin_users_index') }}">
                     <i class="fas fa-users"></i>
                     Utilisateurs
                 </a>
             </li>
+            {% endif %}
+
         </ul>
 
         <ul class="navbar-nav ml-auto">
@@ -56,18 +71,20 @@
                 </a>
             </li>
             {% if app.user %}
-                <li class="nav-item dropdown">
-                    <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" id="accountDropdownLink">
-                        {% if app.user.picture == null %}
-                            <img src="http://image.jeuxvideo.com/avatar-md/default.jpg" alt="Image de profil par défaut" class="avatar avatar-mini"> 
-                        {% else %}
-                            <img src="{{ app.user.picture }}" class="avatar avatar-mini" alt="Avatar de {{ app.user.username }}">
-                        {% endif %}        
-                        {{ app.user.username }}
-                    </a>
-                        
-                    <div class="dropdown-menu" aria-labelledby="accountDropdownLink">
-                        <a href="{{ path('admin_account_logout') }}" class="dropdown-item">Déconnexion</a>
+                <li class="nav-item">
+                    <div class="dropdown">
+                        <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" id="accountDropdownLink">
+                            {% if app.user.picture == null %}
+                                <img src="http://image.jeuxvideo.com/avatar-md/default.jpg" alt="Image de profil par défaut" class="avatar avatar-mini"> 
+                            {% else %}
+                                <img src="{{ app.user.picture }}" class="avatar avatar-mini" alt="Avatar de {{ app.user.username }}">
+                            {% endif %}        
+                            {{ app.user.username }}
+                        </a>
+                            
+                        <div class="dropdown-menu" aria-labelledby="accountDropdownLink">
+                            <a href="{{ path('admin_account_logout') }}" class="dropdown-item">Déconnexion</a>
+                        </div>
                     </div>
                 </li>
             {% endif %}      

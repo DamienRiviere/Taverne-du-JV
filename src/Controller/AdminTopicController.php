@@ -12,6 +12,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use App\Repository\CommentTopicRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class AdminTopicController extends AbstractController
@@ -28,6 +29,7 @@ class AdminTopicController extends AbstractController
      * Permet d'afficher la page de gestion des topics
      * 
      * @Route("/admin/topics", name="admin_topics_index")
+     * @IsGranted("ROLE_ADMIN")
      */
     public function index(TopicRepository $repo, Request $request) {
         return $this->render('admin/topic/index.html.twig', [
@@ -39,6 +41,7 @@ class AdminTopicController extends AbstractController
      * Permet d'éditer un topic
      * 
      * @Route("/admin/topics/{id}/edit", name="admin_topics_edit")
+     * @IsGranted("ROLE_ADMIN")
      *
      * @param Topic $topic
      * @param Request $request
@@ -70,6 +73,7 @@ class AdminTopicController extends AbstractController
      * Permet de supprimer un topic
      *
      * @Route("/admin/topics/{id}/delete", name="admin_topics_delete")
+     * @IsGranted("ROLE_ADMIN")
      * 
      * @param Topic $topic
      * 
@@ -91,6 +95,7 @@ class AdminTopicController extends AbstractController
      * Permet d'afficher les commentaires d'un topic
      * 
      * @Route("/admin/topics/{id}/comments", name="admin_topics_comments")
+     * @IsGranted("ROLE_ADMIN")
      *
      * @param Topic $topic
      * 
@@ -106,6 +111,7 @@ class AdminTopicController extends AbstractController
      * Permet de modifier un commentaire d'un topic
      *
      * @Route("/admin/topics/{idTopic}/comments/{idComment}/edit", name="admin_topics_comments_edit")
+     * @IsGranted("ROLE_ADMIN")
      * 
      * @param CommentTopic $idComment
      * @param Request $request
@@ -137,6 +143,7 @@ class AdminTopicController extends AbstractController
      * Permet de supprimer un commentaire d'un topic
      *
      * @Route("/admin/topics/{idTopic}/comments/{idComment}/delete", name="admin_topics_comments_delete")
+     * @IsGranted("ROLE_ADMIN")
      * 
      * @param CommentTopic $idComment
      * 

@@ -11,17 +11,16 @@
 
     {% include('partials/alert.html.twig') %}
 
-    <table class="table table-hover">
+    <table class="table table-hover table-striped table-sm">
         <thead>
             <tr>
-                <th>Id</th>
+                <th class="table-id-topic">Id</th>
                 <th>Titre</th>
                 <th>Auteur</th>
-                <th>Message</th>
                 <th>Forum</th>
-                <th>Commentaire</th>
-                <th>Date de création</th>
-                <th>Action</th>
+                <th class="table-comment-topic">Commentaire</th>
+                <th class="table-date-topic">Date de création</th>
+                <th class="table-action-topic">Action</th>
             </tr>
         </thead>
 
@@ -30,13 +29,12 @@
             {% set user = topic.user %}
             {% set forum = topic.forum %}
             <tr>
-                <td><strong>{{ topic.id }}</strong></td>
-                <td class="font-weight-bold">{{ topic.title }}</td>
+                <td class="table-id-topic"><strong>{{ topic.id }}</strong></td>
+                <td class="font-weight-bold">{{ topic.title | slice(0, 30) }}</td>
                 <td>
-                    <img src="{{ user.picture }}" alt="Avatar de {{ user.username }}" class="avatar avatar-micro mr-2">
+                    <img src="{{ user.picture }}" alt="Avatar de {{ user.username }}" class="avatar avatar-micro mr-2 table-img-author-topic">
                     <strong>{{ user.username }}</strong>
                 </td>
-                <td>{{ topic.message | raw | slice(3, 50) }}</td>
                 <td>
                     <h6>
                         {% if forum.platformTitle == "Playstation" %}
@@ -50,20 +48,33 @@
                         {% endif %}
                     </h6>
                 </td>
-                <td>
+                <td class="table-comment-topic">
                     <h6>
-                        <span class="badge orange accent-3">{{ topic.commentTopic | length }} commentaires</span>
+                        <span class="badge orange accent-3">{{ topic.commentTopic | length }}</span>
                     </h6>
                 </td>
-                <td>{{ topic.createdAt | date('d/m/Y') }} à {{ topic.createdAt | date('H:i') }}</td>
-                <td>
-                    <a href="{{ path('admin_topics_edit', {'id': topic.id}) }}" class="btn btn-md btn-primary" title="Modifier le topic">
+                <td class="table-date-topic">{{ topic.createdAt | date('d/m/Y') }} {{ topic.createdAt | date('H:i') }}</td>
+                <td class="table-action-topic">
+                    <a href="{{ path('admin_topics_edit', {'id': topic.id}) }}" class="btn btn-md btn-primary table-btn" title="Modifier le topic">
                         <i class="fas fa-edit"></i>
                     </a>
-                    <a href="{{ path('admin_topics_comments', {'id': topic.id}) }}" class="btn btn-md orange accent-3" title="Voir les commentaires">
+                    <a href="{{ path('admin_topics_comments', {'id': topic.id}) }}" class="btn btn-md orange accent-3 table-btn" title="Voir les commentaires">
                         <i class="fas fa-comments text-white"></i>
                     </a>
-                    <a href="{{ path('admin_topics_delete', {'id': topic.id}) }}" class="btn btn-md btn-danger" title="Supprimer le topic">
+                    <a href="{{ path('admin_topics_delete', {'id': topic.id}) }}" class="btn btn-md btn-danger table-btn" title="Supprimer le topic">
+                        <i class="fas fa-trash"></i>
+                    </a>
+                </td>
+            </tr>
+            <tr class="table-action-responsive-topic">
+                <td>
+                    <a href="{{ path('admin_topics_edit', {'id': topic.id}) }}" class="btn btn-md btn-primary table-btn" title="Modifier le topic">
+                        <i class="fas fa-edit"></i>
+                    </a>
+                    <a href="{{ path('admin_topics_comments', {'id': topic.id}) }}" class="btn btn-md orange accent-3 table-btn" title="Voir les commentaires">
+                        <i class="fas fa-comments text-white"></i>
+                    </a>
+                    <a href="{{ path('admin_topics_delete', {'id': topic.id}) }}" class="btn btn-md btn-danger table-btn" title="Supprimer le topic">
                         <i class="fas fa-trash"></i>
                     </a>
                 </td>

@@ -2,7 +2,7 @@
 <div class="card mt-3">
     <h2 class="card-header red text-white h3 font-weight-light"><i class="fas fa-angle-down"></i> Les dernières news</h2>
     <ul class="list-group">
-        {% for new in news | slice(1, 5) %}
+        {% for new in news | slice(0, 5) %}
         <li class="list-group-item">
             <div class="col">
                 <p class="mb-0"><a href="{{ path('article_show', {'slug': new.slug}) }}">{{ new.title }}</a></p>
@@ -10,7 +10,7 @@
             <div class="col d-flex">
                 <small class="card-text text-muted">
                 {% for subcategory in new.subCategories %}
-                    <span class="badge {{ subcategory.style }}">{{ subcategory.title }}</span>                                   
+                    <span class="badge {{ subcategory.style }} mr-1">{{ subcategory.title }}</span>                                   
                 {% endfor %}      
                 </small>
             </div>                          

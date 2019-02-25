@@ -63,12 +63,8 @@ class CommentArticle
     {
         if(empty($this->createdAt)) {
             $this->createdAt = new \Datetime();
-        } 
-        else if(!empty($this->createdAt)) {
-            $this->modifiedAt = new \Datetime();
         }
     }
-
 
     public function getId(): ?int
     {

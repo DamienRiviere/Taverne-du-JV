@@ -1,71 +1,87 @@
 <!--Navbar -->
-<nav class="navbar navbar-expand-lg navbar-dark blue accent-2">
+<nav class="navbar navbar-expand-lg navbar-dark blue accent-2 fixed-top">
     <div class="container">
-        <a class="navbar-brand" href="#">
+        <a class="navbar-brand" href="{{ path('home') }}">
             <i class="fas fa-beer"></i>
             La <strong class="orange-text">Taverne</strong> du <strong class="orange-text">JV</strong> 
         </a>
 
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent-333" aria-controls="navbarSupportedContent-333" aria-expanded="false" aria-label="Toggle navigation">
+        <!-- Bouton mobile -->
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
 
-        <div class="collapse navbar-collapse" id="navbarSupportedContent-333">
+        <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav mr-auto">
+
                 <li class="nav-item">
-                    <a class="nav-link" href="{{ path('home') }}">Accueil
-                        <span class="sr-only">(current)</span>
+                    <a class="nav-link" href="{{ path('home') }}">
+                        Accueil
                     </a>
                 </li>
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink-333" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        Actualité
-                    </a>
-                    <div class="dropdown-menu dropdown-menu-right dropdown-default" aria-labelledby="navbarDropdownMenuLink-333">
-                        <a class="dropdown-item" href="{{ path('article_test') }}">Test</a>
-                        <a class="dropdown-item" href="{{ path('article_preview') }}">Preview</a>
-                        <a class="dropdown-item" href="{{ path('article_news') }}">News</a>
+
+                <li class="nav-item">
+                    <div class="dropdown">
+                        <a class="nav-link dropdown-toggle" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Actualité
+                        </a>
+                        <div class="dropdown-menu scrollable-menu" aria-labelledby="dropdownMenuLink">
+                            <a class="dropdown-item" href="{{ path('article_test') }}">Test</a>
+                            <a class="dropdown-item" href="{{ path('article_preview') }}">Preview</a>
+                            <a class="dropdown-item" href="{{ path('article_news') }}">News</a>
+                        </div>
                     </div>
                 </li>
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink-333" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        Forum
-                    </a>
-                    <div class="dropdown-menu dropdown-menu-right dropdown-default" aria-labelledby="navbarDropdownMenuLink-333">
-                        <a class="dropdown-item" href="{{ path('forum_show', {'slug': 'playstation-4'}) }}">Playstation 4</a>
-                        <a class="dropdown-item" href="{{ path('forum_show', {'slug': 'switch'}) }}">Switch</a>
-                        <a class="dropdown-item" href="{{ path('forum_show', {'slug': 'xbox-one'}) }}">Xbox One</a>
-                        <a class="dropdown-item" href="{{ path('forum_show', {'slug': 'jeux'}) }}">PC</a>
-                        <div class="dropdown-divider"></div>
-                        <a class="dropdown-item" href="{{ path('forum_index') }}">Tous les forums</a>
+
+                <li class="nav-item">
+                    <div class="dropdown">                    
+                        <a class="nav-link dropdown-toggle" href="#" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Forum
+                        </a>
+                        <div class="dropdown-menu scrollable-menu" aria-labelledby="dropdownMenuLink">
+                            <a class="dropdown-item" href="{{ path('forum_show', {'slug': 'playstation-4'}) }}">Playstation 4</a>
+                            <a class="dropdown-item" href="{{ path('forum_show', {'slug': 'switch'}) }}">Switch</a>
+                            <a class="dropdown-item" href="{{ path('forum_show', {'slug': 'xbox-one'}) }}">Xbox One</a>
+                            <a class="dropdown-item" href="{{ path('forum_show', {'slug': 'jeux'}) }}">PC</a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" href="{{ path('forum_index') }}">Tous les forums</a>
+                        </div>
                     </div>
                 </li>
+
             </ul>
 
-            <ul class="navbar-nav ml-auto nav-flex-icons">
+            <ul class="navbar-nav ml-auto">
                 {% if app.user %}
-                    <li class="nav-item dropdown">
-                        <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" id="accountDropdownLink">
-                            <img src="{{ app.user.picture }}" class="avatar avatar-mini" alt="Avatar de {{ app.user.username }}">       
-                            {{ app.user.username }}
-                        </a>
-                        
-                        <div class="dropdown-menu" aria-labelledby="accountDropdownLink">
-                            <a href="{{ path('account_index') }}" class="dropdown-item">Mon compte</a>
-                            {% if app.user.getRoles[0] == "ROLE_AUTHOR" or app.user.getRoles[0] == "ROLE_ADMIN" %}
-                                <a href="{{ path('article_create') }}" class="dropdown-item">Créer un article</a>
-                            {%  endif %}
-                            <div class="dropdown-divider"></div>
-                            <a href="{{ path('account_logout') }}" class="dropdown-item">Déconnexion</a>
+
+                    <li class="nav-item">
+                        <div class="dropdown">
+                            <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" id="accountDropdownLink">
+                                <img src="{{ app.user.picture }}" class="avatar avatar-mini" alt="Avatar de {{ app.user.username }}">       
+                                {{ app.user.username }}
+                            </a>
+                            
+                            <div class="dropdown-menu" aria-labelledby="accountDropdownLink">
+                                <a href="{{ path('account_index') }}" class="dropdown-item">Mon compte</a>
+                                {% if app.user.getRoles[0] == "ROLE_AUTHOR" or app.user.getRoles[0] == "ROLE_ADMIN" %}
+                                    <a href="{{ path('article_create') }}" class="dropdown-item">Créer un article</a>
+                                {%  endif %}
+                                <div class="dropdown-divider"></div>
+                                <a href="{{ path('account_logout') }}" class="dropdown-item">Déconnexion</a>
+                            </div>
                         </div>
                     </li>
+
                 {% else %}
+
                     <li class="nav-item">
                         <a href="{{ path('account_register') }}" class="nav-link" href="#">Inscription</a>
                     </li>
+
                     <li class="nav-item">
                         <a href="{{ path('account_login') }}" class="nav-link" href="#">Connexion</a>
                     </li>
+
                 {% endif %}      
             </ul>
         </div>

@@ -9,15 +9,15 @@
 
     {% include 'partials/alert.html.twig' %}
 
-    <table class="table table-hover">
+    <table class="table table-hover table-striped table-sm">
         <thead>
             <tr>
-                <th>Id</th>
+                <th class="table-id-user">Id</th>
+                <th class="table-email-user">Email</th>
                 <th>Pseudo</th>
-                <th>Email</th>
-                <th>Picture</th>
-                <th>Slug</th>
-                <th>Rôle</th>
+                <th class="table-picture-user">Picture</th>
+                <th class="table-slug-user">Slug</th>
+                <th class="table-action-user">Rôle</th>
                 <th>Action</th>
             </tr>
         </thead>
@@ -25,13 +25,13 @@
         <tbody>
             {% for user in users %}
             <tr>
-                <td><strong>{{ user.id }}</strong></td>
+                <td class="table-id-user"><strong>{{ user.id }}</strong></td>
+                <td class="table-email-user"><strong>{{ user.email }}</strong></td>
                 <td><strong>{{ user.username }}</strong></td>
-                <td><strong>{{ user.email }}</strong></td>
-                <td>
+                <td class="table-picture-user">
                     <img src="{{ user.picture }}" alt="Avatar de {{ user.username }}" class="avatar avatar-micro mr-2">
                 </td>
-                <td>{{ user.slug }}</td>
+                <td class="table-slug-user">{{ user.slug }}</td>
                 <td>
                     {%  if user.getRoles()[0] == 'ROLE_ADMIN' %}
                         <h6>
@@ -59,11 +59,21 @@
                         </h6>
                     {%  endif %}
                 </td>
-                <td>
-                    <a href="{{ path('admin_users_show', {'id': user.id}) }}" class="btn btn-md btn-primary" title="Détails de l'utilisateur">
+                <td class="table-action-user">
+                    <a href="{{ path('admin_users_show', {'id': user.id}) }}" class="btn btn-md btn-primary table-btn" title="Détails de l'utilisateur">
                         <i class="fas fa-user-tag"></i>
                     </a>
-                    <a href="{{ path('admin_users_delete', {'id': user.id}) }}" class="btn btn-md btn-danger" title="Supprimer l'utilisateur">
+                    <a href="{{ path('admin_users_delete', {'id': user.id}) }}" class="btn btn-md btn-danger table-btn" title="Supprimer l'utilisateur">
+                        <i class="fas fa-trash"></i>
+                    </a>
+                </td>
+            </tr>
+            <tr class="table-action-responsive-user">
+                <td>
+                    <a href="{{ path('admin_users_show', {'id': user.id}) }}" class="btn btn-md btn-primary table-btn" title="Détails de l'utilisateur">
+                        <i class="fas fa-user-tag"></i>
+                    </a>
+                    <a href="{{ path('admin_users_delete', {'id': user.id}) }}" class="btn btn-md btn-danger table-btn" title="Supprimer l'utilisateur">
                         <i class="fas fa-trash"></i>
                     </a>
                 </td>

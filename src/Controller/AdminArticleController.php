@@ -12,6 +12,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use App\Repository\CommentArticleRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class AdminArticleController extends AbstractController
@@ -28,6 +29,7 @@ class AdminArticleController extends AbstractController
      * Permet d'afficher la page de gestion des articles
      * 
      * @Route("/admin/articles", name="admin_articles_index")
+     * @IsGranted("ROLE_AUTHOR")
      * 
      * @param ArticleRepository $repo
      * @param Request $request
@@ -42,6 +44,7 @@ class AdminArticleController extends AbstractController
      * Permet d'éditer un article
      * 
      * @Route("/admin/articles/{id}/edit", name="admin_articles_edit")
+     * @IsGranted("ROLE_AUTHOR")
      *
      * @param Article $article
      * @return Response
@@ -71,6 +74,7 @@ class AdminArticleController extends AbstractController
      * Permet de supprimer un article
      *
      * @Route("/admin/articles/{id}/delete", name="admin_articles_delete")
+     * @IsGranted("ROLE_AUTHOR")
      * 
      * @param Article $article
      * @param EntityManagerInterface $manager
@@ -93,6 +97,7 @@ class AdminArticleController extends AbstractController
      * Permet d'afficher les commentaires d'un article
      * 
      * @Route("/admin/articles/{id}/comments", name="admin_articles_comments")
+     * @IsGranted("ROLE_AUTHOR")
      *
      * @param CommentArticleRepository $repo
      * 
@@ -108,6 +113,7 @@ class AdminArticleController extends AbstractController
      * Permet de modifier un commentaire d'un article
      *
      * @Route("/admin/articles/{idArticle}/comments/{idComment}/edit", name="admin_articles_comments_edit")
+     * @IsGranted("ROLE_AUTHOR")
      * 
      * @param CommentArticle $idComment
      * @param Request $request
@@ -140,6 +146,7 @@ class AdminArticleController extends AbstractController
      * Permet de supprimer un commentaire d'un article
      *
      * @Route("/admin/articles/{idArticle}/comments/{idComment}/delete", name="admin_articles_comments_delete")
+     * @IsGranted("ROLE_AUTHOR")
      * 
      * @param CommentArticle $comment
      * @return void

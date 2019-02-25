@@ -21,49 +21,38 @@
         </h3>
 
         <div class="card-header">
-            <div class="row">
-                <div class="col-6">
-                    <span class="topic-head-sujet font-weight-bold">SUJET</span> 
-                </div>
-                <div class="col-2">
-                    <span class="topic-head-auteur font-weight-bold">AUTEUR</span>
-                </div>
-                <div class="col-2">
-                    <span class="topic-head-nb-message font-weight-bold">NB</span> 
-                </div>
-                <div class="col-2">
-                    <span class="topic-head-dernier-msg font-weight-bold">DERNIER MSG</span>
-                </div>
-            </div> 
+            <span class="topic-head-sujet font-weight-bold">SUJET</span> 
+            <span class="topic-head-auteur font-weight-bold">AUTEUR</span>
+            <span class="topic-head-nb-message font-weight-bold">NB</span> 
+            <span class="topic-head-dernier-msg font-weight-bold">DERNIER MSG</span> 
         </div>
 
         <!-- Liste des topics -->
         <ul class="list-group list-group-flush">
             {% for topic in topics %}
+            {% set user = topic.user %}
                 <li class="list-group-item p-2">
-                    <div class="row">
-                        <div class="col-6">
-                            <!-- Titre du topic -->
-                            <span class="topic-sujet"><a href="{{ path('topic_show', {'slugForum': topic.forum.slug, 'id': topic.id,'slugTopic': topic.slug}) }}">{{ topic.title }}</a></span>
-                        </div>
-                        <div class="col-2">
-                            <!-- Le pseudo de l'auteur appraitra en rouge s'il est admin ou modérateur -->
-                            <span class="topic-auteur">{{ topic.user.username }}</span>
-                        </div>
-                        <div class="col-2">
-                            <!-- Nombre de message du topic -->
-                            <span class="topic-nb-message">{{ topic.commentTopic | length }}</span>
-                        </div>
-                        <div class="col-2">
-                            {% if topic.lastMsg is empty %}
-                                <!-- Date du premier message du topic -->
-                                <span class="topic-dernier-msg small">{{ topic.createdAt | date('d/m/Y') }} à {{ topic.createdAt | date('H:i') }}</span>
-                            {% else %}
-                                <!-- Date du dernier message du topic -->
-                                <span class="topic-dernier-msg small">{{ topic.lastMsg | date('d/m/Y') }} à {{ topic.lastMsg | date('H:i') }}</span>
-                            {% endif %}
-                        </div>
-                    </div>
+                        <!-- Titre du topic -->
+                        <span class="topic-sujet"><a href="{{ path('topic_show', {'slugForum': topic.forum.slug, 'id': topic.id,'slugTopic': topic.slug}) }}">{{ topic.title }}</a></span>
+                        <!-- Auteur du topic -->
+                        {%  if user.getRoles()[0] == 'ROLE_ADMIN' %}
+                            <span class="topic-auteur text-danger">{{ user.username }}</span>
+                        {% elseif user.getRoles()[0] == 'ROLE_AUTHOR' %}
+                            <span class="topic-auteur text-success">{{ user.username }}</span>
+                        {% elseif user.getRoles()[0] == 'ROLE_MODERATOR' %}
+                            <span class="topic-auteur text-warning">{{ user.username }}</span>
+                        {% else %}
+                            <span class="topic-auteur">{{ user.username }}</span>
+                        {%  endif %}
+                        <!-- Nombre de message du topic -->
+                        <span class="topic-nb-message">{{ topic.commentTopic | length }}</span>
+                        {% if topic.lastMsg is empty %}
+                            <!-- Date du premier message du topic -->
+                            <span class="topic-dernier-msg small">{{ topic.createdAt | date('d/m/Y') }} {{ topic.createdAt | date('H:i') }}</span>
+                        {% else %}
+                            <!-- Date du dernier message du topic -->
+                            <span class="topic-dernier-msg small">{{ topic.lastMsg | date('d/m/Y') }} {{ topic.lastMsg | date('H:i') }}</span>
+                        {% endif %}
                 </li>
             {% endfor %}      
         </ul>

@@ -35,7 +35,12 @@ class AccountType extends ApplicationType
             ->add(
                 'description',
                 TextareaType::class,
-                $this->getConfiguration("Description", "Ecrivez une description (optionnel) ...")
+                $this->getConfiguration("Description", "Ecrivez une description (optionnel) ...", [
+                    'attr' => [
+                        'cols' => '10',
+                        'rows' => '10'
+                    ]
+                ])
             )
         ;
     }

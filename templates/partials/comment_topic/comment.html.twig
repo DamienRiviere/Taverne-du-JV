@@ -4,14 +4,14 @@
     {% set user = comment.user %}
     <div class="card-body">
         <div class="row">
-            <div class="col-2 text-center border-right">
+            <div class="col-lg-2 col-md-3 col-sm-4 col-3 text-center border-right col-image">
                 {% if user.picture is empty %}
                     <img src="http://image.jeuxvideo.com/avatar-md/default.jpg" alt="Image de profil par défaut" class="avatar"> 
                 {% else %}
                     <img src="{{ user.picture }}" alt="Avatar de {{ user.username }}" class="avatar">
                 {% endif %}
 
-                <div class="col">
+                <div class="col information-user">
                     {%  if user.getRoles()[0] == 'ROLE_ADMIN' %}
                         <span class="badge badge-danger mt-3">
                             ADMINISTRATEUR
@@ -35,12 +35,20 @@
                 </div>
                             
             </div>
-            <div class="col">
+            <div class="col-lg-10 col-md-9 col-sm-8 col-9 col-text">
                 <div class="col">
                     <div class="row">
                         <h6 class="mb-0">
-                            <a href="{{ path('user_show', {'slug': user.slug}) }}" class="font-weight-bold">{{ user.username }}</a>
-                            <small class="">le {{ comment.createdAt | date('d/m/Y') }} à {{ comment.createdAt | date('H:i') }}</small>
+                            {%  if user.getRoles()[0] == 'ROLE_ADMIN' %}
+                                <a href="{{ path('user_show', {'slug': user.slug}) }}" class="font-weight-bold text-danger">{{ user.username }}</a>
+                            {% elseif user.getRoles()[0] == 'ROLE_AUTHOR' %}
+                                <a href="{{ path('user_show', {'slug': user.slug}) }}" class="font-weight-bold text-success">{{ user.username }}</a>
+                            {% elseif user.getRoles()[0] == 'ROLE_MODERATOR' %}
+                                <a href="{{ path('user_show', {'slug': user.slug}) }}" class="font-weight-bold text-warning">{{ user.username }}</a>
+                            {% elseif user.getRoles()[0] == 'ROLE_USER' %}
+                                <a href="{{ path('user_show', {'slug': user.slug}) }}" class="font-weight-bold text-primary">{{ user.username }}</a>
+                            {%  endif %}
+                            <small class="">{{ comment.createdAt | date('d/m/Y') }} {{ comment.createdAt | date('H:i') }}</small>
                             {% if app.user and app.user == comment.getUser() %}
                                 <a href="{{ path('comment_topic_edit', {'id': comment.id}) }}" class="text-primary ml-2" title="Modifier le commentaire"><i class="fas fa-edit"></i></a>
                             {% endif %}

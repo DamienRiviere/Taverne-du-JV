@@ -1,18 +1,27 @@
 {# Affichage d'un commentaire d'un article #}
 <div class="card my-3">
     {% set user = comment.user %}
-    <div class="card-header orange accent-3 text-white font-weight-light py-2">
+    <div class="card-header blue-grey lighten-4 text-white font-weight-light py-2">
         <div class="row">
             <img src="{{ user.picture }}" alt="Image de {{ user.username }}" class="img-profil rounded ml-2"> 
             <div class="col">
-                <h6 class="mb-0"><a href="{{ path('user_show', {'slug': user.slug}) }}" class="text-white font-weight-bold">{{ user.username }}</a></h6>
-                <small class="text-white">le {{ comment.createdAt | date('d/m/Y') }} à {{ comment.createdAt | date('H:i') }}</small>
+                {%  if user.getRoles()[0] == 'ROLE_ADMIN' %}
+                    <h6 class="mb-0"><a href="{{ path('user_show', {'slug': user.slug}) }}" class="text-danger font-weight-bold">{{ user.username }}</a></h6>
+                {% elseif user.getRoles()[0] == 'ROLE_AUTHOR' %}
+                    <h6 class="mb-0"><a href="{{ path('user_show', {'slug': user.slug}) }}" class="text-success font-weight-bold">{{ user.username }}</a></h6>
+                {% elseif user.getRoles()[0] == 'ROLE_MODERATOR' %}
+                    <h6 class="mb-0"><a href="{{ path('user_show', {'slug': user.slug}) }}" class="text-warning font-weight-bold">{{ user.username }}</a></h6>
+                {% elseif user.getRoles()[0] == 'ROLE_USER' %}
+                    <h6 class="mb-0"><a href="{{ path('user_show', {'slug': user.slug}) }}" class="text-primary font-weight-bold">{{ user.username }}</a></h6>
+                {%  endif %}
+                
+                <small class="text-primary">le {{ comment.createdAt | date('d/m/Y') }} à {{ comment.createdAt | date('H:i') }}</small>
             </div>
             {% if app.user and app.user == comment.getUser() %}
-                <a href="{{ path('comment_article_edit', {'id': comment.id}) }}" class="text-white mr-2" title="Modifier le commentaire"><i class="fas fa-edit"></i></a>
+                <a href="{{ path('comment_article_edit', {'id': comment.id}) }}" class="text-primary mr-2" title="Modifier le commentaire"><i class="fas fa-edit"></i></a>
             {% endif %}
             {% if comment.moderation.statut == "Commentaire publié" and app.user and app.user != comment.getUser() %}
-                <a href="{{ path('moderation_signal_comment_article', {'id': comment.id}) }}" class="text-white" title="Signaler le commentaire"><i class="fas fa-exclamation-circle"></i></a>
+                <a href="{{ path('moderation_signal_comment_article', {'id': comment.id}) }}" class="text-primary" title="Signaler le commentaire"><i class="fas fa-exclamation-circle"></i></a>
             {% endif %}
         </div> 
     </div>
@@ -20,7 +29,7 @@
     <div class="card-body">
         <p class="mb-0">{{ comment.content | raw }}</p>
         {% if comment.modifiedAt is not empty %}
-            <small class="text-muted float-right">Modifié le {{ comment.modifiedAt | date('d/m/Y') }} à {{ comment.modifiedAt | date('H:i') }}</small>
+            <small class="text-muted float-right modified-message">Modifié le {{ comment.modifiedAt | date('d/m/Y') }} à {{ comment.modifiedAt | date('H:i') }}</small>
         {% endif %}
     </div>
 </div>

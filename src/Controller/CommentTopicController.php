@@ -30,6 +30,8 @@ class CommentTopicController extends AbstractController
         $form->handleRequest($request);
 
         if($form->isSubmitted() && $form->isValid()) {
+            $comment->setModifiedAt(new \DateTime());
+
             $this->manager->persist($comment);
             $this->manager->flush();
 

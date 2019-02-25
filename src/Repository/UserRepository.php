@@ -36,5 +36,21 @@ class UserRepository extends ServiceEntityRepository
 
         return $query->getResult();
     }
+
+    /**
+     * Permet de récupérer tout les articles d'un utilisateur
+     *
+     * @param [type] $user
+     * @return void
+     */
+    public function findUserArticles($user) {
+        $query = $this->manager->createQuery('SELECT u, a FROM App\Entity\User u JOIN u.articles a WHERE a.author = :user  ORDER BY a.createdAt DESC');
+        
+        $query->setParameters(array(
+            'author' => $user
+        ));
+
+        return $query->getResult();
+    }
     
 }

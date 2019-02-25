@@ -6,6 +6,10 @@ body {
     background-position: center;
 }
 
+.bloc-accueil {
+    padding-top: 65px!important;
+}
+
 p {
     font-size: 0.9em;
 }
@@ -40,6 +44,12 @@ p {
     border-radius: 50%;
 }
 
+.avatar-profil {
+    max-width: 128px;
+    max-height: 128px;
+    border-radius: 50%;
+}
+
 .avatar-medium {
     max-width: 64px;
     max-height: 64px;
@@ -53,5 +63,355 @@ p {
 .avatar-micro {
     max-width: 35px;
     max-height: 35px;
+}
+
+.article-author {
+    margin-left: 15px;
+}
+
+.topic-head-sujet {
+    display: inline-flex;
+    width: 45%;
+}
+
+.topic-sujet {
+    display: inline-flex;
+    width: 45%;
+}
+
+.topic-head-auteur {
+    display: inline-flex;
+    width: 20%;
+}
+
+.topic-auteur {
+    display: inline-flex;
+    width: 20%;
+}
+
+.topic-head-nb-message {
+    display: inline-flex;
+    width: 10%;
+}
+
+.topic-nb-message {
+    display: inline-flex;
+    width: 10%;
+}
+
+.topic-head-dernier-msg {
+    display: inline-flex;
+    width: 20%;
+}
+
+.topic-dernier-msg {
+    display: inline-flex;
+    width: 20%;
+}
+
+.modified-message {
+    margin-top: 15px;
+}
+
+.full-screen {
+    min-height: 54vh;
+}
+
+.table-action-responsive-article {
+    display: none;
+}
+
+.table-action-responsive-topic {
+    display: none;
+}
+
+.table-action-responsive-user {
+    display: none;
+}
+
+@media screen and (max-width: 1400px)
+{
+    .table-img-author-topic {
+        display: none;
+    }
+}
+
+@media screen and (max-width: 1353px)
+{
+    .table-date-topic {
+        display: none;
+    }
+}
+
+@media screen and (max-width: 1135px)
+{
+    .table-img-author-article {
+        display: none;
+    }
+}
+
+@media screen and (max-width: 1088px)
+{
+    .table-id-article {
+        display: none;
+    }
+}
+
+@media screen and (max-width: 1028px)
+{
+    .table-date-article {
+        display: none;
+    }
+}
+
+@media screen and (max-width: 991px)
+{
+    .col-right {
+        display: none;
+    }
+
+    .profil-center {
+        text-align: center;
+    }
+}
+
+@media screen and (max-width: 892px)
+{
+    .table-comment-article {
+        display: none;
+    }
+}
+
+@media screen and (max-width: 869px)
+{
+    .table-comment-topic {
+        display: none;
+    }
+}
+
+@media screen and (max-width: 767px)
+{
+    .img-author-article {
+        display: none;
+    }
+
+    .article-author {
+        margin-left: 0px;
+    }
+
+    .topic-head-dernier-msg {
+        display: none;
+    }
+
+    .topic-head-nb-message {
+        display: none;
+    }
+
+    .topic-head-sujet {
+        width: 70%;
+    }
+
+    .topic-head-auteur {
+        width: 29%;
+        justify-content: flex-end;
+    }
+
+    .topic-sujet {
+        width: 70%;
+    }
+
+    .topic-auteur {
+        width: 29%;
+        justify-content: flex-end;
+    }
+
+    .topic-nb-message {
+        float: right;
+        width: 50%;
+        justify-content: flex-end;
+    }
+
+    .topic-dernier-msg {
+        float: left;
+        width: 50%;
+    }
+
+    .date-message-article {
+        display: none;
+    }
+
+    .date-message-forum {
+        display: none;
+    }
+
+    .avatar {
+        max-width: 64px;
+        max-height: 64px;
+    }
+
+    .avatar-mini {
+        max-width: 25px;
+        max-height: 25px;
+    }
+
+    .h3, h3 {
+        font-size: 1.4rem;
+    }
+
+    .table-slug-user {
+        display: none;
+    }
+}
+
+@media screen and (max-width: 707px)
+{
+    .table-btn {
+        padding: .7rem 1.0rem!important;
+    }
+}
+
+@media screen and (max-width: 648px)
+{
+    .table-btn {
+        padding: .6rem 0.8rem!important;
+    }
+
+    .table-action-article {
+       display: none;
+    }
+
+    .table-action-responsive-article {
+        display: block;
+    }
+}
+
+@media screen and (max-width: 660px)
+{
+    .table-id-user {
+        display: none;
+    }
+
+    .table-picture-user {
+        display: none;
+    }
+}
+
+@media screen and (max-width: 575px)
+{
+    .author-message {
+        margin-top: 15px;
+    }
+
+    .border-right {
+        border-right: 0px!important;
+    }
+
+    .information-user {
+        display: none;
+    }
+}
+
+@media screen and (max-width: 563px)
+{
+    .table-action-topic {
+        display: none;
+    }
+
+    .table-action-responsive-topic {
+        display: block;
+    }
+}
+
+@media screen and (max-width: 531px)
+{
+    .table-action-user {
+        display: none;
+    }
+
+    .table-action-responsive-user {
+        display: block;
+    }
+}
+
+@media screen and (max-width: 530px)
+{
+    .table-id-topic {
+        display: none;
+    }
+}
+
+@media screen and (max-width: 500px)
+{
+    .topic-head-sujet {
+        width: 100%;
+    }
+
+    .topic-head-auteur {
+        display: none;
+    }
+
+    .topic-sujet {
+        width: 100%;
+    }
+
+    .topic-auteur {
+        width: 32%;
+        justify-content: flex-start;
+    }
+
+    .topic-nb-message {
+        float: none;
+        width: 32%;
+        justify-content: center;
+    }
+
+    .topic-dernier-msg {
+        float: none;
+        width: 32%;
+        justify-content: flex-end;
+    }
+}
+
+@media screen and (max-width: 445px)
+{
+    .table-email-user {
+        display: none;
+    }
+}
+
+@media screen and (max-width: 425px)
+{
+    .bloc-accueil {
+        font-size: 0.8em;
+    }
+}
+
+@media screen and (max-width: 375px)
+{
+    .espace-comment {
+        font-size: 1.4rem;
+    }
+
+    .h3, h3 {
+        font-size: 1.2rem;
+    }
+
+    .avatar {
+        max-width: 48px;
+        max-height: 48px;
+    }
+}
+
+@media screen and (max-width: 326px)
+{
+    .col-image {
+        display: none;
+    }
+
+    .col-9 {
+        -ms-flex: 0 0 100%;
+        flex: 0 0 100%;
+        max-width: 100%;
+    }
 }
 

@@ -11,16 +11,16 @@
 
     {% include('partials/alert.html.twig') %}
 
-    <table class="table table-hover">
+    <table class="table table-hover table-striped table-sm">
         <thead>
             <tr>
-                <th>Id</th>
+                <th class="table-id-article">Id</th>
                 <th>Titre</th>
                 <th>Auteur</th>
                 <th>Catégorie</th>
-                <th>Commentaire</th>
-                <th>Date de création</th>
-                <th>Action</th>
+                <th class="table-comment-article">Commentaire</th>
+                <th class="table-date-article">Date de création</th>
+                <th class="table-action-article">Action</th>
             </tr>
         </thead>
 
@@ -29,10 +29,10 @@
             {% set author = article.author %}
             {% set category = article.category %}
             <tr>
-                <td><strong>{{ article.id }}</strong></td>
-                <td><strong>{{ article.title }}</strong></td>
+                <td class="table-id-article"><strong>{{ article.id }}</strong></td>
+                <td class="font-weight-bold">{{ article.title }}</td>
                 <td>
-                    <img src="{{ author.picture }}" alt="Avatar de {{ author.username }}" class="avatar avatar-micro mr-2">
+                    <img src="{{ author.picture }}" alt="Avatar de {{ author.username }}" class="avatar avatar-micro mr-2 table-img-author-article">
                     <strong>{{author.username }}</strong>
                 </td>
                 <td>
@@ -40,20 +40,33 @@
                         <span class="{{ category.style }}">{{ category.title }}</span>
                     </h6>
                 </td>
-                <td>
+                <td class="table-comment-article">
                     <h6>
                         <span class="badge orange accent-3">{{ article.commentArticle | length }} commentaires</span>
                     </h6>
                 </td>
-                <td>{{ article.createdAt | date('d/m/Y') }} à {{ article.createdAt | date('H:i') }}</td>
-                <td>
-                    <a href="{{ path('admin_articles_edit', {'id': article.id}) }}" class="btn btn-md btn-primary" title="Modifier l'article">
+                <td class="table-date-article">{{ article.createdAt | date('d/m/Y') }} {{ article.createdAt | date('H:i') }}</td>
+                <td class="table-action-article">
+                    <a href="{{ path('admin_articles_edit', {'id': article.id}) }}" class="btn btn-md btn-primary table-btn" title="Modifier l'article">
                         <i class="fas fa-edit"></i>
                     </a>
-                    <a href="{{ path('admin_articles_comments', {'id': article.id}) }}" class="btn btn-md orange accent-3" title="Voir les commentaires">
+                    <a href="{{ path('admin_articles_comments', {'id': article.id}) }}" class="btn btn-md orange accent-3 table-btn" title="Voir les commentaires">
                         <i class="fas fa-comments text-white"></i>
                     </a>
-                    <a href="{{ path('admin_articles_delete', {'id': article.id}) }}" class="btn btn-md btn-danger" title="Supprimer l'article">
+                    <a href="{{ path('admin_articles_delete', {'id': article.id}) }}" class="btn btn-md btn-danger table-btn" title="Supprimer l'article">
+                        <i class="fas fa-trash"></i>
+                    </a>
+                </td>
+            </tr>
+            <tr class="table-action-responsive-article">
+                <td>
+                    <a href="{{ path('admin_articles_edit', {'id': article.id}) }}" class="btn btn-md btn-primary table-btn" title="Modifier l'article">
+                        <i class="fas fa-edit"></i>
+                    </a>
+                    <a href="{{ path('admin_articles_comments', {'id': article.id}) }}" class="btn btn-md orange accent-3 table-btn" title="Voir les commentaires">
+                        <i class="fas fa-comments text-white"></i>
+                    </a>
+                    <a href="{{ path('admin_articles_delete', {'id': article.id}) }}" class="btn btn-md btn-danger table-btn" title="Supprimer l'article">
                         <i class="fas fa-trash"></i>
                     </a>
                 </td>

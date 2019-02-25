@@ -24,10 +24,10 @@
             <h5 class="mb-0 ml-2 mt-1">Premier message du topic</h5>
             <div class="card-body">
                 <div class="row">
-                    <div class="col-2 text-center border-right border-white">
+                    <div class="col-lg-2 col-md-3 col-sm-4 col-3 text-center border-right border-white col-image">
                         <img src="{{ topic.user.picture }}" alt="Avatar de {{  topic.user.username }}" class="avatar">
 
-                        <div class="col">
+                        <div class="col information-user">
                             {%  if topic.user.getRoles()[0] == 'ROLE_ADMIN' %}
                             <span class="badge badge-danger mt-3">
                                 ADMINISTRATEUR
@@ -47,15 +47,24 @@
                             {% endif %}
 
                             <span class="badge orange accent-3">{{ topic.user.commentTopics | length }} commentaires</span>
-                            <small class="text-muted">Inscrit le {{ topic.user.createdAt | date('d/m/Y') }}</small>
+                            <small class="text-muted inscription-user">Inscrit le {{ topic.user.createdAt | date('d/m/Y') }}</small>
                         </div>
                         
                     </div>
-                    <div class="col">
+                    <div class="col-lg-10 col-md-9 col-sm-8 col-9">
                         <div class="col">
                             <div class="row">
+                            {% set user = topic.user %}
                                 <h6 class="mb-0">
-                                    <a href="{{ path('user_show', {'slug': topic.user.slug}) }}" class="font-weight-bold">{{ topic.user.username }}</a>
+                                    {%  if user.getRoles()[0] == 'ROLE_ADMIN' %}
+                                        <a href="{{ path('user_show', {'slug': user.slug}) }}" class="text-danger font-weight-bold">{{ user.username }}</a>
+                                    {% elseif user.getRoles()[0] == 'ROLE_AUTHOR' %}
+                                        <a href="{{ path('user_show', {'slug': user.slug}) }}" class="text-success font-weight-bold">{{ user.username }}</a>
+                                    {% elseif user.getRoles()[0] == 'ROLE_MODERATOR' %}
+                                        <a href="{{ path('user_show', {'slug': user.slug}) }}" class="text-warning font-weight-bold">{{ user.username }}</a>
+                                    {% elseif user.getRoles()[0] == 'ROLE_USER' %}
+                                        <a href="{{ path('user_show', {'slug': user.slug}) }}" class="text-primary font-weight-bold">{{ user.username }}</a>
+                                    {%  endif %}
                                     <small class="">le {{ topic.createdAt | date('d/m/Y') }} à {{ topic.createdAt | date('H:i') }}</small>
                                 </h6>         
                             </div> 
