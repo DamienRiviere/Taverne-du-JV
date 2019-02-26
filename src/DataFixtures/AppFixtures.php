@@ -154,7 +154,7 @@ class AppFixtures extends Fixture
             $title = $faker->sentence(5);
             $coverImage = $faker->imageUrl(1920, 1080);
             $content = '<p>' . join('</p><p>', $faker->paragraphs(10)) . '</p>';
-            $introduction = $faker->paragraph(3);
+            $introduction = $faker->paragraph(2);
 
             $article->setTitle($title)
                     ->setContent($content)
@@ -414,7 +414,8 @@ class AppFixtures extends Fixture
 
                 $comment->setContent($content)
                         ->setTopic($topic)
-                        ->setUser($damien);
+                        ->setUser($damien)
+                        ->setModeration($comPublier);
 
                 $manager->persist($comment);
             }
