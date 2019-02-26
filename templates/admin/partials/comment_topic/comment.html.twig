@@ -1,0 +1,39 @@
+{# Affichage d'un commentaire d'un topic #}
+
+<div class="card my-3">
+    {% set user = comment.user %}
+    <div class="card-body">
+        <div class="row">
+            <div class="col-lg-10 col-md-9 col-sm-8 col-9 col-text">
+                <div class="col">
+                    <div class="row">
+                        <h6 class="mb-0">
+                            {%  if user.getRoles()[0] == 'ROLE_ADMIN' %}
+                                <a href="{{ path('user_show', {'slug': user.slug}) }}" class="font-weight-bold text-danger">{{ user.username }}</a>
+                            {% elseif user.getRoles()[0] == 'ROLE_AUTHOR' %}
+                                <a href="{{ path('user_show', {'slug': user.slug}) }}" class="font-weight-bold text-success">{{ user.username }}</a>
+                            {% elseif user.getRoles()[0] == 'ROLE_MODERATOR' %}
+                                <a href="{{ path('user_show', {'slug': user.slug}) }}" class="font-weight-bold text-warning">{{ user.username }}</a>
+                            {% elseif user.getRoles()[0] == 'ROLE_USER' %}
+                                <a href="{{ path('user_show', {'slug': user.slug}) }}" class="font-weight-bold text-primary">{{ user.username }}</a>
+                            {%  endif %}
+                            <small class="">{{ comment.createdAt | date('d/m/Y') }} {{ comment.createdAt | date('H:i') }}</small>
+                            {% if app.user and app.user == comment.getUser() %}
+                                <a href="{{ path('comment_topic_edit', {'id': comment.id}) }}" class="text-primary ml-2" title="Modifier le commentaire"><i class="fas fa-edit"></i></a>
+                            {% endif %}
+                            {% if comment.moderation.statut == "Commentaire publié" and app.user and app.user != comment.getUser() %}
+                                <a href="{{ path('moderation_signal_comment_topic', {'id': comment.id}) }}" class="text-primary" title="Signaler le commentaire"><i class="fas fa-exclamation-circle"></i></a>
+                            {% endif %}
+                        </h6>       
+                    </div> 
+                </div>
+                <div class="col pt-2 pb-2 pl-0">
+                    <p class="mb-0">{{ comment.content | raw }}</p>
+                </div>
+            </div>  
+        </div>
+        {% if comment.modifiedAt is not empty %}
+            <small class="float-right text-muted">Modifié le {{ comment.modifiedAt | date('d/m/Y') }} à {{ comment.modifiedAt | date('H:i') }}</small>  
+        {% endif %}
+    </div>
+</div>

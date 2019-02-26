@@ -12,7 +12,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
-class AdminCommentTopicController extends AbstractController
+class AdminCommentTopicModererController extends AbstractController
 {
     private $manager;
     private $repo;
@@ -25,27 +25,12 @@ class AdminCommentTopicController extends AbstractController
     }
 
     /**
-     * Permet d'afficher la page de modération des commentaires signalés
-     * 
-     * @Route("/admin/moderation/comment-topic", name="admin_comment_topic_index")
+     * @Route("/admin/moderation/comment-topic/moderer", name="admin_comment_topic_moderer_index")
      * @IsGranted("ROLE_MODERATOR")
      */
-    public function index(Request $request) {
-        return $this->render('admin/moderation/comment_topic/index.html.twig', [
-            'comments' => $this->pagination->paginate($this->repo->findSignalComment(), $request, 10)
-        ]);
-    }
-
-    /**
-     * Permets d'afficher les commentaires qui ont été modérer
-     *
-     * @Route("/admin/moderation/comment-topic/moderate", name="admin_comment_topic_moderate")
-     * @IsGranted("ROLE_MODERATOR")
-     * 
-     * @return void
-     */
-    public function moderateComments(Request $request) {
-        return $this->render('admin/moderation/comment_topic/moderate.html.twig', [
+    public function index(Request $request)
+    {
+        return $this->render('admin/moderation/comment_topic/moderer/index.html.twig', [
             'comments' => $this->pagination->paginate($this->repo->findModerateComment(), $request, 10)
         ]);
     }
@@ -53,13 +38,13 @@ class AdminCommentTopicController extends AbstractController
     /**
      * Permet d'afficher le détails d'un commentaire et de le modérer
      *
-     * @Route("/admin/moderation/comment-topic/{id}", name="admin_comment_topic_show")
+     * @Route("/admin/moderation/comment-topic/moderer/{id}", name="admin_comment_topic_moderer_show")
      * @IsGranted("ROLE_MODERATOR")
      * 
      * @param CommentTopic $comment
      * @param Request $request
      * 
-     * @return void
+     * @return Response
      */
     public function show(CommentTopic $comment, Request $request) {
         $form = $this->createForm(AdminCommentTopicType::class, $comment);
@@ -72,13 +57,13 @@ class AdminCommentTopicController extends AbstractController
 
             $this->addFlash(
                 'green lighten-1',
-                "Le commentaire a bien été modérer !"
+                "Le nouveau statut du commentaire a bien été enregistrer !"
             );
 
-            return $this->redirectToRoute('admin_comment_topic_index');
+            return $this->redirectToRoute('admin_comment_topic_moderer_index');
         }
 
-        return $this->render('admin/moderation/comment_topic/show.html.twig', [
+        return $this->render('admin/moderation/comment_topic/moderer/show.html.twig', [
             'comment' => $comment,
             'form' => $form->createView()
         ]);
@@ -87,7 +72,7 @@ class AdminCommentTopicController extends AbstractController
     /**
      * Permet de supprimer un commentaire
      *
-     * @Route("/admin/moderation/comment-topic/{id}/delete", name="admin_comment_topic_delete")
+     * @Route("/admin/moderation/comment-topic/moderer/{id}/delete", name="admin_comment_topic_moderer_delete")
      * @IsGranted("ROLE_MODERATOR")
      * 
      * @param CommentTopic $comment
@@ -103,6 +88,6 @@ class AdminCommentTopicController extends AbstractController
             "Le commentaire a bien été supprimer !"
         );
 
-        return $this->redirectToRoute('admin_comment_topic_index');
+        return $this->redirectToRoute('admin_comment_topic_moderer_index');
     }
 }

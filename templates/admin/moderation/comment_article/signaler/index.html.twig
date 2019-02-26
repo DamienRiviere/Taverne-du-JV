@@ -1,0 +1,70 @@
+{# Page de gestion des commentaires signalés des articles #}
+
+{% extends 'admin/base.html.twig' %}
+
+{% block title %}Gestion des commentaires signalés des articles{% endblock %}
+
+{% block body %}
+
+<div class="container-fluid">
+    <h2 class="my-4">Gestion des commentaires signalés des articles</h2>
+
+    {% include 'partials/alert.html.twig' %}
+
+    <table class="table table-hover table-striped table-sm">
+        <thead>
+            <tr>
+                <th class="table-id-article-comment-moderation">Id</th>
+                <th>Commentaire</th>
+                <th>Auteur</th>
+                <th class="table-title-article-comment-moderation">Article</th>
+                <th class="table-date-article-comment-moderation">Date de création</th>
+                <th>Statut</th>
+                <th class="table-action-comment-article-moderation">Action</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            {% for comment in comments %}
+            {% set user = comment.user %}
+            <tr>
+                <td class="table-id-article-comment-moderation"><strong>{{ comment.id }}</strong></td>
+                <td>{{ comment.content | raw | slice(0, 30)}}</td>
+                <td>
+                    <img src="{{ user.picture }}" alt="Avatar de {{user.username }}" class="avatar avatar-micro mr-2 table-image-article-comment-moderation">
+                    <strong>{{ user.username }}</strong>
+                </td>
+                <td class="table-title-article-comment-moderation">{{ comment.article.title }}</td>
+                <td class="table-date-article-comment-moderation">{{ comment.createdAt | date('d/m/Y') }} {{ comment.createdAt | date('H:i') }}</td>
+                <td class="text-danger font-weight-bold">{{ comment.moderation.statut }}</td>
+                <td class="table-action-comment-article-moderation">
+                    <a href="{{ path('admin_comment_article_signaler_show', {'id': comment.id}) }}" class="btn btn-md btn-primary table-btn" title="Détails du commentaire">
+                        <i class="fas fa-edit"></i>
+                    </a>
+                    <a href="{{ path('admin_comment_article_signaler_delete', {'id': comment.id}) }}" class="btn btn-md btn-danger table-btn" title="Supprimer le commentaire">
+                        <i class="fas fa-trash"></i>
+                    </a>
+                </td>
+            </tr>
+            <tr class="table-action-comment-article-moderation-responsive">
+                <td>
+                    <a href="{{ path('admin_comment_article_signaler_show', {'id': comment.id}) }}" class="btn btn-md btn-primary table-btn" title="Détails du commentaire">
+                        <i class="fas fa-edit"></i>
+                    </a>
+                    <a href="{{ path('admin_comment_article_signaler_delete', {'id': comment.id}) }}" class="btn btn-md btn-danger table-btn" title="Supprimer le commentaire">
+                        <i class="fas fa-trash"></i>
+                    </a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <!-- Pagination -->
+    <div class="my-3 pagination justify-content-center">
+        {{ knp_pagination_render(comments) }}
+    </div>
+
+</div>
+
+{% endblock %}

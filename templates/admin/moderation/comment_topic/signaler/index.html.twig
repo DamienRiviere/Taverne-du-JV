@@ -1,0 +1,85 @@
+{# Page de gestion des commentaires signalés des topics #}
+
+{% extends 'admin/base.html.twig' %}
+
+{% block title %}Gestion des commentaires signalés des topics{% endblock %}
+
+{% block body %}
+
+<div class="container-fluid">
+    <h2 class="my-4">Gestion des commentaires signalés des topics</h2>
+
+    {% include 'partials/alert.html.twig' %}
+
+    <table class="table table-hover table-striped table-sm">
+        <thead>
+            <tr>
+                <th class="table-id-topic-comment-moderation">Id</th>
+                <th>Commentaire</th>
+                <th>Auteur</th>
+                <th class="table-title-topic-comment-moderation">Topic</th>
+                <th class="table-forum-topic-comment-moderation">Forum</th>
+                <th class="table-date-topic-comment-moderation">Date de création</th>
+                <th>Statut</th>
+                <th class="table-action-topic-comment-moderation">Action</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            {% for comment in comments %}
+            {% set user = comment.user %}
+            {% set forum = comment.topic.forum %}
+            <tr>
+                <td class="table-id-topic-comment-moderation"><strong>{{ comment.id }}</strong></td>
+                <td>{{ comment.content | raw | slice(0, 50)}}</td>
+                <td>
+                    <img src="{{ user.picture }}" alt="Avatar de {{user.username }}" class="avatar avatar-micro mr-2 table-image-topic-comment-moderation">
+                    <strong>{{ user.username }}</strong>
+                </td>
+                <td class="table-title-topic-comment-moderation">{{ comment.topic.title }}</td>
+                <td class="table-forum-topic-comment-moderation">
+                    <h6>
+                    {% if forum.platformTitle == "Playstation" %}
+                        <span class="badge {{ forum.platformStyle }}">{{ forum.title }}</span>
+                    {% elseif forum.platformTitle == "Nintendo" %}
+                        <span class="badge {{ forum.platformStyle }}">{{ forum.title }}</span>
+                    {% elseif forum.platformTitle == "Xbox" %}
+                        <span class="badge {{ forum.platformStyle }}">{{ forum.title }}</span>
+                    {% elseif forum.platformTitle == "PC" %}
+                        <span class="badge {{ forum.platformStyle }}">{{ forum.title }}</span>
+                    {% endif %}
+                    </h6>
+                </td>
+                <td class="table-date-topic-comment-moderation">{{ comment.createdAt | date('d/m/Y') }} {{ comment.createdAt | date('H:i') }}</td>
+                <td class="text-danger font-weight-bold">{{ comment.moderation.statut }}</td>
+                <td class="table-action-topic-comment-moderation">
+                    <a href="{{ path('admin_comment_topic_signaler_show', {'id': comment.id}) }}" class="btn btn-md btn-primary table-btn" title="Détails du commentaire">
+                        <i class="fas fa-edit"></i>
+                    </a>
+                    <a href="{{ path('admin_comment_topic_signaler_delete', {'id': comment.id}) }}" class="btn btn-md btn-danger table-btn" title="Supprimer le commentaire">
+                        <i class="fas fa-trash"></i>
+                    </a>
+                </td>
+            </tr>
+            <tr class="table-action-topic-comment-moderation-responsive">
+                <td>
+                    <a href="{{ path('admin_comment_topic_signaler_show', {'id': comment.id}) }}" class="btn btn-md btn-primary table-btn" title="Détails du commentaire">
+                        <i class="fas fa-edit"></i>
+                    </a>
+                    <a href="{{ path('admin_comment_topic_signaler_delete', {'id': comment.id}) }}" class="btn btn-md btn-danger table-btn" title="Supprimer le commentaire">
+                        <i class="fas fa-trash"></i>
+                    </a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <!-- Pagination -->
+    <div class="my-3 pagination justify-content-center">
+        {{ knp_pagination_render(comments) }}
+    </div>
+
+</div>
+
+{% endblock %}

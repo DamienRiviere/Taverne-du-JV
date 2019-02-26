@@ -19,13 +19,13 @@
     <table class="table table-hover">
         <thead>
             <tr>
-                <th>Id</th>
-                <th>Auteur</th>
+                <th class="table-id-article-comment">Id</th>
+                
                 <th>Commentaire</th>
-                <th>Article</th>
-                <th>Date de création</th>
+                <th class="table-article-comment-auteur">Auteur</th>
+                <th class="table-date-article-comment">Date de création</th>
                 <th>Statut</th>
-                <th>Action</th>
+                <th class="table-action-article-comment">Action</th>
             </tr>
         </thead>
 
@@ -33,14 +33,13 @@
             {% for comment in comments %}
             {% set user = comment.user %}
             <tr>
-                <td><strong>{{ comment.id }}</strong></td>
-                <td>
-                    <img src="{{ user.picture }}" alt="Avatar de {{ user.username }}" class="avatar avatar-micro mr-2">
+                <td class="table-id-article-comment"><strong>{{ comment.id }}</strong></td>
+                <td>{{ comment.content | raw | slice(0, 80) }} ...</td>
+                <td class="table-article-comment-auteur">
+                    <img src="{{ user.picture }}" alt="Avatar de {{ user.username }}" class="avatar avatar-micro mr-2 table-image-author-article-comment">
                     <strong>{{ user.username }}</strong>
                 </td>
-                <td>{{ comment.content | raw | slice(3, 80) }} ...</td>
-                <td class="font-weight-bold">{{ comment.article.title }}</td>
-                <td>{{ comment.createdAt | date('d/m/Y') }} à {{ comment.createdAt | date('H:i') }}</td>
+                <td class="table-date-article-comment">{{ comment.createdAt | date('d/m/Y') }} à {{ comment.createdAt | date('H:i') }}</td>
                     {% if comment.moderation.statut == "Commentaire publié" %}
                         <td class="font-weight-bold text-success">{{ comment.moderation.statut }}</td>
                     {% elseif comment.moderation.statut == "Commentaire signalé" %}
@@ -48,11 +47,21 @@
                     {% elseif comment.moderation.statut == "Commentaire modéré" %}
                         <td class="font-weight-bold text-warning">{{ comment.moderation.statut }}</td>
                     {% endif %}
-                <td>
-                    <a href="{{ path('admin_articles_comments_edit', {'idArticle': comment.article.id, 'idComment': comment.id}) }}" class="btn btn-md btn-primary" title="Modifier le commentaire">
+                <td class="table-action-article-comment">
+                    <a href="{{ path('admin_articles_comments_edit', {'idArticle': comment.article.id, 'idComment': comment.id}) }}" class="btn btn-md btn-primary table-btn" title="Modifier le commentaire">
                         <i class="fas fa-edit"></i>
                     </a>
-                    <a href="{{ path('admin_articles_comments_delete', {'idArticle': comment.article.id, 'idComment': comment.id}) }}" class="btn btn-md btn-danger" title="Supprimer le commentaire">
+                    <a href="{{ path('admin_articles_comments_delete', {'idArticle': comment.article.id, 'idComment': comment.id}) }}" class="btn btn-md btn-danger table-btn" title="Supprimer le commentaire">
+                        <i class="fas fa-trash"></i>
+                    </a>
+                </td>
+            </tr>
+            <tr class="table-action-article-comment-responsive">
+                <td>
+                    <a href="{{ path('admin_articles_comments_edit', {'idArticle': comment.article.id, 'idComment': comment.id}) }}" class="btn btn-md btn-primary table-btn" title="Modifier le commentaire">
+                        <i class="fas fa-edit"></i>
+                    </a>
+                    <a href="{{ path('admin_articles_comments_delete', {'idArticle': comment.article.id, 'idComment': comment.id}) }}" class="btn btn-md btn-danger table-btn" title="Supprimer le commentaire">
                         <i class="fas fa-trash"></i>
                     </a>
                 </td>

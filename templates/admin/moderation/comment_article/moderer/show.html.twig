@@ -1,4 +1,4 @@
-{# Page d'un commentaire signalé d'un topic #}
+{# Page d'un commentaire d'article signalé #}
 
 {% extends 'admin/base.html.twig' %}
 
@@ -8,19 +8,19 @@
 
     <div class="container-fluid">
         <h2 class="my-4">
-            <a href="{{ path('admin_comment_topic_index') }}" class="mr-2" title="Retour à la liste des commentaires">
+            <a href="{{ path('admin_comment_article_moderer_index') }}" class="mr-2" title="Retour à la liste des commentaires">
                 <i class="fas fa-arrow-circle-left"></i>
             </a>
             Commentaire de {{ comment.user.username }}
         </h2>
 
         <div class="row">
-            <div class="col-7">
+            <div class="col-lg-7">
 
                 <div class="alert blue-grey lighten-5">
-                    <h2 class="text-danger font-weight-bold">{{ comment.moderation.statut }}</h2>
+                    <h2 class="text-warning font-weight-bold">{{ comment.moderation.statut }}</h2>
 
-                    {% include 'partials/comment_topic/comment.html.twig' %}
+                    {% include 'partials/comment_article/comment.html.twig' %}
 
                     {{ form_start(form) }}
 
@@ -29,13 +29,12 @@
                     <button type="submit" class="btn btn-success btn-block mb-3">Enregistrer le nouveau statut</button>
 
                     {{ form_end(form) }}
-
                 </div>
 
             </div>
 
             {% set user = comment.user %}
-            <div class="col-5">
+            <div class="col-lg-5">
                     
                 {% include 'admin/partials/author.html.twig' %}
                 

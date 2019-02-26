@@ -129,6 +129,22 @@ p {
     display: none;
 }
 
+.table-action-article-comment-responsive {
+    display: none;
+}
+
+.table-action-topic-comment-responsive {
+    display: none;
+}
+
+.table-action-comment-article-moderation-responsive {
+    display: none;        
+}
+
+.table-action-topic-comment-moderation-responsive {
+    display: none;
+}
+
 @media screen and (max-width: 1400px)
 {
     .table-img-author-topic {
@@ -146,6 +162,17 @@ p {
 @media screen and (max-width: 1135px)
 {
     .table-img-author-article {
+        display: none;
+    }
+}
+
+@media screen and (max-width: 1119px)
+{
+    .table-date-article-comment-moderation {
+        display: none;
+    }
+
+    .table-image-article-comment-moderation {
         display: none;
     }
 }
@@ -175,6 +202,20 @@ p {
     }
 }
 
+@media screen and (max-width: 949px)
+{
+   .table-id-article-comment-moderation {
+       display: none;
+   } 
+}
+
+@media screen and (max-width: 905px)
+{
+    .table-date-article-comment {
+        display: none;
+    }
+}
+
 @media screen and (max-width: 892px)
 {
     .table-comment-article {
@@ -182,9 +223,34 @@ p {
     }
 }
 
+@media screen and (max-width: 887px)
+{
+    .table-topic-comment-date {
+        display: none;
+    }
+}
+
 @media screen and (max-width: 869px)
 {
     .table-comment-topic {
+        display: none;
+    }
+}
+
+@media screen and (max-width: 841px)
+{
+    .table-date-topic-comment-moderation {
+        display: none;
+    }
+
+    .table-image-topic-comment-moderation {
+        display: none;
+    }
+}
+
+@media screen and (max-width: 779px)
+{
+    .table-title-article-comment-moderation {
         display: none;
     }
 }
@@ -261,12 +327,34 @@ p {
     .table-slug-user {
         display: none;
     }
+
+    .table-image-author-article-comment {
+        display: none;
+    }
+
+    .table-topic-comment-image {
+        display: none;
+    }
+}
+
+@media screen and (max-width: 716px)
+{
+    .table-id-article-comment {
+        display: none;
+    }
 }
 
 @media screen and (max-width: 707px)
 {
     .table-btn {
         padding: .7rem 1.0rem!important;
+    }
+}
+
+@media screen and (max-width: 692px)
+{
+    .table-topic-comment-id {
+        display: none;
     }
 }
 
@@ -296,6 +384,39 @@ p {
     }
 }
 
+@media screen and (max-width: 618px)
+{
+    .table-id-topic-comment-moderation {
+        display: none;
+    }
+
+    .table-forum-topic-comment-moderation {
+        display: none;
+    }
+}
+
+@media screen and (max-width: 609px)
+{
+    .table-action-article-comment {
+        display: none;
+    }
+
+    .table-action-article-comment-responsive {
+        display: block;
+    }
+}
+
+@media screen and (max-width: 600px)
+{
+    .table-action-topic-comment {
+        display: none;
+    }
+
+    .table-action-topic-comment-responsive {
+        display: block;
+    }
+}
+
 @media screen and (max-width: 575px)
 {
     .author-message {
@@ -322,6 +443,17 @@ p {
     }
 }
 
+@media screen and (max-width: 551px)
+{
+    .table-action-comment-article-moderation {
+        display: none;
+    }
+
+    .table-action-comment-article-moderation-responsive {
+        display: block;        
+    }
+}
+
 @media screen and (max-width: 531px)
 {
     .table-action-user {
@@ -337,6 +469,14 @@ p {
 {
     .table-id-topic {
         display: none;
+    }
+
+    .table-action-topic-comment-moderation {
+        display: none;
+    }
+
+    .table-action-topic-comment-moderation-responsive {
+        display: block;
     }
 }
 
@@ -377,12 +517,23 @@ p {
     .table-email-user {
         display: none;
     }
+
+    .table-title-topic-comment-moderation {
+        display: none;
+    }
 }
 
 @media screen and (max-width: 425px)
 {
     .bloc-accueil {
         font-size: 0.8em;
+    }
+}
+
+@media screen and (max-width: 397px)
+{
+    .table-article-comment-auteur {
+        display: none;
     }
 }
 
@@ -399,6 +550,10 @@ p {
     .avatar {
         max-width: 48px;
         max-height: 48px;
+    }
+
+    .table-topic-comment-auteur {
+        display: none;
     }
 }
 
