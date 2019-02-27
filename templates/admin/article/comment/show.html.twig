@@ -34,7 +34,7 @@
             {% set user = comment.user %}
             <tr>
                 <td class="table-id-article-comment"><strong>{{ comment.id }}</strong></td>
-                <td>{{ comment.content | raw | slice(0, 80) }} ...</td>
+                <td>{{ comment.content | raw | slice(0, 20) }} ...</td>
                 <td class="table-article-comment-auteur">
                     <img src="{{ user.picture }}" alt="Avatar de {{ user.username }}" class="avatar avatar-micro mr-2 table-image-author-article-comment">
                     <strong>{{ user.username }}</strong>
