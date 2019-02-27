@@ -31,7 +31,7 @@
             {% set forum = comment.topic.forum %}
             <tr>
                 <td class="table-id-topic-comment-moderation"><strong>{{ comment.id }}</strong></td>
-                <td>{{ comment.content | raw | slice(0, 50)}}</td>
+                <td>{{ comment.content | raw | slice(0, 30)}}</td>
                 <td>
                     <img src="{{ user.picture }}" alt="Avatar de {{user.username }}" class="avatar avatar-micro mr-2 table-image-topic-comment-moderation">
                     <strong>{{ user.username }}</strong>
