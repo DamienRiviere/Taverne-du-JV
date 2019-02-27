@@ -58,6 +58,7 @@ p {
 .avatar-mini {
     max-width: 25px;
     max-height: 25px;
+    border-radius: 50%;
 }
 
 .avatar-micro {
@@ -143,6 +144,11 @@ p {
 
 .table-action-topic-comment-moderation-responsive {
     display: none;
+}
+
+.alert {
+    padding: .50rem 0.5rem;
+    margin-bottom: 1rem;
 }
 
 @media screen and (max-width: 1400px)
@@ -320,10 +326,6 @@ p {
         max-height: 25px;
     }
 
-    .h3, h3 {
-        font-size: 1.4rem;
-    }
-
     .table-slug-user {
         display: none;
     }
@@ -430,10 +432,7 @@ p {
     .information-user {
         display: none;
     }
-}
 
-@media screen and (max-width: 563px)
-{
     .table-action-topic {
         display: none;
     }
@@ -454,6 +453,13 @@ p {
     }
 }
 
+@media screen and (max-width: 539px)
+{
+    .table-id-topic {
+        display: none;
+    }
+}
+
 @media screen and (max-width: 531px)
 {
     .table-action-user {
@@ -467,10 +473,6 @@ p {
 
 @media screen and (max-width: 530px)
 {
-    .table-id-topic {
-        display: none;
-    }
-
     .table-action-topic-comment-moderation {
         display: none;
     }
@@ -544,7 +546,7 @@ p {
     }
 
     .h3, h3 {
-        font-size: 1.2rem;
+        font-size: 1.4rem;
     }
 
     .avatar {
@@ -554,6 +556,18 @@ p {
 
     .table-topic-comment-auteur {
         display: none;
+    }
+
+    .topic-auteur {
+        width: 25%;
+    }
+
+    .topic-nb-message {
+        width: 25%;
+    }
+
+    .topic-dernier-msg {
+        width: 45%;
     }
 }
 

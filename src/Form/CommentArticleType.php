@@ -17,7 +17,7 @@ class CommentArticleType extends ApplicationType
             ->add(
                 'content',
                 TextareaType::class,
-                $this->getConfiguration("Poster un commentaire", "Écrivez votre commentaire ...", [
+                $this->getConfiguration(false, "Écrivez votre commentaire ...", [
                     'attr' => [
                         'cols' => '5',
                         'rows' => '5'

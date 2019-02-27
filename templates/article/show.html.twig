@@ -36,8 +36,7 @@
                         <img src="{{ author.picture }}" class="avatar avatar-medium" alt="Avatar de {{ author.username }}">
                     </div>
                     <div class="col-lg col-md col-sm-12 article-author">
-                        <h5 class="mb-0">
-                            Article écrit par 
+                        <h5 class="mb-0"> 
                             <a href="{{ path('user_show', {'slug': author.slug}) }}"><strong>{{ author.username }}</strong></a>
                             {% if article.modifiedAt %}
                                 <small class="text-muted">modifié le {{ article.modifiedAt | date('d/m/Y') }} à {{ article.modifiedAt | date('H:i') }}</small>

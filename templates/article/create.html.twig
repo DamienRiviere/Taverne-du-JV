@@ -6,51 +6,42 @@
 
 {% block body %}
 
-    <div class="container white py-3 shadow-lg">
+<div class="container white py-3 shadow-lg">
 
-        <div class="card">
+    <h2 class="card-header orange accent-3 text-white h3 font-weight-light"><i class="fas fa-angle-down"></i> Création d'un article</h2>
 
-            <h2 class="card-header orange accent-3 text-white h3 font-weight-light"><i class="fas fa-angle-down"></i> Création d'un article</h2>
+    {{ form_start(form) }}
 
-            <!-- Formulaire de création d'un article -->
-            <div class="card-body">
+    <div class="row mt-3">
+        <div class="col-lg-6">
+            <div class="alert blue-grey lighten-5">
+                <h2 class="h3">Informations générales</h2>
+                {{ form_row(form.title) }}
 
-                {{ form_start(form) }}
+                {{ form_row(form.introduction) }}
 
-                <div class="row">
-                    <div class="col-lg-6">
-                        <div class="alert blue-grey lighten-5">
-                            <h2 class="h3">Informations générales</h2>
-                            {{ form_row(form.title) }}
-
-                            {{ form_row(form.introduction) }}
-
-                            {{ form_row(form.coverImage) }}
-                        </div>
-                    </div>
-                    <div class="col-lg-6">
-                        <div class="alert blue-grey lighten-5">
-                            <h2 class="h3">Type de l'article</h2>
-                            {{ form_row(form.category) }}
-
-                            {{ form_row(form.subCategories) }}
-                        </div>
-                    </div>
-                </div>
-
-                <div class="alert blue-grey lighten-5">
-                    <h2 class="h3">Contenu de l'article</h2>
-                    {{ form_row(form.content) }}
-                </div>
-    
-                <button type="submit" class="btn btn-success btn-block mb-3">Enregistrer l'article</button>
-
-                {{ form_end(form)}}
-
+                {{ form_row(form.coverImage) }}
             </div>
-
         </div>
+        <div class="col-lg-6">
+            <div class="alert blue-grey lighten-5">
+                <h2 class="h3">Type de l'article</h2>
+                {{ form_row(form.category) }}
 
+                {{ form_row(form.subCategories) }}
+            </div>
+        </div>
     </div>
+
+    <div class="alert blue-grey lighten-5">
+        <h2 class="h3">Contenu de l'article</h2>
+        {{ form_row(form.content) }}
+    </div>
+    
+    <button type="submit" class="btn btn-success btn-block mb-3">Enregistrer l'article</button>
+
+    {{ form_end(form)}}
+
+</div>
 
 {% endblock %}

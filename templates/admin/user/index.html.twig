@@ -5,7 +5,7 @@
 {% block body %}
 
 <div class="container-fluid">
-    <h2 class="my-4">Gestion des utilisateurs</h2>
+    <h2 class="my-4 h3">Gestion des utilisateurs</h2>
 
     {% include 'partials/alert.html.twig' %}
 
@@ -15,7 +15,6 @@
                 <th class="table-id-user">Id</th>
                 <th class="table-email-user">Email</th>
                 <th>Pseudo</th>
-                <th class="table-picture-user">Picture</th>
                 <th class="table-slug-user">Slug</th>
                 <th class="table-action-user">Rôle</th>
                 <th>Action</th>
@@ -27,9 +26,9 @@
             <tr>
                 <td class="table-id-user"><strong>{{ user.id }}</strong></td>
                 <td class="table-email-user"><strong>{{ user.email }}</strong></td>
-                <td><strong>{{ user.username }}</strong></td>
-                <td class="table-picture-user">
-                    <img src="{{ user.picture }}" alt="Avatar de {{ user.username }}" class="avatar avatar-micro mr-2">
+                <td>
+                    <img src="{{ user.picture }}" alt="Avatar de {{ user.username }}" class="avatar-mini mr-2 table-picture-user">
+                    <strong>{{ user.username }}</strong>
                 </td>
                 <td class="table-slug-user">{{ user.slug }}</td>
                 <td>
