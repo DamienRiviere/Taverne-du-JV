@@ -188,6 +188,14 @@ p {
     .table-id-article {
         display: none;
     }
+
+    .table-date-topic-comment-moderation {
+        display: none;
+    }
+
+    .table-image-topic-comment-moderation {
+        display: none;
+    }
 }
 
 @media screen and (max-width: 1028px)
@@ -245,13 +253,9 @@ p {
 
 @media screen and (max-width: 841px)
 {
-    .table-date-topic-comment-moderation {
+    .table-id-topic-comment-moderation {
         display: none;
-    }
-
-    .table-image-topic-comment-moderation {
-        display: none;
-    }
+    }  
 }
 
 @media screen and (max-width: 779px)
@@ -388,10 +392,6 @@ p {
 
 @media screen and (max-width: 618px)
 {
-    .table-id-topic-comment-moderation {
-        display: none;
-    }
-
     .table-forum-topic-comment-moderation {
         display: none;
     }
