@@ -30,7 +30,7 @@
             {% set category = article.category %}
             <tr>
                 <td class="table-id-article"><strong>{{ article.id }}</strong></td>
-                <td class="font-weight-bold">{{ article.title }}</td>
+                <td class="font-weight-bold">{{ article.title | slice(0, 30) }}</td>
                 <td>
                     <img src="{{ author.picture }}" alt="Avatar de {{ author.username }}" class="avatar avatar-micro mr-2 table-img-author-article">
                     <strong>{{author.username }}</strong>
