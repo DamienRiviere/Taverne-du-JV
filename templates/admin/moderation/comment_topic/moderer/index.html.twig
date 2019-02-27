@@ -31,12 +31,12 @@
             {% set forum = comment.topic.forum %}
             <tr>
                 <td class="table-id-topic-comment-moderation"><strong>{{ comment.id }}</strong></td>
-                <td>{{ comment.content | raw | slice(0, 30)}}</td>
+                <td>{{ comment.content | raw | slice(0, 20)}}</td>
                 <td>
                     <img src="{{ user.picture }}" alt="Avatar de {{user.username }}" class="avatar avatar-micro mr-2 table-image-topic-comment-moderation">
                     <strong>{{ user.username }}</strong>
                 </td>
-                <td class="table-title-topic-comment-moderation">{{ comment.topic.title | slice(0, 30) }}</td>
+                <td class="table-title-topic-comment-moderation">{{ comment.topic.title | slice(0, 20) }}</td>
                 <td class="table-forum-topic-comment-moderation">
                     <h6>
                     {% if forum.platformTitle == "Playstation" %}

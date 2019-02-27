@@ -29,12 +29,12 @@
             {% set user = comment.user %}
             <tr>
                 <td class="table-id-article-comment-moderation"><strong>{{ comment.id }}</strong></td>
-                <td>{{ comment.content | raw | slice(0, 30)}}</td>
+                <td>{{ comment.content | raw | slice(0, 20)}}</td>
                 <td>
                     <img src="{{ user.picture }}" alt="Avatar de {{user.username }}" class="avatar avatar-micro mr-2 table-image-article-comment-moderation">
                     <strong>{{ user.username }}</strong>
                 </td>
-                <td class="table-title-article-comment-moderation">{{ comment.article.title | slice(0, 30) }}</td>
+                <td class="table-title-article-comment-moderation">{{ comment.article.title | slice(0, 20) }}</td>
                 <td class="table-date-article-comment-moderation">{{ comment.createdAt | date('d/m/Y') }} {{ comment.createdAt | date('H:i') }}</td>
                 <td class="text-warning font-weight-bold">{{ comment.moderation.statut }}</td>
                 <td class="table-action-comment-article-moderation">
